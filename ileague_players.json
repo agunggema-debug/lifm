@@ -1,0 +1,5300 @@
+{
+  "AREMA_FC": [
+    {
+      "club": "AREMA_FC",
+      "slug": "diego_luiz_landis",
+      "name": "LANDIS",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "leo_guntara",
+      "name": "LEO GUNTARA",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "walisson_moreira_farias_maia",
+      "name": "MAIA",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "sneyder_julian_guevara_munoz",
+      "name": "JULIAN G.",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "gabriel_silva_costa",
+      "name": "GABI",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "arkhan_fikri",
+      "name": "ARKHAN",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "mauro_nils_zijlstra",
+      "name": "MAURO",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "gustavo_franca_amadio",
+      "name": "GUSTAVO FRANCA",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "salim_akbar_tuharea",
+      "name": "S. TUHAREA",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "hamzah_titofani_rivaldy",
+      "name": "TITO H.",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "alfiansyah",
+      "name": "ALFIANSYAH",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "erlangga_setyo_dwi_saputra",
+      "name": "ERLANGGA",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "roberto_pimenta_vinagre_filho",
+      "name": "BETINHO F.",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "achmad_maulana_syarif",
+      "name": "ACHMAD M.",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "teuku_razzaa_fachrezi_aziz",
+      "name": "RAZZAA",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "fikri_arjidan",
+      "name": "ARZIDANN",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "muhammad_dimas_aryaguna",
+      "name": "DIMAS A.",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "azmiy_aziz._hs",
+      "name": "AZMIY",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "robi_darwis",
+      "name": "ROBI DARWIS",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "syahrul_trisna_fadillah",
+      "name": "SYAHRUL",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "gustavo_henrique_rodrigues",
+      "name": "G. HENRIQUE",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "muhammad_adi_satryo",
+      "name": "ADI SATRYO",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "gianluca_claudio_pandeynuwu",
+      "name": "GIANLUCA",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "abyan_adwitya_wisnu_pratista",
+      "name": "ABYAN",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "dendi_santoso",
+      "name": "DENDI S.",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "hansamu_yama_pranata",
+      "name": "PRANATA",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "alfeandra_dewangga_santosa",
+      "name": "DEWA",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "johan_ahmat_farizi",
+      "name": "ALFARIZIE",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "raianderson_da_costa_morais",
+      "name": "CARECA",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "marcos_vinicius_silvestre_gaspar",
+      "name": "M. VINICIUS",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "marcos_vinicius_silvestre_gaspar",
+      "name": "AHMAD SALIK",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "marcos_vinicius_silvestre_gaspar",
+      "name": "ANDRE CALDAS COSTA",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "marcos_vinicius_silvestre_gaspar",
+      "name": "CARLOS AIRON SILVA DE MELO",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "marcos_vinicius_silvestre_gaspar",
+      "name": "DONI SUHERMAN",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "marcos_vinicius_silvestre_gaspar",
+      "name": "EKO SLAMET RIYADI",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "marcos_vinicius_silvestre_gaspar",
+      "name": "ERFANI",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "marcos_vinicius_silvestre_gaspar",
+      "name": "GALIH FIRMANSYAH",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "marcos_vinicius_silvestre_gaspar",
+      "name": "IWAN BUDIANTO, SE",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "marcos_vinicius_silvestre_gaspar",
+      "name": "KHOIRIL TOHA YANI",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "marcos_vinicius_silvestre_gaspar",
+      "name": "MARCOS VINICIUS SANTOS GONCALVES",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "marcos_vinicius_silvestre_gaspar",
+      "name": "MATHEUS RODRIGUES LACERDA",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "marcos_vinicius_silvestre_gaspar",
+      "name": "MOCH. SAIFUL",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "marcos_vinicius_silvestre_gaspar",
+      "name": "MUHAMMAD YUSRINAL FITRIANDI",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "marcos_vinicius_silvestre_gaspar",
+      "name": "NANANG TRI WAHYUDI",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "marcos_vinicius_silvestre_gaspar",
+      "name": "RAHMAT TAUFIQ HENTIHU",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "marcos_vinicius_silvestre_gaspar",
+      "name": "RENDIK HERMAWAN",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "marcos_vinicius_silvestre_gaspar",
+      "name": "RETA ARROYAN",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "marcos_vinicius_silvestre_gaspar",
+      "name": "SAMSUL HIDAYAT",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "marcos_vinicius_silvestre_gaspar",
+      "name": "SISWANTORO",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "marcos_vinicius_silvestre_gaspar",
+      "name": "SYEH ALFIN ABDULLAH",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "marcos_vinicius_silvestre_gaspar",
+      "name": "TATANG DWI ARIFIANTO",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "marcos_vinicius_silvestre_gaspar",
+      "name": "TAUFIK SOLEH",
+      "pos": ""
+    },
+    {
+      "club": "AREMA_FC",
+      "slug": "marcos_vinicius_silvestre_gaspar",
+      "name": "TIAGO DOS SANTOS MIQUELIS SIMOES",
+      "pos": ""
+    }
+  ],
+  "BALI_UNITED_FC": [
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "mike_hauptmeijer",
+      "name": "HAUPTMEIJER",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "kadek_arel_priyatna",
+      "name": "KADEK AREL",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "bagas_adi_nugroho",
+      "name": "BAGAS ADI",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "brandon_james_wilson",
+      "name": "WILSON",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "thijmen_goppel",
+      "name": "GOPPEL",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "teppei_yachida",
+      "name": "YACHIDA",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "remco_balk",
+      "name": "BALK",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "thomas_anton_rudolph_lam",
+      "name": "LAM",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "tim_charles_pieter_receveur",
+      "name": "RECEVEUR",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "rizky_dwi_febrianto",
+      "name": "RIZKY DWI",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "i_kadek_agung_widnyana_putra",
+      "name": "KADEK AGUNG",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "jens_raven",
+      "name": "RAVEN",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "jort_van_der_sande",
+      "name": "VAN DER SANDE",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "i_wayan_arta_wiguna",
+      "name": "WAYAN ARTA",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "tim_henri_victor_geypens",
+      "name": "GEYPENS",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "ricky_fajrin_saputra",
+      "name": "RICKY FAJRIN",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "reyner_immanuelo_barusu",
+      "name": "REYNER",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "irfan_jaya",
+      "name": "IRFAN JAYA",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "maouri_ananda_yves_ramli_simon",
+      "name": "MAOURI",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "i_putu_panji_apriawan",
+      "name": "PUTU PANJI",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "rahmat_arjuna_reski",
+      "name": "R. ARJUNA",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "i_made_tito_wiratama",
+      "name": "MADE TITO",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "fitrul_dwi_rustapa",
+      "name": "FITRUL DR",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "dewa_gede_aris_sanjaya",
+      "name": "ARIS SANJAYA",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "anak_agung_dwi_trisna_putra",
+      "name": "GUNG DWI",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "queven_da_silva_inacio",
+      "name": "QUEVEN",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "queven_da_silva_inacio",
+      "name": "ALEXANDER MP OEMANAS",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "queven_da_silva_inacio",
+      "name": "ANAK AGUNG GEDE ARI FEBRIANA PUTRA",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "queven_da_silva_inacio",
+      "name": "DIMAS BAGUS DWI PRASETYO",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "queven_da_silva_inacio",
+      "name": "FERY MUCHLAS",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "queven_da_silva_inacio",
+      "name": "GANDA PUTRA ANGGRAHI TAUFIK",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "queven_da_silva_inacio",
+      "name": "HENDRICKUS GIJSBERTUS JOHANNES ABEN",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "queven_da_silva_inacio",
+      "name": "I GDE MAHATMA DHARMA",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "queven_da_silva_inacio",
+      "name": "I MADE WARDANA",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "queven_da_silva_inacio",
+      "name": "I WAYAN DENI WIDYANTARA",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "queven_da_silva_inacio",
+      "name": "I WAYAN SUARJANA",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "queven_da_silva_inacio",
+      "name": "JAN JANSEN",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "queven_da_silva_inacio",
+      "name": "JEFFREY DENNIS TALAN",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "queven_da_silva_inacio",
+      "name": "KADEK ARI SUKMANTARA",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "queven_da_silva_inacio",
+      "name": "KASMADI",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "queven_da_silva_inacio",
+      "name": "LLOYD GERARD WILLIAM PRINGLE",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "queven_da_silva_inacio",
+      "name": "LUQMAN HAKIM",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "queven_da_silva_inacio",
+      "name": "MARCELO DA SILVA PIRES",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "queven_da_silva_inacio",
+      "name": "MICHAEL IMMANUEL GERALD",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "queven_da_silva_inacio",
+      "name": "MUHAMAD RASYID",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "queven_da_silva_inacio",
+      "name": "RAKA YASTA VINARTHA",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "queven_da_silva_inacio",
+      "name": "RICHI KURNIAWAN",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "queven_da_silva_inacio",
+      "name": "RONES PANDER",
+      "pos": ""
+    },
+    {
+      "club": "BALI_UNITED_FC",
+      "slug": "queven_da_silva_inacio",
+      "name": "VEGA RIZKY PRATAMA",
+      "pos": ""
+    }
+  ],
+  "BHAYANGKARA_PRESISI_LAMPUNG_FC": [
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "i_putu_gede_juni_antara",
+      "name": "PUTU GEDE",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "nehar_sadiki",
+      "name": "SADIKI",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "kevin_leonel_sibille",
+      "name": "SIBILLE",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "milan_ristovski",
+      "name": "RISTOVSKI",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "anton_soejberg_horup",
+      "name": "SOJBERG",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "allano_brendon_de_souza_lima",
+      "name": "ALLANO",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "firza_andika",
+      "name": "FIRZA",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "awan_setho_raharjo",
+      "name": "AWAN SETHO",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "raheem_nugraha_jaya_prayitno",
+      "name": "RAHEEM",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "george__peter_brown",
+      "name": "BROWN",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "moussa_sidibe",
+      "name": "MOUSSA JR",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "t._m_ichsan",
+      "name": "TM. ICHSAN",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "sani_rizki_fauzi",
+      "name": "SANI R.F",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "ginanjar_wahyu_ramadhani",
+      "name": "GINANJAR",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "wahyu_subo_seto",
+      "name": "W. SUBO SETO",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "ferre_murari",
+      "name": "FERRE MURARI",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "damianus_adiman_putra",
+      "name": "YANO PUTRA",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "mauricio_andres_vera",
+      "name": "M. VERA",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "muhammad_gyanendra_akbar_sampurno",
+      "name": "GYANENDRA",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "i_made_andhika_pradana_wijaya",
+      "name": "ANDHIKA W.",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "muhammad_ferarri",
+      "name": "FERARRI",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "frengky_deaner_missa",
+      "name": "FRENGKY MISSA",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "m_fahri",
+      "name": "M. FAHRI",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "luke_xavier_keet",
+      "name": "KEET",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "ryan_kurnia",
+      "name": "RYAN KURNIA",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "jefferson_brenes_rojas",
+      "name": "BRENES",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "matias_ernesto_ocampo_ornizun",
+      "name": "OCAMPO",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "matias_ernesto_ocampo_ornizun",
+      "name": "ABID NUR ROHMAN",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "matias_ernesto_ocampo_ornizun",
+      "name": "ADRIAN RUBIO MARTINEZ",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "matias_ernesto_ocampo_ornizun",
+      "name": "ALEX ALDHA YUDI",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "matias_ernesto_ocampo_ornizun",
+      "name": "ANGGRA BRATAMA PUTRA",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "matias_ernesto_ocampo_ornizun",
+      "name": "FABRIANT IMMANUEL L.",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "matias_ernesto_ocampo_ornizun",
+      "name": "FAISAL HAMID",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "matias_ernesto_ocampo_ornizun",
+      "name": "GURNALD PATIRAN",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "matias_ernesto_ocampo_ornizun",
+      "name": "JAVIER SANCHEZ FLORES",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "matias_ernesto_ocampo_ornizun",
+      "name": "KHAIRI MAULANA AZHARI",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "matias_ernesto_ocampo_ornizun",
+      "name": "KOMARUDIN, S.I.K., M.M.",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "matias_ernesto_ocampo_ornizun",
+      "name": "LUIZ FERNANDO SILVA PASSOS",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "matias_ernesto_ocampo_ornizun",
+      "name": "M TOHA",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "matias_ernesto_ocampo_ornizun",
+      "name": "M. RUSTAM FEBRIANZAH",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "matias_ernesto_ocampo_ornizun",
+      "name": "MIFTAHUDINSH",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "matias_ernesto_ocampo_ornizun",
+      "name": "MUHAMMAD HANIM SUGIARTO",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "matias_ernesto_ocampo_ornizun",
+      "name": "MUHAMMAD THORIQ CENDIATAMA",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "matias_ernesto_ocampo_ornizun",
+      "name": "NEDIANTO",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "matias_ernesto_ocampo_ornizun",
+      "name": "OSCAR WILLIAN BRUZON BARRERAS",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "matias_ernesto_ocampo_ornizun",
+      "name": "PUTRA KENCANA",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "matias_ernesto_ocampo_ornizun",
+      "name": "REZA ARIFIAN",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "matias_ernesto_ocampo_ornizun",
+      "name": "SLAMET HARIANTO",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "matias_ernesto_ocampo_ornizun",
+      "name": "SUMARDJI, SH",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "matias_ernesto_ocampo_ornizun",
+      "name": "SYEFRINA SALSABILA",
+      "pos": ""
+    },
+    {
+      "club": "BHAYANGKARA_PRESISI_LAMPUNG_FC",
+      "slug": "matias_ernesto_ocampo_ornizun",
+      "name": "TAUFIK A USUP",
+      "pos": ""
+    }
+  ],
+  "BORNEO_FC_SAMARINDA": [
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "ikhsan_nul_zikrak",
+      "name": "IKHSAN NUL",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "rodrigo_santos_varanda",
+      "name": "R. VARANDA",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "ruben_lopez_huesca",
+      "name": "RUBIO",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "juan_felipe_villa_ruiz",
+      "name": "VILLA",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhammad_rifad_marasabessy",
+      "name": "MARASABESSY",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "van_basty_sousa_e_silva",
+      "name": "SOUSA",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "komang_teguh_trisnanda",
+      "name": "KOMANG. T",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muh._redzuan_fachgi",
+      "name": "AAN REDZUAN",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "hugo_samir",
+      "name": "HUGO SAMIR",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "moussa_diarra",
+      "name": "DIARRA",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhammad_ridho",
+      "name": "MUHAMMAD RD",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhammad_hermawan_widodo",
+      "name": "HERMAWAN",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "westherley_garcia_nogueira",
+      "name": "CAXAMBU",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "diego_robbie_michiels",
+      "name": "DIEGO. M",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "asgal_habib_altarik",
+      "name": "ASGAL HABIB",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "andhika_putra_setiawan",
+      "name": "ANDHIKA",
+      "pos": "P. GAWANG"
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "reva_adi_utama",
+      "name": "R ADI UTAMA",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "iago_pereira_mendonca",
+      "name": "I. MENDONCA",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "aditya_warman",
+      "name": "ADITYA",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "aldo_geraldo_manuel_monteiro",
+      "name": "KADU M.",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "rahmad_dandy_sonriza",
+      "name": "DANDI. S",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "rangga_sumarna",
+      "name": "RANGGA S",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "gabriel_da_silva_oliveira",
+      "name": "G. OLIVEIRA",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muh._dwiky_hardiansyah",
+      "name": "DWIKY ARIS",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "habibi_a._jusuf",
+      "name": "HABIBI JUSUF",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "christian_matheus_lima_da_silva",
+      "name": "CHRISTIAN",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_darmawan",
+      "name": "MUHAMMAD D",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "achmad_figo_ramadani",
+      "name": "FIGO",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "dika_kuswardani",
+      "name": "D. KUSWARDANI",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "dika_adi_nurdiansyah",
+      "name": "DIKA ADI",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "I. OHORELLA",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "AGUNG SETIAJI",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "AHMAD HERMAN ALMUFLIH",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "ANDRI DAURI HUSAIN",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "ANTHONY AZEREDO RINALDI",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "BASO",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "BRILLIAN SANJAYA",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "CAHYADI",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "CHU VIET HOANG",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "CLAUDIO DA COSTA ROCHA JUNIOR",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "DIMAS AGUNG PRASETYAWAN M.PD",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "EUDALD MENA ROSELL",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "FACHRUL BACHRI",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "FARID",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "FAUZAN NAZMI",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "JOAO GABRIEL GERHEIM DA SILVA",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "MARDIANUS TAMELA",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "MAURO ALEXANDRE TAVARES JERONIMO",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "MHD CAHYONO SITUMORANG",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "MOHAMMAD RIVALDI DJENGI",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "NABIL HUSIEN SAID AMIN ALRASYDI",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "PEDRO JAVIER VELAZQUEZ INSFRAN",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "PONARYO ASTAMAN",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "ROSYID AJI NUR PRATOMO",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "SULTAN SAMMA",
+      "pos": ""
+    },
+    {
+      "club": "BORNEO_FC_SAMARINDA",
+      "slug": "muhamad_ibrah_ardiansyah_ohorella",
+      "name": "ZULNANDA HENDRA",
+      "pos": ""
+    }
+  ],
+  "DEWA_UNITED_BANTEN_FC": [
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "muhamad_riyandi",
+      "name": "M.RIYANDI",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "nick_anna_maria_francois_kuipers",
+      "name": "KUIPERS",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "johnathan_carlos_pereira_souza",
+      "name": "JOHNATHAN",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "jean_mangabeira_da_silva",
+      "name": "J.MANGABEIRA",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "ivar_jenner",
+      "name": "JENNER",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "denilson_pereira_junior",
+      "name": "DENILSON JR",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "egy_maulana_vikri",
+      "name": "EGY MV",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "taisei_marukawa",
+      "name": "MARUKAWA",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "brian_fatari",
+      "name": "B.M.FATARI",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "damion_onandi_lowe",
+      "name": "LOWE",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "ricki_kambuaya",
+      "name": "RICKY",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "fais_iqbal_pratama_putra",
+      "name": "FAIS IQBAL",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "myeongseok_ko",
+      "name": "KO",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "ady_setiawan",
+      "name": "ADY S.",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "muhammad_alfharezzi_buffon",
+      "name": "ALFHAREZZI",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "m._farhan_saviola",
+      "name": "SAVIOLA",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "rafael_william_struick",
+      "name": "STRUICK",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "alexis_nahuel_messidoro",
+      "name": "MESSIDORO",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "surya_yudha_firmanda",
+      "name": "SURYA",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "altalariq_erfa_aqsal_ballah",
+      "name": "ALTA BALLAH",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "nur_fajar_pratama",
+      "name": "TAMA",
+      "pos": "TENGAH"
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "jagat_gumelar",
+      "name": "JAGAT",
+      "pos": "BELAKANG"
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "ripal_wahyudi",
+      "name": "R.WAHYUDI",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "carlos_iury_bezerra_da_silva",
+      "name": "C.IURY",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "muh.syafiruddin_rasya",
+      "name": "AFI",
+      "pos": "TENGAH"
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "m_givary_lotra_widianto",
+      "name": "LOTRA",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "nofalio_ardanan",
+      "name": "NOFALIO",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "sonny_ricardo_marciano_stevens",
+      "name": "STEVENS",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "EDO F",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "AHMAD QOMARUDIN",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "AHMAD RYAN NIKO RIZKIANGGA",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "ALFIAN PRADANA PUTRA",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "ALGA DWI NOVIANTO",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "ANDRI",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "ARDIAN SATYA NEGARA SH",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "ARIO GALIH PRAYOGO",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "BAYU EKA SARI",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "DR. HENDRO IRAWAN",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "FIRMAN UTINA",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "FRANCIS ALBERT KOOIMAN",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "HENDRA PRATAMA",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "JUAN TIRTA ABDITAMA",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "JUDO ISWANTORO",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "KARDIANSYAH",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "LUTHFY FALSYAH PRATAMA",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "MARCIO DOS SANTOS FARIA CORREA",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "MUHAMAD RYAN FAUZI HUTOMO",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "MUHTAR DWI PRASETYA",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "OSMAR LOSS VIEIRA",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "RAFAEL GONCALVES TOLEDO",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "RIDO ADRIANSYAH LUBIS",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "SAMUEL RANDY JULIO",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "SUPRIYANTO",
+      "pos": ""
+    },
+    {
+      "club": "DEWA_UNITED_BANTEN_FC",
+      "slug": "moh._edo_febriansah",
+      "name": "UENDELL MACEDO SILVA",
+      "pos": ""
+    }
+  ],
+  "GARUDAYAKSA_FC": [
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "paulo_ricardo_ferreira",
+      "name": "RICARDO",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "wahyu_prasetyo",
+      "name": "WAHYU",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "theo_fillo_bartolomey_dacosta_numberi",
+      "name": "THEO FILLO",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "andik_vermansah",
+      "name": "ANDIK",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "arkhan_kaka_putra_purwanto",
+      "name": "KAKA",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "brian_alejandro_rubio_rodriguez",
+      "name": "B. RUBIO",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "ryo_matsumura",
+      "name": "RYO",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "daffa_fasya_sumawijaya",
+      "name": "DAFFA",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "al_hamra_hehanussa",
+      "name": "H.HEHANUSSA",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "arapenta_lingka_poerba",
+      "name": "ARAPENTA",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "septian_satria_bagaskara",
+      "name": "BAGASKARA",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "adittia_gigis_hermawan",
+      "name": "ADIT GIGIS",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "yoewanto_stya_beny",
+      "name": "BENY",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "alfin_faiz_kelilauw",
+      "name": "A.F.KELILAUW",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "tristan_raissa_ibrahim",
+      "name": "TRISTAN I",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "filip_stamenkovic",
+      "name": "STAMENKOVIC",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "septian_david_maulana",
+      "name": "DAVID MAULANA",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "dominik_holec",
+      "name": "DOMINIK",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "arif_setiawan",
+      "name": "ARIF SETIAWAN",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "dheco_hari_zacky",
+      "name": "DHECO HZ",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "najeeb_abu_yakubu",
+      "name": "YAKUBU",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "alfriyanto_nico_saputro",
+      "name": "NICO S",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "moh._sidik_saimima",
+      "name": "MS. SAIMIMA",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "SIHRAN HAMZAH",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "ABDUL HAKIM ARROYYAN",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "AFTON AGATA",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "AIS ILHAM ABUSTAN",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "ARIEF YANTO",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "CHAIRUL BASIR",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "DANANG WICAKSANA SULISTYA",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "DARWANTO",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "DERRY HIDAYAT",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "DICKY FATHUROHMAN",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "DINAR MARIA NATAMIRA SATIN",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "FADEL MUHAMMAD",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "IMAM ROYANI",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "IMAN FIRMAN",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "JOHN ERIK WALL",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "JOSE LUIS LAZARO RAMIREZ",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "MILAN JOVANIC",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "MILOS JOKSIC",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "MUHAMMAD ISMAIL HAFID, S.FT.",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "MUHAMMAD KEMAL NUR RIESMAWAN",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "MUHAMMAD REZA ANUGRAH",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "UJANG JAJANG SUNJANA",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "UNANG RUHAYA",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "YUDI ADIYANSYAH",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "YUDIANTO RESPATI AGUNG NUGROHO",
+      "pos": ""
+    },
+    {
+      "club": "GARUDAYAKSA_FC",
+      "slug": "m_sihran_h_amarullah",
+      "name": "ZULKIFLI SYUKUR",
+      "pos": ""
+    }
+  ],
+  "ISENMULANG_KALTENG_FC": [
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "leonardo_silva_lelis",
+      "name": "LELIS",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "harli_cahya_firdaus_ramadhani",
+      "name": "HARLI CAHYA",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "adilson_gancho_da_silva",
+      "name": "ADILSON",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "abdillah_shafa_andhika",
+      "name": "ABDILLAH",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "muhamad_ridwan",
+      "name": "RIDWAN",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "makan_konate",
+      "name": "KONATE",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "modou_manneh",
+      "name": "M.MANNEH",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "m_fayrushi",
+      "name": "FAYRUSHI",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "kenji_manangan_nishioka",
+      "name": "N.KENJI",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "ardi_ramdani",
+      "name": "ARDI RAMDANI",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "satrio_mega_insan",
+      "name": "SATRIO",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "fardan_ary_setyawan",
+      "name": "FARDAN",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "adriel_fernandez_sanchez",
+      "name": "FERNANDEZ",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "irham_nadzhofa_al_farih",
+      "name": "NADZHOFA",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "m_reza",
+      "name": "M REZA",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "brayen_pondaag",
+      "name": "BRAYEN",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "muhammad_indra_feri_faroni",
+      "name": "INDRA FERI",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "rafael_ribeiro_alves",
+      "name": "RIBEIRO",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "galuh_aryanata",
+      "name": "GALUH",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "firman_ramadhan",
+      "name": "FIRMAN",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "mohammad_rafli_ariyanto",
+      "name": "RAFLY",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "douglas_nonato_oliveira_cruz",
+      "name": "DOUGLAS CRUZ",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "jefri_wibowo_suliarno",
+      "name": "JEFRI W S",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "adre_arido_geovani",
+      "name": "ADRE ARIDO",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "ramadhan",
+      "name": "MADON",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "vinicius_ferreira_de_jesus",
+      "name": "V.BAIANO",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "sergio_de_mendonca_siqueira_filho",
+      "name": "S,MENDONCA",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "sergio_de_mendonca_siqueira_filho",
+      "name": "A EKO TAMAMIE HARYU",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "sergio_de_mendonca_siqueira_filho",
+      "name": "AANG SUPARMAN",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "sergio_de_mendonca_siqueira_filho",
+      "name": "ACHMAD FAHMI. AS",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "sergio_de_mendonca_siqueira_filho",
+      "name": "ADE RAHAYU PAMUNGKAS",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "sergio_de_mendonca_siqueira_filho",
+      "name": "ADE SUHENDRA",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "sergio_de_mendonca_siqueira_filho",
+      "name": "ADIDYA RIZKY PAMBUDI",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "sergio_de_mendonca_siqueira_filho",
+      "name": "AFDHILLAH HAFIDZ ENDI AL AWWAL",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "sergio_de_mendonca_siqueira_filho",
+      "name": "AGUS GUNAWAN",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "sergio_de_mendonca_siqueira_filho",
+      "name": "AGUS INDRA KURNIAWAN",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "sergio_de_mendonca_siqueira_filho",
+      "name": "ARDIYAN ANGGA PRAMUJA",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "sergio_de_mendonca_siqueira_filho",
+      "name": "ARIF RIZALLUDIN",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "sergio_de_mendonca_siqueira_filho",
+      "name": "EKO SETYAWAN",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "sergio_de_mendonca_siqueira_filho",
+      "name": "FAJARULLAH",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "sergio_de_mendonca_siqueira_filho",
+      "name": "FAJRIF FATTAH IMAN",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "sergio_de_mendonca_siqueira_filho",
+      "name": "HENRY ARFIANTO",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "sergio_de_mendonca_siqueira_filho",
+      "name": "HERWAN HERMAWAN",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "sergio_de_mendonca_siqueira_filho",
+      "name": "JUANDA",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "sergio_de_mendonca_siqueira_filho",
+      "name": "MOHAMAD ABDUL FITRI",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "sergio_de_mendonca_siqueira_filho",
+      "name": "MUCHAMAD SANDI FIRMANSYAH",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "sergio_de_mendonca_siqueira_filho",
+      "name": "MUHAMMAD AKBAR ROMDHONI",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "sergio_de_mendonca_siqueira_filho",
+      "name": "MUNDARI KARYA",
+      "pos": ""
+    },
+    {
+      "club": "ISENMULANG_KALTENG_FC",
+      "slug": "sergio_de_mendonca_siqueira_filho",
+      "name": "RIYAN YUDA SUGANDI",
+      "pos": ""
+    }
+  ],
+  "JAVA_UNITED_FC": [
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "gustavo_moreno_de_franca",
+      "name": "G. FRANÇA",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "jonata_felipe_machado",
+      "name": "J. MACHADO",
+      "pos": "TENGAH"
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "ciro_henrique_alves_ferreira_e_silva",
+      "name": "CIRO",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "kei_hirose",
+      "name": "KEI",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "kaio_nunes_ferreira",
+      "name": "KAIO",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "vinicius_duarte",
+      "name": "VICO",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "yabes_roni_malaifani",
+      "name": "YABES RONI",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "yakob_sayuri",
+      "name": "Y. SAYURI",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "riyan_ardiansyah",
+      "name": "RIYAN. A",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "david_aparecido_da_silva",
+      "name": "D. DA SILVA",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "taufik_rustam",
+      "name": "TAUFIK. R",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "frets_listanto_butuan",
+      "name": "FRETS BUTUAN",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "yance_sayuri",
+      "name": "YAN SAYURI",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "mohamed_kemal_zahir_fazya",
+      "name": "PASYA",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "miswar_saputra_nurdin",
+      "name": "MISWAR SAPUTRA",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "muh._ariel_kurung",
+      "name": "ARIEL KURUNG",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "ridho_syuhada_putra",
+      "name": "R. SYUHADA",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "muhammad_syahrul_ramadhani",
+      "name": "MUHAMMAD SYAHRUL",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "tri_setiawan",
+      "name": "TRI SETIAWAN",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "gustavo_almeida_dos_santos",
+      "name": "GUSTAVO",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "armando_obet_oropa",
+      "name": "OROPA",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "aprilian_bernadus",
+      "name": "A. BERNARDUS",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "muhamad_firli",
+      "name": "M. FIRLI",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "fahreza_sudin",
+      "name": "FAHREZA",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "cyrus_ashkon_margono",
+      "name": "MARGONO",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "muhammad_iksan_lestaluhu",
+      "name": "I. LESTALUHU",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "RIFAEL SALMON",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "ACHEMAT NGALI",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "ACHMAD RESAL OCTAVIAN",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "AKMAD AJIB",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "ALAN HAVILUDDIN",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "ALIEF SYAFRIZAL MUHAMMADIN",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "ARIQ IQBAL FAIZAL",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "BENEDIKTUS AGYA PRADIPTA",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "CHAIRIL ANWAR OHORELLA",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "DAVID GLEN OEI",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "DR.FERAS ARDILES MUHAMMAD",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "FABIO ARAUJO LEFUNDES",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "FABIO BARBOSA DE OLIVEIRA",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "FACHRIANSYAH",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "JOAO PEDRO RAYOL MARINHO",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "JOKO RIBOWO",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "K.B RIDUAN RALLE",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "KENNETH JEHEZKIEL",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "MIFTAHUL KHAIR",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "MOCHTAR SIAUTA",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "RAMDHAN.FITRAYADI",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "RICARDO SALAMPESSY",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "SUGIYONO",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "VINICIUS ALVES XAVIER",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "WISNU ADI YOGANUGRAHA",
+      "pos": ""
+    },
+    {
+      "club": "JAVA_UNITED_FC",
+      "slug": "rifael_salmon",
+      "name": "YOHANES YOGA ADIDHARMA",
+      "pos": ""
+    }
+  ],
+  "MADURA_UNITED_FC": [
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "angga_saputro",
+      "name": "ANGGA.S",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "pedro_filipe_tinoco_monteiro",
+      "name": "P.MONTEIRO",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "juan_danilo_santacruz_gonzalez",
+      "name": "SANTACRUZ",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "dimitar_georgiev_mitkov",
+      "name": "MITKOV",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "iran_da_conceicao_goncalves_junior",
+      "name": "IRAN JUNIOR",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "luiz_marcelo_morais_dos_reis",
+      "name": "LULINHA",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "muhammad_bimasakti_andiko",
+      "name": "BIMA KOTO",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "giovani_jorim_herzon_dacosta_numberi",
+      "name": "GIO",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "brandon_marsel_scheunemann",
+      "name": "SCHEUNEMANN",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "paulo_oktavianus_sitanggang",
+      "name": "PAULO",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "moch._diky_indriyana",
+      "name": "DIKY",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "paulo_domingos_gali_da_costa_freitas",
+      "name": "GALI FREITAS",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "fairuz_farhan_al_radlin",
+      "name": "FAIRUZ",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "hugo_gomes_dos_santos_silva",
+      "name": "HUGO GOMES",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "m_taufany_muslihuddin",
+      "name": "TAUFANY",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "m_riski_afrisal",
+      "name": "R AFRIZAL",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "adhitya_harlan",
+      "name": "A.HARLAN",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "dede_sapari",
+      "name": "DEDE SAPARI",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "ardi_idrus",
+      "name": "ARDI IDRUS",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "ilham_syah",
+      "name": "ILHAMSYAH",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "jasey_michael_bernard_wehrmann",
+      "name": "JASEY",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "feby_ramzy_wirawan",
+      "name": "FEBY RAMZY",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aria_devangga",
+      "name": "A.DEVANGGA",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "taufik_hidayat",
+      "name": "TAUFIK",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "muhammad_fauzan_hanif_zulkarnain",
+      "name": "FAUZAN",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "ahmad_rusadi",
+      "name": "A.RUSADI",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "make_aldo_maulidino",
+      "name": "ALDO",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "albertine_joao_pereira",
+      "name": "BALOTELLI",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "rifqi_ray_farandi",
+      "name": "RIFQI RAY",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aji_kusuma",
+      "name": "AJI KUSUMA",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aji_kusuma",
+      "name": "ACHSANUL QOSASI",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aji_kusuma",
+      "name": "ADITYA GENANG SURAPATI",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aji_kusuma",
+      "name": "ADY SAPUTRA S",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aji_kusuma",
+      "name": "AGUS SALEH",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aji_kusuma",
+      "name": "ALIF FAIQ RADITO",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aji_kusuma",
+      "name": "AMIRUDDIN",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aji_kusuma",
+      "name": "ARDI AZIS ANHAR",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aji_kusuma",
+      "name": "BAMBANG EKA WAHYUDI",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aji_kusuma",
+      "name": "DR. IRSYAD RAMADHAN",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aji_kusuma",
+      "name": "ERWIN EFENDI",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aji_kusuma",
+      "name": "FERDIANSYAH ALIFURRAHMAN",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aji_kusuma",
+      "name": "HARRY CRISTANTA",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aji_kusuma",
+      "name": "HENDRA WIDODO CAHYONO PUTRA",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aji_kusuma",
+      "name": "HILTON MAURO MOREIRA",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aji_kusuma",
+      "name": "IMAM HERIYADI",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aji_kusuma",
+      "name": "JOSE MANUEL GOMES DA SILVA",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aji_kusuma",
+      "name": "KHAIRUL AFFAN",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aji_kusuma",
+      "name": "RAKHMAD BASUKI",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aji_kusuma",
+      "name": "REISKI MUHAMMAD RAYTANDIA AZIZ",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aji_kusuma",
+      "name": "RONY AZANI",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aji_kusuma",
+      "name": "SAPTO WAHYONO",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aji_kusuma",
+      "name": "UMAR ABDUR RAHIM WACHDIN",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aji_kusuma",
+      "name": "ZAINULLAH",
+      "pos": ""
+    },
+    {
+      "club": "MADURA_UNITED_FC",
+      "slug": "aji_kusuma",
+      "name": "ZIA UL HAQ ABDURRAHIM",
+      "pos": ""
+    }
+  ],
+  "PERSEBAYA_SURABAYA": [
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "muhammad_ilham_al-arif",
+      "name": "ILHAM",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "arief_catur_pamungkas",
+      "name": "CATUR P.",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "yuran_fernandes_rocha_lopes",
+      "name": "Y. FERNANDES",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "risto_mitrevski",
+      "name": "MITREVSKI",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "francisco_israel_rivera_davalos",
+      "name": "RIVERA",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "m._ramadhan_sananta",
+      "name": "SANANTA",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "miguel_angelo_marques_pinto_pereira",
+      "name": "MIGUEL P",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "alfan_suaib",
+      "name": "ALFAN SUAIB",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "yann_kevin_mabella",
+      "name": "MABELLA",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "mikael_alfredo_tata",
+      "name": "ALFREDO TATA",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "ricky_pratama",
+      "name": "RICKY",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "jefferson_junio_antonio_da_silva",
+      "name": "JEFFERSON SILVA",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "randy_hanson_christian_may",
+      "name": "RANDY MAY",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "diogo_sa_ramalho",
+      "name": "RAMALHO",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "ernando_ari_sutaryadi",
+      "name": "ERNANDO",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "syahrul_r_lasinari",
+      "name": "SYAHRUL",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "lutfi_masrohan_mutohar",
+      "name": "ROHAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "m._reza_arya_pratama",
+      "name": "M. REZA",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "yusuf_meilana_fuad_burhani",
+      "name": "YUSUF",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "koko_ari_araya",
+      "name": "KOKO A.A",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "jose_walber_mota__de_amorim",
+      "name": "MOTA",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "alex_martins_ferreira",
+      "name": "ALEX MARTINS",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "gledson_paixao_da_silva",
+      "name": "GLEDSON PAIXAO",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "saddil_ramdani",
+      "name": "SADDIL",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "rachmat_irianto",
+      "name": "IRIANTO",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "sadida_nugraha_putra",
+      "name": "SADIDA",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "dicky_kurniawan_arifin",
+      "name": "DICKY KURNIAWAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "toni_firmansyah",
+      "name": "TONI F.",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "aleandro_alan_maulana",
+      "name": "ALEANDRO",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "malik_risaldi",
+      "name": "MALIK RISALDI",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "moch_ichsas_baihaqi",
+      "name": "M ICHSAS",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "moch_ichsas_baihaqi",
+      "name": "AHMAD WILDAN DWI SAPUTRA",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "moch_ichsas_baihaqi",
+      "name": "ANDRI SUYOKO",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "moch_ichsas_baihaqi",
+      "name": "BASORI",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "moch_ichsas_baihaqi",
+      "name": "BERNARDO TAVARES FERNANDO JOSE",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "moch_ichsas_baihaqi",
+      "name": "CANDRA WAHYUDI",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "moch_ichsas_baihaqi",
+      "name": "CARLOS EDUARDO NUNES VIEIRA",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "moch_ichsas_baihaqi",
+      "name": "DANANG BEKTI WIGUNO",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "moch_ichsas_baihaqi",
+      "name": "DIOGO ANDRE BOTELHO DE CARVALHO",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "moch_ichsas_baihaqi",
+      "name": "FAJAR HIDAYAT TULLOH",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "moch_ichsas_baihaqi",
+      "name": "FAKHRUDIN AGIL SYAFAAT",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "moch_ichsas_baihaqi",
+      "name": "FAWWAS DIMAS HERU SAPUTRA",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "moch_ichsas_baihaqi",
+      "name": "FELIPE AMERICO MARTINS GONCALVES",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "moch_ichsas_baihaqi",
+      "name": "GONCALVES DUARTE PAULO RENATO",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "moch_ichsas_baihaqi",
+      "name": "HANSEL",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "moch_ichsas_baihaqi",
+      "name": "JONATHAN YOHVINNO THAMRIN",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "moch_ichsas_baihaqi",
+      "name": "JOSE FILIPE CARVALHO DOS SANTOS",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "moch_ichsas_baihaqi",
+      "name": "MUCHAMMAD ULIL ABSOR",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "moch_ichsas_baihaqi",
+      "name": "RASYAD MUHAMMAD ARIDZAL",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "moch_ichsas_baihaqi",
+      "name": "SATRIO WICAKSONO",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "moch_ichsas_baihaqi",
+      "name": "SIDDIK MAULANA TUALEKA",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "moch_ichsas_baihaqi",
+      "name": "SUTRISNO",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "moch_ichsas_baihaqi",
+      "name": "USTON NAWAWI",
+      "pos": ""
+    },
+    {
+      "club": "PERSEBAYA_SURABAYA",
+      "slug": "moch_ichsas_baihaqi",
+      "name": "YOK SEBASTIAN",
+      "pos": ""
+    }
+  ],
+  "PERSIB_BANDUNG": [
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "eliano_johannes_reijnders",
+      "name": "REIJNDERS",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "gabriel_donatien_mutombo_kupa",
+      "name": "GABRIEL M.",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "julio_cesar_de_freitas_filho",
+      "name": "JULIO C",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "kakang_rudianto",
+      "name": "KAKANG",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "sandy_henny_walsh",
+      "name": "SANDY",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "beckham_putra_nugraha",
+      "name": "BECKHAM",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "luciano_guaycochea",
+      "name": "GUAYCOCHEA",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "luka_menalo",
+      "name": "MENALO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "mariano_ezequiel_peralta_bauer",
+      "name": "PERALTA",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "dedi_kusnandar",
+      "name": "DEDI K.",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "teja_paku_alam",
+      "name": "T. PAKU ALAM",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "gakuto_notsuda",
+      "name": "NOTSUDA",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "adam_alis_setyano",
+      "name": "ADAM ALIS",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "nazriel_alfaro_syahdan",
+      "name": "NAZRIEL",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "faris_abdul_hafizh",
+      "name": "FARIS",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "danijel_loncar",
+      "name": "LONCAR",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "marc_anthony_klok",
+      "name": "KLOK",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "rafi_rasyiq",
+      "name": "RAFI",
+      "pos": "DEPAN"
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "thom_jan_marinus_haye",
+      "name": "HAYE",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "athaya_zahran",
+      "name": "ATHAYA",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "ikwan_ali_tanamal",
+      "name": "TANAMAL",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "patricio_martin_matricardi",
+      "name": "MATRICARDI",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "muhammad_rhaka_syafaka_bilhuda",
+      "name": "RHAKA",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "kevin_muhamad_islami_pasha",
+      "name": "KEVIN",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "saddil_ramdani",
+      "name": "SADDIL",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "ragnar_anthonius_maria_oratmangoen",
+      "name": "ORATMANGOEN",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "fitrah_maulana_muhammad_ridwan",
+      "name": "FITRAH M",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "uilliam_barros_pereira",
+      "name": "BARROS",
+      "pos": ""
+    },
+    {
+      "club": "PERSIB_BANDUNG",
+      "slug": "rosembergne_da_silva",
+      "name": "BERGUINHO",
+      "pos": ""
+    }
+  ],
+  "PERSIJA_JAKARTA": [
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "muchamad_aqil_savik",
+      "name": "AQIL SAVIK",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "ilham_rio_fahmi",
+      "name": "RIO FAHMI",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "rizky_ridho_ramadhani",
+      "name": "R. RIDHO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "radovan_pankov",
+      "name": "PANKOV",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "victor_jonson_benjamin_dethan",
+      "name": "DETHAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "witan_sulaiman",
+      "name": "WITAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "alexander_thomas_jeremejeff",
+      "name": "JEREMEJEFF",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "arlyansyah_abdulmanan",
+      "name": "ARLYANSYAH",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "kwon_changhoon",
+      "name": "KWON",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "pratama_arhan_alif_rifai",
+      "name": "ARHAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "agi_firmansyah",
+      "name": "AGI F",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "jordi_amat_maas",
+      "name": "AMAT",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "muhamad_hafizh_rizkianur",
+      "name": "HAFIZH",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "nadeo_arga_winata",
+      "name": "NADEO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "muhammad_farhan_sopiulloh",
+      "name": "FARHAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "shayne_elian_jay_pattynama",
+      "name": "PATTYNAMA",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "andritany_ardhiyasa",
+      "name": "ARDHIYASA",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "nathan_fariel_kusuma",
+      "name": "NATHAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "denis_kolinger",
+      "name": "KOLINGER",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "stjepan_loncar",
+      "name": "LONCAR",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "kyohei_yoshino",
+      "name": "YOSHINO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "figo_dennis_saputrananto",
+      "name": "FIGO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "kerim_memija",
+      "name": "MEMIJA",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "muhammad_fajar_fathurrahman",
+      "name": "M. FAJAR F.",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "muhammad_rayhan_hannan",
+      "name": "HANNAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "dia_syayid_alhawari",
+      "name": "DIAS",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "dony_tri_pamungkas",
+      "name": "D. PAMUNGKAS",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "fabio_da_silva_calonego",
+      "name": "FÁBIO CALONEGO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "RUNTUKAHU",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "ADITYA JULISTIAWAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "ARDHI TJAHJOKO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "BBLITZ TARIGAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "CANDRA DARMAWAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "CHO BYUNGKUK",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "CHOI IN CHEUL",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "FAIZAL MAULANA AKBAR",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "FRANCIS RAYNALD WEWENGKANG",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "GUSDIARTOMO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "HIRO PAATH",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "HUB JI SUB",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "HWANG JIHWAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "JEREMIA HALOMOAN SIMAMORA",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "KIM DONG KI",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "KIM JONGJIN",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "KUKUH WAHYUDI",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "M FAYYADH FADHLURRAHMAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "MUHAMMAD ALPIAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "MUHAMMAD ANDEANSAH",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "PARUHUM RICO YOHANES",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "REGI HARIANSYAH",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "SEO JEONGSEOK",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "SHIN TAE YONG",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "TAJI PRASHETIO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJA_JAKARTA",
+      "slug": "eksel_timothy_joseph_runtukahu",
+      "name": "YOO JAEHOON",
+      "pos": ""
+    }
+  ],
+  "PERSIJAP_JEPARA": [
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "moh._rajiv_abizal",
+      "name": "RAJIV",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "rahmatshoh_rahmatzoda",
+      "name": "RAHMATSHO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "jose_luis_espinosa_arroyo",
+      "name": "RUBIO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "jose_paulo_rodriguez_santamaria",
+      "name": "PAULO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "juan_douglas_teles_da_silva",
+      "name": "JUAN DOUGLAS",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "jose_antonio_ruiz_lopez",
+      "name": "PIRULO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "rahmat_hidayat",
+      "name": "R. HIDAYAT",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "samuel_ofori",
+      "name": "S. OFORI",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "tegar_infantrie_sukamto",
+      "name": "INFANTRIE",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "yaya_sogodogo",
+      "name": "Y. SOGODOGO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "felix_marcelino",
+      "name": "FELIX",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "moch._sendri_johansah",
+      "name": "SENDRI JOHANSAH",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "rendi_saepul",
+      "name": "RENDI",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "muhamad_buyung_ismu_lessy",
+      "name": "BUYUNG ISMU",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "marcos_blasco_valera",
+      "name": "M. BLASCO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "rakasurya_handika_aryabagasakti",
+      "name": "RAKASURYA",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "reycredo_beremanda_bukit",
+      "name": "REYCREDO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "raihan_apriansyah_sudrajat",
+      "name": "RAIHAN",
+      "pos": "BELAKANG"
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "sergio_chica_villares",
+      "name": "S. CHICA",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "dion_galeh_saputro",
+      "name": "DION",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "muhammad_adzikry_fadlillah",
+      "name": "ADZIKRY",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "abrizal_umanailo",
+      "name": "UMANAILO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "ahmad_wadil_aryadi_abidin",
+      "name": "WADIL",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "ahmad_wadil_aryadi_abidin",
+      "name": "ABDUL ROHIM",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "ahmad_wadil_aryadi_abidin",
+      "name": "ACHMAD FACHRIL RASYAD",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "ahmad_wadil_aryadi_abidin",
+      "name": "ADE YADI CAHYADI",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "ahmad_wadil_aryadi_abidin",
+      "name": "AHMAD NUROSADI MUHAMMAD",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "ahmad_wadil_aryadi_abidin",
+      "name": "ALDO RICARDO MENAYANG",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "ahmad_wadil_aryadi_abidin",
+      "name": "ANDHIKA MULIA PRATOMO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "ahmad_wadil_aryadi_abidin",
+      "name": "ARI SETIAWAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "ahmad_wadil_aryadi_abidin",
+      "name": "ARMAND SEBASTIAN GUNAWAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "ahmad_wadil_aryadi_abidin",
+      "name": "FUAD ROMDHONI",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "ahmad_wadil_aryadi_abidin",
+      "name": "IWAN ARIANTO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "ahmad_wadil_aryadi_abidin",
+      "name": "JATMIKO ADJIE KUSUMA",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "ahmad_wadil_aryadi_abidin",
+      "name": "JUAN CORTES DIEGUEZ",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "ahmad_wadil_aryadi_abidin",
+      "name": "MADENUR",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "ahmad_wadil_aryadi_abidin",
+      "name": "MALIK MAHARANTO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "ahmad_wadil_aryadi_abidin",
+      "name": "MARIO LICINIO GUERREIRO LEMOS",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "ahmad_wadil_aryadi_abidin",
+      "name": "MUHAMAD EGAT MAKMUR",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "ahmad_wadil_aryadi_abidin",
+      "name": "MUHAMMAD IQBAL HIDAYAT",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "ahmad_wadil_aryadi_abidin",
+      "name": "MUHAMMAD MAS'UD",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "ahmad_wadil_aryadi_abidin",
+      "name": "SABRUN HANAPI",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "ahmad_wadil_aryadi_abidin",
+      "name": "SAYF IQBAL MAHATIR AHMAD",
+      "pos": ""
+    },
+    {
+      "club": "PERSIJAP_JEPARA",
+      "slug": "ahmad_wadil_aryadi_abidin",
+      "name": "VIKO AFIAN",
+      "pos": ""
+    }
+  ],
+  "PERSIK_KEDIRI": [
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "francisco_pereira_carneiro",
+      "name": "KIKO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "imanol_garcia_lugea",
+      "name": "I. GARCIA",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "jon_miquel_toral_harper",
+      "name": "JON TORAL",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "krisna_bayu_otto_kartika",
+      "name": "BAYU OTTO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "zanadin_fariz",
+      "name": "ZANADIN F.",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "sergio_castel__martinez",
+      "name": "S. CASTEL",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "ezra_harm_ruud_walian",
+      "name": "WALIAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "ady_eko_jayanto",
+      "name": "ADY EKO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "althaf_indie_alrizky",
+      "name": "ALTHAF",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "dimas_juliono_pamungkas",
+      "name": "DIMAS",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "riza_alfin_zidane",
+      "name": "ZIDANE",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "i_gusti_made_rendy_sanjaya_putra",
+      "name": "KADEK RENDY",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "eduardo_miguel_ramos_barbosa",
+      "name": "EDUARDO B.",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "jose_enrique_rodriguez",
+      "name": "JOSE ENRIQUE",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "muh._dzaki_asraf_huwaidi",
+      "name": "DZAKY ASRAF",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "yoga_adiyatama",
+      "name": "YOGA",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "muhammad_rizqi_abhirama",
+      "name": "ABHIRAMA",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "husna_al_malik_riwani_saputra",
+      "name": "HUSNA AL MALIK",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "andhika_ramadhani",
+      "name": "ANDHIKA R.",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "marcelo_-_amado_djalo_taritolay",
+      "name": "MARCELO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "muhammad_daffa_salman_zahran_sidik",
+      "name": "SALMAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "fransiskus_alesandro_nimo_olepue",
+      "name": "SANDRO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "junheong_park",
+      "name": "PARK",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "mohammad_khanafi",
+      "name": "M.KHANAFI",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "mohammad_khanafi",
+      "name": "ABDILLAH UMAM AZIZI",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "mohammad_khanafi",
+      "name": "AHMAD ANDRIANTO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "mohammad_khanafi",
+      "name": "ALFIAN YOGA WIRATNA",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "mohammad_khanafi",
+      "name": "ARTHUR DANIEL IRAWAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "mohammad_khanafi",
+      "name": "BAARIK LANA FADLI",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "mohammad_khanafi",
+      "name": "CARLOS FERNANDO SALOMAO DOS SANTOS",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "mohammad_khanafi",
+      "name": "DR. DAVID AGUS PRIANTO. M.PD",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "mohammad_khanafi",
+      "name": "DYARADZI AUFA TARUNA",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "mohammad_khanafi",
+      "name": "IVAN WIRAJAYA",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "mohammad_khanafi",
+      "name": "IZHHAR GHIFARI",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "mohammad_khanafi",
+      "name": "JOHAN PRASETYA WIBOWO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "mohammad_khanafi",
+      "name": "MARCOS REINA TORRES",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "mohammad_khanafi",
+      "name": "MOHAMAD SULTONI",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "mohammad_khanafi",
+      "name": "MUHAMMAD FARIS AGUSPUTRANTO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "mohammad_khanafi",
+      "name": "MUHAMMAD ROFIQ NAUFAL",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "mohammad_khanafi",
+      "name": "MUHAMMAD ZIDNI ILMA",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "mohammad_khanafi",
+      "name": "MUJITO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "mohammad_khanafi",
+      "name": "RACHMAD TRI KUNCARA",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "mohammad_khanafi",
+      "name": "SATRIA DWI NUR PRAMADITA",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "mohammad_khanafi",
+      "name": "VITOR GOULART DA SILVEIRA TINOCO",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "mohammad_khanafi",
+      "name": "WILDAN KURNIA MAHDIVIKIA",
+      "pos": ""
+    },
+    {
+      "club": "PERSIK_KEDIRI",
+      "slug": "mohammad_khanafi",
+      "name": "YOBBY LONARD ANTAMA PUTRA",
+      "pos": ""
+    }
+  ],
+  "PERSITA": [
+    {
+      "club": "PERSITA",
+      "slug": "ryuji_utomo_prabowo",
+      "name": "RYUJI",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "tamirlan_kozubaev",
+      "name": "KOZUBAEV",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "rayco_rodriguez_medina",
+      "name": "RAYCO",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "pablo_ganet_comitre",
+      "name": "PABLO GANET",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "a._nur_hardianto",
+      "name": "HARDIANTO",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "eber_henrique_ferreira_de_bessa",
+      "name": "EBER BESSA",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "hokky_caraka_bintang_brilliant",
+      "name": "CARAKA",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "diovani_ahmad_rafly",
+      "name": "DIOVANI",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "charisma_fathoni_am",
+      "name": "C. FATHONI",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "sutanto",
+      "name": "TAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "javlon_guseynov",
+      "name": "JAVLON",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "rizwan_haikal",
+      "name": "H. RIZWAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "zalnando",
+      "name": "ZALNANDO",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "dafiq_firdaus",
+      "name": "D FIRDAUS",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "igor_carreira_rodrigues",
+      "name": "IGOR",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "andriano_saputra",
+      "name": "ADRIANO",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "rifky_dwi_septiawan",
+      "name": "RIFKY DS",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "wahyudi_setiawan_hamisi",
+      "name": "K.HAMISI",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "m._zulfan_djiaulhaq_mukti",
+      "name": "ZULFAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "dion_wilhelmus_eddy_markx",
+      "name": "MARKX",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "yardan_yafi",
+      "name": "YARDAN YAFI",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "mario_jardel",
+      "name": "M. JARDEL",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "aep_nursofyan",
+      "name": "A. NURSOFYAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "tyronne_gustavo_del_pino_ramos",
+      "name": "TYRONNE",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "alexandre_francois_ramalingom",
+      "name": "RAMALINGOM",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "andrejic_aleksa",
+      "name": "ANDREJIC",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "kurniawan_kartika_ajie",
+      "name": "KARTIKA AJIE",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "claudio_lucas_morais_ferreira_dos_santos",
+      "name": "LUQUINHAS",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "esal_sahrul_muhrom",
+      "name": "ESAL SAHRUL",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "esal_sahrul_muhrom",
+      "name": "ABDURAHMAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "esal_sahrul_muhrom",
+      "name": "AHMED ZAKI ISKANDAR ZULKARNAIN",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "esal_sahrul_muhrom",
+      "name": "ALDI NUR FAUZAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "esal_sahrul_muhrom",
+      "name": "ARIES MAULANSYAH,SH",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "esal_sahrul_muhrom",
+      "name": "ARIS MAHENDRA",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "esal_sahrul_muhrom",
+      "name": "BAMBANG NURDIANSYAH, SE",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "esal_sahrul_muhrom",
+      "name": "CARLOS GONZALES PENA",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "esal_sahrul_muhrom",
+      "name": "DEVA GARUDA EKA PUTRA",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "esal_sahrul_muhrom",
+      "name": "FAKHRUL MUHAMMAD",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "esal_sahrul_muhrom",
+      "name": "FIKRI MAULANA IHSAN",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "esal_sahrul_muhrom",
+      "name": "JAN BONARDIN SARAGIH",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "esal_sahrul_muhrom",
+      "name": "KURNIA SANDY",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "esal_sahrul_muhrom",
+      "name": "LUIS GUTIERREZ GARCIA",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "esal_sahrul_muhrom",
+      "name": "MANUEL CRESPO CARABANA",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "esal_sahrul_muhrom",
+      "name": "RADEN MUHAMMAD S.I.P",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "esal_sahrul_muhrom",
+      "name": "ROBERT",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "esal_sahrul_muhrom",
+      "name": "SUSILO",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "esal_sahrul_muhrom",
+      "name": "SUWARTO",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "esal_sahrul_muhrom",
+      "name": "SUYONO",
+      "pos": ""
+    },
+    {
+      "club": "PERSITA",
+      "slug": "esal_sahrul_muhrom",
+      "name": "UDIN",
+      "pos": ""
+    }
+  ],
+  "PSIM_YOGYAKARTA": [
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "johannes_daniel_maria_van_der_avert",
+      "name": "VAN DER AVERT",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "yusaku_yamadera",
+      "name": "SAKU",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "franco_gaston_ramos_mingo",
+      "name": "RAMOS MINGO",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "muhammad_iqbal",
+      "name": "M.IQBAL",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "marvin_antonio_loria_leiton",
+      "name": "LORIA",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "d._s._sheva_maresca_amavisca",
+      "name": "SAVIO SHEVA",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "mauro_andres_caballero_aguilera",
+      "name": "CABALLERO",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "jose_pedro__magalhaes__valente",
+      "name": "ZE VALENTE",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "norberto_ezequiel_vidal",
+      "name": "PULGA VIDAL",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "adrian_cyprian_purzycki",
+      "name": "PURZYCKI",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "m._rendra_teddy_wijanarko",
+      "name": "TEDDY",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "raka_cahyana_rizky",
+      "name": "RAKA C.R",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "irfan",
+      "name": "IRFAN",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "cahya_supriadi",
+      "name": "CAHYA .S",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "adrian_dalmau_vaquer",
+      "name": "DALMAU",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "diandra_diaz_dewari",
+      "name": "DIANDRA",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "ghulam_fatkur_rahman",
+      "name": "GHULAM",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "ondrej_rudzan",
+      "name": "RUDZAN",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "muhammad_alwi_fadilah",
+      "name": "M ALWI",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "harlan_suardi",
+      "name": "SUARDI.HR",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "riyatno_abiyoso",
+      "name": "ABIYOSO",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "rio_hardiawan",
+      "name": "HARDIAWAN",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "ahmad_agung_setia_budi",
+      "name": "AHMAD AGUNG",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "nermin_haljeta",
+      "name": "HALJETA",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "nermin_haljeta",
+      "name": "APRIAN PAMUNGKAS",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "nermin_haljeta",
+      "name": "APRILIA SULISTYOWATI",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "nermin_haljeta",
+      "name": "FAHRIE YANUAR FIRDAUS",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "nermin_haljeta",
+      "name": "FARID SYAIFURROHMAN",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "nermin_haljeta",
+      "name": "GUNTUR CAHYO UTOMO",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "nermin_haljeta",
+      "name": "IRZA TRIAMANDA",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "nermin_haljeta",
+      "name": "IXSAN FAJAR PRANOTO",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "nermin_haljeta",
+      "name": "JACOBUS JOHANNES MARTINUS PAULUS VAN GASTEL",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "nermin_haljeta",
+      "name": "JAN BENJAMIN",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "nermin_haljeta",
+      "name": "JORGE GOMEZ ALBA",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "nermin_haljeta",
+      "name": "MARIO CAPECE",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "nermin_haljeta",
+      "name": "MATEUS KRISTIANTO",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "nermin_haljeta",
+      "name": "MUHAMMAD ALI RAMDHANI",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "nermin_haljeta",
+      "name": "MUHAMMAD ARFITIAN HUDAYA PUTRA",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "nermin_haljeta",
+      "name": "MUHAMMAD HOVI",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "nermin_haljeta",
+      "name": "MUHAMMAD IKHSAN MAHAR",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "nermin_haljeta",
+      "name": "RAHMAT HIDAYAT",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "nermin_haljeta",
+      "name": "RAKHA FAIRUZY HERNAWAN",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "nermin_haljeta",
+      "name": "WILDAN WING WIRAWAN",
+      "pos": ""
+    },
+    {
+      "club": "PSIM_YOGYAKARTA",
+      "slug": "nermin_haljeta",
+      "name": "ZULFIKAR ISVAHANY",
+      "pos": ""
+    }
+  ],
+  "PSM_MAKASSAR": [
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "muh._ardiansyah",
+      "name": "MUH. ARDIANSYAH",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "aloisio_soares_neto",
+      "name": "SOARES",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "resky_fandi_witriawan",
+      "name": "RESKY FW",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "stefan_jevtoski",
+      "name": "JEVTOSKI",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "luka_cumic",
+      "name": "CUMIC",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "navarone_chesney_kai_foor",
+      "name": "FOOR",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "luka_bulatovic",
+      "name": "BULATOVIC",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "kodai_tanaka",
+      "name": "KODAI TANAKA",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "rasyid_assahid_bakri",
+      "name": "RASYID B",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "gala_pagamo",
+      "name": "GALA",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "victor_luiz_prestes_filho",
+      "name": "VICTOR LUIZ",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "muh._rizky_eka_pratama",
+      "name": "M. RIZKY",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "henhen_herdiana",
+      "name": "HENHEN HERDIANA",
+      "pos": "BELAKANG"
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "muhammad_arham_darmawan",
+      "name": "ARHAM",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "achmat_fahrul_aditia",
+      "name": "FAHRUL ADITIA",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "nenad_lalic",
+      "name": "LALIC",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "akbar_tanjung",
+      "name": "AKBAR",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "agung_mannan",
+      "name": "AGUNG MANNAN",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "arfan",
+      "name": "ARFAN",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "syaiful",
+      "name": "SYAIFUL",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "muh._mufli_hidayat",
+      "name": "M. MUFLI",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "jonathan_ronaldo_dinho_junior_kawalo",
+      "name": "JONATHAN",
+      "pos": "BELAKANG"
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "abdul_rahman",
+      "name": "ABDUL RAHMAN",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "ananda_raehan_alief",
+      "name": "ANANDA R",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "dusan_lagator",
+      "name": "LAGATOR",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "hilman_syah",
+      "name": "HILMAN SYAH",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "hilman_syah",
+      "name": "A. GAMALIEL R0YWANSON SIRINGORINGO, S.KOM",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "hilman_syah",
+      "name": "ABD SHAMAD",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "hilman_syah",
+      "name": "ACHMAD ADITYA FAJAR",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "hilman_syah",
+      "name": "AHMAD AMIRUDDIN SE",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "hilman_syah",
+      "name": "AHMAD RAJENDRA PATURUSI",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "hilman_syah",
+      "name": "ALEKSANDAR ILIC",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "hilman_syah",
+      "name": "ANGGER WORO JATI",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "hilman_syah",
+      "name": "DARIJE KALEZIC",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "hilman_syah",
+      "name": "HARDIANSYAH MUSLIMIN",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "hilman_syah",
+      "name": "IMAN SUHERMAN",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "hilman_syah",
+      "name": "JUANDA",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "hilman_syah",
+      "name": "KRSTO JOKIC",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "hilman_syah",
+      "name": "MUH. SAENAL",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "hilman_syah",
+      "name": "MUHAMMAD NUR FAJRIN",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "hilman_syah",
+      "name": "RAFIUDDIN RAZAK, SE",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "hilman_syah",
+      "name": "SRDAN STOJANOVIC",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "hilman_syah",
+      "name": "SYAHRIR NAWIR NUR",
+      "pos": ""
+    },
+    {
+      "club": "PSM_MAKASSAR",
+      "slug": "hilman_syah",
+      "name": "VELIBOR PUDAR",
+      "pos": ""
+    }
+  ],
+  "PSS_SLEMAN_": [
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "pedro_caracoci_de_oliveira",
+      "name": "CARACOCI",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "lucas_gama_moreira",
+      "name": "LUCAO",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "cleberson_martins_de_souza",
+      "name": "CLEBERSON",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "kevin_gomes_de_olivera",
+      "name": "KEVIN",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "hiromu_tanaka",
+      "name": "HIROMU",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "moussa_bagayoko",
+      "name": "BAGAYOKO",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "frederic_injai",
+      "name": "INJAI",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "gustavo_henrique_barbosa_freire",
+      "name": "G. TOCANTINS",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "stefan_ashkovski",
+      "name": "ASKOVSKI",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "muhammad_salman_alfarid",
+      "name": "SALMAN",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "mohammad_saiful_djoge",
+      "name": "SAIFUL DJOGE",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "matheus_fornazari_custodio",
+      "name": "FORNAZARI",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "fachruddin_wahyudi_aryanto",
+      "name": "FACHRUDDIN",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "m._junior_haqi",
+      "name": "JUNIOR",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "kim_jeffrey_kurniawan",
+      "name": "KIM KURNIAWAN",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "riko_simanjuntak",
+      "name": "SIMANJUNTAK",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "markus_otto_alberti_madjar",
+      "name": "MADJAR",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "arda_alfareza",
+      "name": "ALFAREZA",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "muhammad_isfandyar_abdillah",
+      "name": "M. DYAR",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "ega_rizky_pramana",
+      "name": "EGA RIZKY",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "christophe_nduwarugira",
+      "name": "NDUWARUGIRA",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "cloudio_faiera_mutzi",
+      "name": "CLOUDIO",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "jajang_mulyana",
+      "name": "J. MULYANA",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "fadel_ahmad_arrafi",
+      "name": "AHMAD ARRAFI",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "dominikus_dion_oktawian_wibowo",
+      "name": "DION",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "melvyn_lorenzen",
+      "name": "MELVYN",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "muhammad_dimas_drajad",
+      "name": "D. DRAJAD",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "muhammad_dimas_drajad",
+      "name": "AGUS PURWOKO",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "muhammad_dimas_drajad",
+      "name": "ALIFANO DWI CAHYO",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "muhammad_dimas_drajad",
+      "name": "ANDRE CRODA BORGES",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "muhammad_dimas_drajad",
+      "name": "ANSYARI LUBIS",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "muhammad_dimas_drajad",
+      "name": "BERGSON JORGE RODRIGUES DOS SANTOS",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "muhammad_dimas_drajad",
+      "name": "DEMERSON BRUNO COSTA",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "muhammad_dimas_drajad",
+      "name": "EGA GIAN VEMBIARTO",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "muhammad_dimas_drajad",
+      "name": "FAIRUS SHAFRI NUR RAZAQ",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "muhammad_dimas_drajad",
+      "name": "FELIPE CHAVES DE FARIAS",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "muhammad_dimas_drajad",
+      "name": "GILANG RAMADHAN",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "muhammad_dimas_drajad",
+      "name": "MOHAMMAD DANIAL AL FIKRI",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "muhammad_dimas_drajad",
+      "name": "MUCHAMAD TAUFIQ FUADY",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "muhammad_dimas_drajad",
+      "name": "NUR DHARMA WISESA",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "muhammad_dimas_drajad",
+      "name": "PIETER EGGE HUISTRA",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "muhammad_dimas_drajad",
+      "name": "RIKO ARUNDITO",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "muhammad_dimas_drajad",
+      "name": "SIGIT PRAMUDYA",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "muhammad_dimas_drajad",
+      "name": "SUBARDI",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "muhammad_dimas_drajad",
+      "name": "TRI SABTO NUGROHO",
+      "pos": ""
+    },
+    {
+      "club": "PSS_SLEMAN_",
+      "slug": "muhammad_dimas_drajad",
+      "name": "YOGI SUHENDRA",
+      "pos": ""
+    }
+  ]
+}

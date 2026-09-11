@@ -1,0 +1,2198 @@
+{
+ "1": [
+  {
+   "n": "Aqil Savik",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Hafizh",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Rio Fahmi",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "R. Ridho",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Pankov",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "Arhan",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Amat",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Farhan",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Pattynama",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Kolinger",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "Loncar",
+   "p": "MF",
+   "f": 1
+  },
+  {
+   "n": "Yoshino",
+   "p": "MF",
+   "f": 1
+  },
+  {
+   "n": "Figo",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Hannan",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Fábio Calonego",
+   "p": "MF",
+   "f": 1
+  },
+  {
+   "n": "Nadeo",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Ardhiyasa",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Nathan",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Dethan",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Witan",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Jeremejeff",
+   "p": "FW",
+   "f": 1
+  },
+  {
+   "n": "Arlyansyah",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Kwon",
+   "p": "FW",
+   "f": 1
+  },
+  {
+   "n": "Agi F",
+   "p": "FW",
+   "f": 0
+  }
+ ],
+ "2": [
+  {
+   "n": "T. Paku Alam",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Rhaka",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Reijnders",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Gabriel M.",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "Julio C",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "Kakang",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Sandy",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Loncar",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "Matricardi",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "Kevin",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Beckham",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Menalo",
+   "p": "MF",
+   "f": 1
+  },
+  {
+   "n": "Peralta",
+   "p": "MF",
+   "f": 1
+  },
+  {
+   "n": "Rafi",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Athaya",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Tanamal",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Oratmangoen",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Guaycochea",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Dedi K.",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Notsuda",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Adam Alis",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Nazriel",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Faris",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Klok",
+   "p": "FW",
+   "f": 0
+  }
+ ],
+ "3": [
+  {
+   "n": "Ernando",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "M. Reza",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Ilham",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Catur P.",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Y. Fernandes",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "Mitrevski",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "Mabella",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "Alfredo Tata",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Jefferson Silva",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "Randy May",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Rivera",
+   "p": "MF",
+   "f": 1
+  },
+  {
+   "n": "Ramalho",
+   "p": "MF",
+   "f": 1
+  },
+  {
+   "n": "Alex Martins",
+   "p": "MF",
+   "f": 1
+  },
+  {
+   "n": "Gledson Paixao",
+   "p": "MF",
+   "f": 1
+  },
+  {
+   "n": "Saddil",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Sadida",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Dicky Kurniawan",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Toni F.",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Sananta",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Miguel P",
+   "p": "FW",
+   "f": 1
+  },
+  {
+   "n": "Alfan Suaib",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Ricky",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Malik Risaldi",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Fawwas Dimas Heru Saputra",
+   "p": "FW",
+   "f": 0
+  }
+ ],
+ "4": [
+  {
+   "n": "Adi Satryo",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Landis",
+   "p": "GK",
+   "f": 1
+  },
+  {
+   "n": "Mauro",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Alfiansyah",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Achmad M.",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Alfarizie",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Leo Guntara",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Maia",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Gabi",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Arkhan",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Julian G.",
+   "p": "MF",
+   "f": 1
+  },
+  {
+   "n": "Muhammad Yusrinal Fitriandi",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Samsul Hidayat",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Gustavo Franca",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Erlangga",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Betinho F.",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Arzidann",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Azmiy",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "S. Tuharea",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Tito H.",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Razzaa",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Dimas A.",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Dendi S.",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Ahmad Salik",
+   "p": "FW",
+   "f": 0
+  }
+ ],
+ "5": [
+  {
+   "n": "Hauptmeijer",
+   "p": "GK",
+   "f": 1
+  },
+  {
+   "n": "Wayan Arta",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Kadek Arel",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Bagas Adi",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Rizky Dwi",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Ricky Fajrin",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Putu Panji",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Gung Dwi",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Dimas Bagus Dwi Prasetyo",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Fery Muchlas",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "Wilson",
+   "p": "MF",
+   "f": 1
+  },
+  {
+   "n": "Goppel",
+   "p": "MF",
+   "f": 1
+  },
+  {
+   "n": "Receveur",
+   "p": "MF",
+   "f": 1
+  },
+  {
+   "n": "Kadek Agung",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Reyner",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Maouri",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Made Tito",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Yachida",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Raven",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Irfan Jaya",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "R. Arjuna",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Aris Sanjaya",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "I Made Wardana",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Muhamad Rasyid",
+   "p": "FW",
+   "f": 0
+  }
+ ],
+ "6": [
+  {
+   "n": "R. Varanda",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Rubio",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Komang. T",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Diego. M",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "D. Kuswardani",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Dika Adi",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Villa",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Sousa",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Aan Redzuan",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Hugo Samir",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Ikhsan Nul",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Asgal Habib",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Dwiky Aris",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Christian",
+   "p": "MF",
+   "f": 1
+  },
+  {
+   "n": "Diarra",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Hermawan",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Caxambu",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Andhika",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Marasabessy",
+   "p": "FW",
+   "f": 1
+  },
+  {
+   "n": "Muhammad Rd",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Dandi. S",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Habibi Jusuf",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Muhammad D",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Mardianus Tamela",
+   "p": "FW",
+   "f": 1
+  }
+ ],
+ "7": [
+  {
+   "n": "Muh. Ardiansyah",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Muh. Saenal",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Victor Luiz",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "Syaiful",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Hilman Syah",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Soares",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Jevtoski",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Cumic",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Foor",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Bulatovic",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Resky Fw",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Rasyid B",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Gala",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "M. Rizky",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Fahrul Aditia",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Akbar",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Arfan",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "M. Mufli",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Kodai Tanaka",
+   "p": "FW",
+   "f": 1
+  },
+  {
+   "n": "Arham",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Aleksandar Ilic",
+   "p": "FW",
+   "f": 1
+  },
+  {
+   "n": "Darije Kalezic",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Henhen Herdiana",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Lalic",
+   "p": "FW",
+   "f": 0
+  }
+ ],
+ "8": [
+  {
+   "n": "Stevens",
+   "p": "GK",
+   "f": 1
+  },
+  {
+   "n": "Ahmad Qomarudin",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "J.mangabeira",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "B.m.fatari",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Fais Iqbal",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Ady S.",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Alta Ballah",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Hendra Pratama",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Samuel Randy Julio",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "M.riyandi",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Denilson Jr",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Ricky",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Kuipers",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Johnathan",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Jenner",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Marukawa",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Lowe",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Ko",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Egy Mv",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Bayu Eka Sari",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Alfharezzi",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Saviola",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Struick",
+   "p": "FW",
+   "f": 1
+  },
+  {
+   "n": "Messidoro",
+   "p": "FW",
+   "f": 0
+  }
+ ],
+ "9": [
+  {
+   "n": "A.harlan",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Agus Saleh",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "P.monteiro",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "Santacruz",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Taufik",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "A.rusadi",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Reiski Muhammad Raytandia Aziz",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Rony Azani",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "Angga.s",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Mitkov",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Iran Junior",
+   "p": "MF",
+   "f": 1
+  },
+  {
+   "n": "Taufany",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Ilhamsyah",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Feby Ramzy",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Bima Koto",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Gio",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Scheunemann",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Paulo",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Lulinha",
+   "p": "FW",
+   "f": 1
+  },
+  {
+   "n": "R Afrizal",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Aldo",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Diky",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Gali Freitas",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Fairuz",
+   "p": "FW",
+   "f": 0
+  }
+ ],
+ "10": [
+  {
+   "n": "H. Rizwan",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Igor",
+   "p": "GK",
+   "f": 1
+  },
+  {
+   "n": "Ryuji",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "C. Fathoni",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Javlon",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "Markx",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "M. Jardel",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Andrejic",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Aris Mahendra",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Fakhrul Muhammad",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Rifky Ds",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Kozubaev",
+   "p": "MF",
+   "f": 1
+  },
+  {
+   "n": "Rayco",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Pablo Ganet",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Eber Bessa",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Caraka",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Diovani",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Tan",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Hardianto",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Yardan Yafi",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "A. Nursofyan",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Esal Sahrul",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Aldi Nur Fauzan",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Fikri Maulana Ihsan",
+   "p": "FW",
+   "f": 0
+  }
+ ],
+ "11": [
+  {
+   "n": "Ega Rizky",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Ega Gian Vembiarto",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Lucao",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "Kevin",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Salman",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Saiful Djoge",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Fachruddin",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Alfareza",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "J. Mulyana",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Ahmad Arrafi",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Injai",
+   "p": "MF",
+   "f": 1
+  },
+  {
+   "n": "Kim Kurniawan",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Simanjuntak",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Dion",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Riko Arundito",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Sigit Pramudya",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Caracoci",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Cleberson",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "G. Tocantins",
+   "p": "FW",
+   "f": 1
+  },
+  {
+   "n": "Junior",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Hiromu",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Bagayoko",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Askovski",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Fornazari",
+   "p": "FW",
+   "f": 0
+  }
+ ],
+ "12": [
+  {
+   "n": "Abhirama",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Husna Al Malik",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Kiko",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "Dimas",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Yoga",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Marcelo",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "Salman",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Park",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "Alfian Yoga Wiratna",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Eduardo B.",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "I. Garcia",
+   "p": "MF",
+   "f": 1
+  },
+  {
+   "n": "Jon Toral",
+   "p": "MF",
+   "f": 1
+  },
+  {
+   "n": "Bayu Otto",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Zanadin F.",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Walian",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Ady Eko",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Zidane",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Kadek Rendy",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "S. Castel",
+   "p": "FW",
+   "f": 1
+  },
+  {
+   "n": "Althaf",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Jose Enrique",
+   "p": "FW",
+   "f": 1
+  },
+  {
+   "n": "M.khanafi",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Mohamad Sultoni",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Dzaky Asraf",
+   "p": "FW",
+   "f": 0
+  }
+ ],
+ "13": [
+  {
+   "n": "Awan Setho",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Sibille",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Putu Gede",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Sadiki",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "Firza",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Ferre Murari",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Yano Putra",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Andhika W.",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Ferarri",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Frengky Missa",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Tm. Ichsan",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Sani R.f",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "W. Subo Seto",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Khairi Maulana Azhari",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Reza Arifian",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Ristovski",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Sojberg",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Allano",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Raheem",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Ginanjar",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Ryan Kurnia",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Muhammad Hanim Sugiarto",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Muhammad Thoriq Cendiatama",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Brown",
+   "p": "FW",
+   "f": 0
+  }
+ ],
+ "14": [
+  {
+   "n": "Sendri Johansah",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Rajiv",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Rahmatsho",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Juan Douglas",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "R. Hidayat",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Dion",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "Muhammad Iqbal Hidayat",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Rubio",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Paulo",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Pirulo",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Felix",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Adzikry",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "S. Ofori",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Infantrie",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Y. Sogodogo",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Buyung Ismu",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "M. Blasco",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Rakasurya",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Rendi",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Abdul Rohim",
+   "p": "FW",
+   "f": 1
+  },
+  {
+   "n": "Ari Setiawan",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Reycredo",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Raihan",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "S. Chica",
+   "p": "FW",
+   "f": 0
+  }
+ ],
+ "15": [
+  {
+   "n": "Cahya .s",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Suardi.hr",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Van Der Avert",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "Ramos Mingo",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "Teddy",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Raka C.r",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Hardiawan",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Saku",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Loria",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Caballero",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "M.iqbal",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Savio Sheva",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Ze Valente",
+   "p": "MF",
+   "f": 1
+  },
+  {
+   "n": "Pulga Vidal",
+   "p": "MF",
+   "f": 1
+  },
+  {
+   "n": "Irfan",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Diandra",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Ghulam",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Abiyoso",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Haljeta",
+   "p": "FW",
+   "f": 1
+  },
+  {
+   "n": "Purzycki",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Dalmau",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Rudzan",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "M Alwi",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Ahmad Agung",
+   "p": "FW",
+   "f": 0
+  }
+ ],
+ "16": [
+  {
+   "n": "Lelis",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Harli Cahya",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Adilson",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Abdillah",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Ridwan",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Konate",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "M.manneh",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Fayrushi",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "N.kenji",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Ardi Ramdani",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Satrio",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Fardan",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Fernandez",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Nadzhofa",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "M Reza",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Brayen",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Indra Feri",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Ribeiro",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Galuh",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Firman",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Rafly",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Douglas Cruz",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Jefri W S",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Adre Arido",
+   "p": "FW",
+   "f": 0
+  }
+ ],
+ "17": [
+  {
+   "n": "Beny",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Ricardo",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Bagaskara",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "A.f.kelilauw",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Tristan I",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "David Maulana",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Nico S",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Wahyu",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Theo Fillo",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Kaka",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Adit Gigis",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Dicky Fathurohman",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Yudi Adiyansyah",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "B. Rubio",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Ryo",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Daffa",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "H.hehanussa",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Arapenta",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Andik",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Derry Hidayat",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Stamenkovic",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Dominik",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Arif Setiawan",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Dheco Hz",
+   "p": "FW",
+   "f": 0
+  }
+ ],
+ "18": [
+  {
+   "n": "G. França",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "J. Machado",
+   "p": "GK",
+   "f": 0
+  },
+  {
+   "n": "Ciro",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Kei",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Kaio",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Vico",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Yabes Roni",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Y. Sayuri",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "Riyan. A",
+   "p": "DF",
+   "f": 0
+  },
+  {
+   "n": "D. Da Silva",
+   "p": "DF",
+   "f": 1
+  },
+  {
+   "n": "Taufik. R",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Frets Butuan",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Yan Sayuri",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Pasya",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Miswar Saputra",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Ariel Kurung",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "R. Syuhada",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Muhammad Syahrul",
+   "p": "MF",
+   "f": 0
+  },
+  {
+   "n": "Tri Setiawan",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Gustavo",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Oropa",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "A. Bernardus",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "M. Firli",
+   "p": "FW",
+   "f": 0
+  },
+  {
+   "n": "Fahreza",
+   "p": "FW",
+   "f": 0
+  }
+ ]
+}

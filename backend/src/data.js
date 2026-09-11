@@ -1,0 +1,175 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import fs from 'node:fs';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// 18 klub BRI Super League 2026/27 (mapping 1:1 ke file logo di src/public/img/clubs/*.png).
+// Catatan: user menulis "2026/2007" — diasumsikan maksudnya musim 2026/2027.
+export const CLUBS = [
+  { id: 1, name: 'Persija Jakarta', short_name: 'PERSIJA', city: 'Jakarta', logo: 'persija.png', color_primary: '#C8102E', color_secondary: '#FFFFFF', strength: 86, budget: 45000000, reputation: 90 },
+  { id: 2, name: 'Persib Bandung', short_name: 'PERSIB', city: 'Bandung', logo: 'persib.png', color_primary: '#1B3BB3', color_secondary: '#FFFFFF', strength: 88, budget: 52000000, reputation: 92 },
+  { id: 3, name: 'Persebaya Surabaya', short_name: 'PERSEBAYA', city: 'Surabaya', logo: 'persebaya.png', color_primary: '#0B6B3A', color_secondary: '#F5C518', strength: 85, budget: 40000000, reputation: 89 },
+  { id: 4, name: 'Arema FC', short_name: 'AREMA', city: 'Malang', logo: 'arema.png', color_primary: '#1E3FAE', color_secondary: '#E11D2E', strength: 84, budget: 38000000, reputation: 87 },
+  { id: 5, name: 'Bali United FC', short_name: 'BALI', city: 'Gianyar', logo: 'bali.png', color_primary: '#E11D2E', color_secondary: '#111111', strength: 86, budget: 46000000, reputation: 88 },
+  { id: 6, name: 'Borneo FC Samarinda', short_name: 'BORNEO', city: 'Samarinda', logo: 'borneo.png', color_primary: '#E86A17', color_secondary: '#0B3B2E', strength: 87, budget: 48000000, reputation: 87 },
+  { id: 7, name: 'PSM Makassar', short_name: 'PSM', city: 'Makassar', logo: 'psm.png', color_primary: '#C8102E', color_secondary: '#111111', strength: 85, budget: 39000000, reputation: 88 },
+  { id: 8, name: 'Dewa United Banten FC', short_name: 'DEWA', city: 'Tangerang', logo: 'dewa.png', color_primary: '#111111', color_secondary: '#D4AF37', strength: 83, budget: 42000000, reputation: 78 },
+  { id: 9, name: 'Madura United FC', short_name: 'MADURA', city: 'Bangkalan', logo: 'madura.png', color_primary: '#C8102E', color_secondary: '#FFFFFF', strength: 82, budget: 30000000, reputation: 80 },
+  { id: 10, name: 'Persita', short_name: 'PERSITA', city: 'Tangerang', logo: 'persita.png', color_primary: '#6C2EB5', color_secondary: '#FFFFFF', strength: 78, budget: 22000000, reputation: 74 },
+  { id: 11, name: 'PSS Sleman', short_name: 'PSS', city: 'Sleman', logo: 'pss.png', color_primary: '#0B6B3A', color_secondary: '#F5C518', strength: 79, budget: 25000000, reputation: 77 },
+  { id: 12, name: 'Persik Kediri', short_name: 'PERSIK', city: 'Kediri', logo: 'persik.png', color_primary: '#6C2EB5', color_secondary: '#F5C518', strength: 80, budget: 26000000, reputation: 78 },
+  { id: 13, name: 'Bhayangkara Presisi Lampung FC', short_name: 'BHAYANGKARA', city: 'Lampung', logo: 'bhayangkara.png', color_primary: '#F5C518', color_secondary: '#1B3BB3', strength: 78, budget: 24000000, reputation: 76 },
+  { id: 14, name: 'Persijap Jepara', short_name: 'PERSIJAP', city: 'Jepara', logo: 'persijap.png', color_primary: '#C8102E', color_secondary: '#FFFFFF', strength: 77, budget: 23000000, reputation: 70 },
+  { id: 15, name: 'PSIM Yogyakarta', short_name: 'PSIM', city: 'Yogyakarta', logo: 'psim.png', color_primary: '#0B6B3A', color_secondary: '#FFFFFF', strength: 77, budget: 23000000, reputation: 70 },
+  { id: 16, name: 'Isenmulang Kalteng FC', short_name: 'ISENMULANG', city: 'Kalteng', logo: 'isenmulang.png', color_primary: '#0EA5E9', color_secondary: '#111111', strength: 76, budget: 20000000, reputation: 68 },
+  { id: 17, name: 'Garudayaksa FC', short_name: 'GARUDA', city: 'Bekasi', logo: 'garudayaksa.png', color_primary: '#C8102E', color_secondary: '#F5C518', strength: 75, budget: 19000000, reputation: 72 },
+  { id: 18, name: 'Java United FC', short_name: 'JAVA', city: 'Jawa', logo: 'java.png', color_primary: '#0B6B3A', color_secondary: '#F5C518', strength: 75, budget: 19000000, reputation: 68 }
+];
+
+export function logoMissing() {
+  const dir = path.join(__dirname, 'public', 'img', 'clubs');
+  return CLUBS.filter((c) => !fs.existsSync(path.join(dir, c.logo))).map((c) => c.logo);
+}
+
+
+export const FIRST = ['Rizky','Andi','Bagus','Dimas','Fajar','Ilham','Yoga','Egi','Raka','Witan','Egy','Marcell','Septian','Alfian','Dedi','Fikri','Galih','Hendra','Irfan','Joko','Kurnia','Lutfi','Made','Nanda','Okta','Pratama','Qori','Rendy','Sandi','Tegar','Umar','Vicky','Wahyu','Yudi','Zulham','Ardi','Bima','Candra','Doni','Eko'];
+export const LAST = ['Pratama','Saputra','Wijaya','Santoso','Nugroho','Ramadhan','Kurniawan','Setiawan','Hidayat','Maulana','Fauzi','Rahmat','Syahputra','Gunawan','Firmansyah','Alamsyah','Putra','Siregar','Nasution','Lestaluhu','Kambera','Solossa','Wanggai','Rumakiek','Klok','Arhan','Asnawi','Febriansyah','Sayuri','Pluim','Lilipaly','Spasojevic','Ciro','David','Brass','Moreira','Costa','Silva','Santos','Oliveira'];
+export const FOREIGN = ['Carlos Eduardo','Matheus Silva','Lucas Costa','Rafael Oliveira','Diego Santos','Gustavo Almeida','Bruno Moreira','Tiago Alves','Pedro Costa','Anderson Silva','Alex Martins','Joao Pedro','Marcel Silva','Igor Costa','Ramon Bueno','Caio Ruan','David Lopez','Marco Reusanda','Kenji Sato','Moussa Diallo'];
+
+// Skuad inti PERKIRAAN BRI Super League 2026/27 (berbasis skuad musim 2025/26).
+// f:1 = pemain asing. Bursa transfer berjalan terus — koreksi manual di sini bila ada yang pindah.
+// Klub 16-18 (promosi/baru, data skuad minim) + sisa slot tiap klub diisi generator nama lokal.
+const SQUAD_CORES_LEGACY = { // (tidak dipakai — digantikan roster asli ileague.id, lihat bawah)
+  1: [
+    { n: 'Andritany Ardhiyasa', p: 'GK', f: 0 }, { n: 'Rizky Ridho', p: 'DF', f: 0 },
+    { n: 'Ondrej Kudela', p: 'DF', f: 1 }, { n: 'Muhammad Ferarri', p: 'DF', f: 0 },
+    { n: 'Firza Andika', p: 'DF', f: 0 }, { n: 'Ilham Rio Fahmi', p: 'DF', f: 0 },
+    { n: 'Maciej Gajos', p: 'MF', f: 1 }, { n: 'Hanif Sjahbandi', p: 'MF', f: 0 },
+    { n: 'Rayhan Hannan', p: 'MF', f: 0 }, { n: 'Witan Sulaeman', p: 'MF', f: 0 },
+    { n: 'Ryo Matsumura', p: 'FW', f: 1 }, { n: 'Gustavo Almeida', p: 'FW', f: 1 }
+  ],
+  2: [
+    { n: 'Teja Paku Alam', p: 'GK', f: 0 }, { n: 'Nick Kuipers', p: 'DF', f: 1 },
+    { n: 'Gustavo Franca', p: 'DF', f: 1 }, { n: 'Edo Febriansah', p: 'DF', f: 0 },
+    { n: 'Henhen Herdiana', p: 'DF', f: 0 }, { n: 'Marc Klok', p: 'MF', f: 0 },
+    { n: 'Beckham Putra', p: 'MF', f: 0 }, { n: 'Tyronne del Pino', p: 'MF', f: 1 },
+    { n: 'Adam Alis', p: 'MF', f: 0 }, { n: 'David da Silva', p: 'FW', f: 1 },
+    { n: 'Dimas Drajad', p: 'FW', f: 0 }, { n: 'Ryan Kurnia', p: 'FW', f: 0 }
+  ],
+  3: [
+    { n: 'Ernando Ari', p: 'GK', f: 0 }, { n: 'Andhika Ramadhani', p: 'GK', f: 0 },
+    { n: 'Slavko Damjanovic', p: 'DF', f: 1 }, { n: 'Kadek Raditya', p: 'DF', f: 0 },
+    { n: 'Arief Catur', p: 'DF', f: 0 }, { n: 'Mikael Tata', p: 'DF', f: 0 },
+    { n: 'Francisco Rivera', p: 'MF', f: 1 }, { n: 'Muhammad Hidayat', p: 'MF', f: 0 },
+    { n: 'Toni Firmansyah', p: 'MF', f: 0 }, { n: 'Bruno Moreira', p: 'FW', f: 1 },
+    { n: 'Flavio Silva', p: 'FW', f: 1 }, { n: 'Malik Risaldi', p: 'FW', f: 0 }
+  ],
+  4: [
+    { n: 'Lucas Frigeri', p: 'GK', f: 1 }, { n: 'Anwar Rifai', p: 'GK', f: 0 },
+    { n: 'Thales Lira', p: 'DF', f: 1 }, { n: 'Johan Alfarizi', p: 'DF', f: 0 },
+    { n: 'Achmad Maulana', p: 'DF', f: 0 }, { n: 'Arkhan Fikri', p: 'MF', f: 0 },
+    { n: 'Jayus Hariono', p: 'MF', f: 0 }, { n: 'Wiliam Marcilio', p: 'MF', f: 1 },
+    { n: 'Dalberto', p: 'FW', f: 1 }, { n: 'Charles Lokolingoy', p: 'FW', f: 1 },
+    { n: 'Dedik Setiawan', p: 'FW', f: 0 }
+  ],
+  5: [
+    { n: 'Adilson Maringa', p: 'GK', f: 1 }, { n: 'Kadek Arel', p: 'DF', f: 0 },
+    { n: 'Brandon Wilson', p: 'DF', f: 1 }, { n: 'Ricky Fajrin', p: 'DF', f: 0 },
+    { n: 'Andhika Wijaya', p: 'DF', f: 0 }, { n: 'Kadek Agung', p: 'MF', f: 0 },
+    { n: 'Made Tito', p: 'MF', f: 0 }, { n: 'Rahmat Arjuna', p: 'MF', f: 0 },
+    { n: 'Privat Mbarga', p: 'FW', f: 1 }, { n: 'Boris Kopitovic', p: 'FW', f: 1 },
+    { n: 'Irfan Jaya', p: 'FW', f: 0 }
+  ],
+  6: [
+    { n: 'Nadeo Argawinata', p: 'GK', f: 0 }, { n: 'Christophe Nduwarugira', p: 'DF', f: 1 },
+    { n: 'Leo Lelis', p: 'DF', f: 1 }, { n: 'Fajar Fathurahman', p: 'DF', f: 0 },
+    { n: 'Hendro Siswanto', p: 'MF', f: 0 }, { n: 'Stefano Lilipaly', p: 'MF', f: 0 },
+    { n: 'Berguinho', p: 'MF', f: 1 }, { n: 'Kei Hirose', p: 'MF', f: 1 },
+    { n: 'Matheus Pato', p: 'FW', f: 1 }, { n: 'Mariano Peralta', p: 'FW', f: 1 }
+  ],
+  7: [
+    { n: 'Yoo Jae-hoon', p: 'GK', f: 1 }, { n: 'Adi Satryo', p: 'GK', f: 0 },
+    { n: 'Risto Mitrevski', p: 'DF', f: 1 }, { n: 'Wahyu Prasetyo', p: 'DF', f: 0 },
+    { n: 'Gilang Angga', p: 'DF', f: 0 }, { n: 'Safrudin Tahar', p: 'DF', f: 0 },
+    { n: 'Alta Ballah', p: 'MF', f: 0 }, { n: 'Zein Alhadad', p: 'MF', f: 0 },
+    { n: 'Marcos Morais', p: 'MF', f: 1 }, { n: 'Diaz Hendrawan', p: 'MF', f: 0 },
+    { n: 'Alex Martins', p: 'FW', f: 1 }, { n: 'Arief Budiyono', p: 'FW', f: 0 }
+  ],
+  8: [
+    { n: 'Wahyu Tri Nugroho', p: 'GK', f: 0 }, { n: 'Egi Sutrisna', p: 'GK', f: 0 },
+    { n: 'Angelo Meneses', p: 'DF', f: 1 }, { n: 'Nurhidayat Haji Haris', p: 'DF', f: 0 },
+    { n: 'Ferre Murari', p: 'DF', f: 0 }, { n: 'Firman Juliansyah', p: 'MF', f: 0 },
+    { n: 'Alexis Messidoro', p: 'MF', f: 1 }, { n: 'Messi Wirayudha', p: 'MF', f: 0 },
+    { n: 'Altalariq Ballah', p: 'MF', f: 0 }, { n: 'Egy Maulana Vikri', p: 'FW', f: 0 },
+    { n: 'Tae-min Kim', p: 'FW', f: 1 }, { n: 'Jaja', p: 'FW', f: 1 }
+  ],
+  9: [
+    { n: 'Miswar Saputra', p: 'GK', f: 0 }, { n: 'Adhitya Harlan', p: 'GK', f: 0 },
+    { n: 'Pedro Monteiro', p: 'DF', f: 1 }, { n: 'Fachruddin Aryanto', p: 'DF', f: 0 },
+    { n: 'Ibrahim Sanjaya', p: 'DF', f: 0 }, { n: 'Krisna Bayu Otto', p: 'MF', f: 0 },
+    { n: 'Rizky Febriansyah', p: 'MF', f: 0 }, { n: 'Kerim Palic', p: 'MF', f: 1 },
+    { n: 'Lulinha', p: 'FW', f: 1 }, { n: 'Maxuel Silva', p: 'FW', f: 1 },
+    { n: 'Beto Goncalves', p: 'FW', f: 0 }
+  ],
+  10: [
+    { n: 'Igor Rodrigues', p: 'GK', f: 1 }, { n: 'Rendy Oscario', p: 'GK', f: 0 },
+    { n: 'Tamirlan Kozubaev', p: 'DF', f: 1 }, { n: 'Muhammad Toha', p: 'DF', f: 0 },
+    { n: 'Javlon Guseynov', p: 'DF', f: 1 }, { n: 'Asep Berlian', p: 'MF', f: 0 },
+    { n: 'Bahtiar Bahtiar', p: 'MF', f: 0 }, { n: 'Septian Satria Bagaskara', p: 'MF', f: 0 },
+    { n: 'Edo Febriansyah', p: 'MF', f: 0 }, { n: 'Irsyad Maulana', p: 'FW', f: 0 },
+    { n: 'Jasmin Mecinovic', p: 'FW', f: 1 }, { n: 'Ahmad Nur Hardianto', p: 'FW', f: 0 }
+  ],
+  11: [
+    { n: 'Eky Taufik', p: 'DF', f: 0 }, { n: 'Abdul Rahman', p: 'DF', f: 0 },
+    { n: 'Syaiful Ramadhan', p: 'DF', f: 0 }, { n: 'Fadil Sausu', p: 'MF', f: 0 },
+    { n: 'Raven Romero', p: 'MF', f: 1 }, { n: 'Alex Tanque', p: 'FW', f: 1 },
+    { n: 'Riyatno Abiyoso', p: 'FW', f: 0 }
+  ],
+  12: [
+    { n: 'Leo Navacchio', p: 'GK', f: 1 }, { n: 'Fasya', p: 'GK', f: 0 },
+    { n: 'Anderson Nascimento', p: 'DF', f: 1 }, { n: 'Al Hamra Hehanussa', p: 'DF', f: 0 },
+    { n: 'Yusuf Meilana', p: 'DF', f: 0 }, { n: 'Rohit Chand', p: 'MF', f: 1 },
+    { n: 'Ousmane Fane', p: 'MF', f: 1 }, { n: 'Rizky Eka Pratama', p: 'MF', f: 0 },
+    { n: 'Miftahul Hamdi', p: 'MF', f: 0 }, { n: 'Hugo Samir', p: 'FW', f: 0 },
+    { n: 'Aulia Ramadhan', p: 'FW', f: 0 }
+  ],
+  13: [
+    { n: 'Awan Setho', p: 'GK', f: 0 }, { n: 'Putu Gede', p: 'DF', f: 0 },
+    { n: 'Luizao', p: 'DF', f: 1 }, { n: 'Arif Satria', p: 'DF', f: 0 },
+    { n: 'Sirojiddin Kuziev', p: 'MF', f: 1 }, { n: 'Hargianto', p: 'MF', f: 0 },
+    { n: 'Dendi Sulistyawan', p: 'FW', f: 0 }, { n: 'Ilyas Alhafiz', p: 'FW', f: 0 }
+  ],
+  14: [
+    { n: 'Rian Ardiansyah', p: 'GK', f: 0 }, { n: 'Fikri Anma', p: 'DF', f: 0 },
+    { n: 'Niko Kristanto', p: 'DF', f: 0 }, { n: 'Faris Adit', p: 'MF', f: 0 },
+    { n: 'Rafael Struick', p: 'FW', f: 0 }
+  ],
+  15: [
+    { n: 'Harlan Suardi', p: 'GK', f: 0 }, { n: 'Sunni Hizbullah', p: 'DF', f: 0 },
+    { n: 'Raka Cahyana', p: 'DF', f: 0 }, { n: 'Yusuf Aditama', p: 'MF', f: 0 },
+    { n: 'Ze Valente', p: 'MF', f: 1 }, { n: 'Rafinha', p: 'FW', f: 1 }
+  ],
+  16: [
+    { n: 'Samuel Christianson', p: 'GK', f: 1 }, { n: 'Panggih Prio', p: 'GK', f: 0 },
+    { n: 'Rizky Dwi Febrianto', p: 'DF', f: 0 }, { n: 'Alex Kamuru', p: 'DF', f: 0 },
+    { n: 'Mochammad Al Amin', p: 'MF', f: 0 }, { n: 'Evan Soumilena', p: 'FW', f: 0 }
+  ],
+  17: [
+    { n: 'Rido Ramsani', p: 'GK', f: 0 }, { n: 'Dimas Fani', p: 'DF', f: 0 },
+    { n: 'Yudha Alkanza', p: 'DF', f: 0 }, { n: 'Andre Oktaviansyah', p: 'MF', f: 0 },
+    { n: 'Jack Brown', p: 'FW', f: 0 }
+  ],
+  18: [
+    { n: 'Dimas Maulana', p: 'GK', f: 0 }, { n: 'Bagus Nirwanto', p: 'DF', f: 0 },
+    { n: 'Rensy Saputra', p: 'DF', f: 0 }, { n: 'Ahmad Bustomi', p: 'MF', f: 0 },
+    { n: 'Hari Habrian', p: 'MF', f: 0 }, { n: 'Dwi Andika', p: 'FW', f: 0 }
+  ]
+};
+
+// ===== Roster asli 2026/27 dari https://ileague.id/clubs/index/BRI_SUPER_LEAGUE_2026-27 =====
+// 432 pemain (24/klub), digenerate oleh gen_rosters.mjs ke backend/src/rosters.json.
+// Catatan: situs tidak menampilkan posisi & kewarganegaraan secara publik
+// (baris "Posisi"/"Negara" di-comment di HTML) -> posisi dibagi deterministik
+// GK2/DF8/MF8/FW6 dan flag asing memakai heuristik pola nama.
+export const SQUAD_CORES = JSON.parse(fs.readFileSync(path.join(__dirname, 'rosters.json'), 'utf8'));

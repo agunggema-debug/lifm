@@ -1,0 +1,248 @@
+import React from 'react';
+import { api, clubLogo } from './lib.js';
+
+const SPEEDS = [
+  { id: 0, label: 'Santai 🐢', delay: 1400 },
+  { id: 1, label: 'Normal ⚡', delay: 650 },
+  { id: 2, label: 'Turbo 🚀', delay: 60 }
+];
+
+function fmtClock(min) { return String(min || 0).padStart(2, '0') + "'"; }
+
+function eventEmoji(t) {
+  return t === 'goal' ? '⚽🔥' : t === 'chance' ? '😱' : t === 'save' ? '🧤' :
+    t === 'yellow' ? '🟨' : t === 'red' ? '🟥' : t === 'injury' ? '🚑' :
+    t === 'sub' ? '🔄' : t === 'fulltime' ? '⏹️' : 'ℹ️';
+}
+
+function eventRowClass(e) {
+  return e.type === 'goal' ? 'mrow-goal' : e.type === 'red' ? 'mrow-red' :
+    e.type === 'sub' ? 'mrow-sub2' : e.type === 'fulltime' ? 'mrow-ft' :
+    e.type === 'yellow' ? 'mrow-yellow' : 'mrow';
+}
+
+export default function Match({ save, next, onPlayed }) {
+  const [events, setEvents] = React.useState([]);
+  const [shown, setShown] = React.useState(0);
+  const [playing, setPlaying] = React.useState(false);
+  const [paused, setPaused] = React.useState(false);
+  const [halfTime, setHalfTime] = React.useState(false);
+  const [phase, setPhase] = React.useState('first');
+  const [result, setResult] = React.useState(null);
+  const [speed, setSpeed] = React.useState(1);
+  const [bench, setBench] = React.useState([]);
+  const [myXI, setMyXI] = React.useState([]);
+  const [subPick, setSubPick] = React.useState({ out: '', inn: '' });
+  const [subsMade, setSubsMade] = React.useState(0);
+  const [liveHG, setLiveHG] = React.useState(0);
+  const [liveAG, setLiveAG] = React.useState(0);
+  const [halfTimeState, setHalfTimeState] = React.useState(null);
+  const boxRef = React.useRef(null);
+  const timerRef = React.useRef(null);
+  const dataRef = React.useRef({ evs: [], idx: 0, hg: 0, ag: 0, done: null });
+  // Ref agar tick (dibekukan di setInterval) selalu membaca nilai terbaru,
+  // bukan closure state lama saat startTick dipanggil.
+  const phaseRef = React.useRef('first');
+  const htsRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (boxRef.current) boxRef.current.scrollTop = boxRef.current.scrollHeight;
+  }, [shown, events]);
+  React.useEffect(() => () => { if (timerRef.current) clearInterval(timerRef.current); }, []);
+
+  const stopTick = () => { if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; } };
+  const startTick = (delay) => { stopTick(); timerRef.current = setInterval(tick, delay); };
+
+  const tick = () => {
+    const d = dataRef.current;
+    if (d.idx >= d.evs.length) {
+      if (phaseRef.current === 'first' && htsRef.current) { stopTick(); setPlaying(false); setHalfTime(true); return; }
+      stopTick(); setPlaying(false); setPaused(false);
+      if (d.done) { setResult(d.done); onPlayed(d.done); }
+      return;
+    }
+    d.idx++;
+    const e = d.evs[d.idx - 1];
+    if (e.type === 'goal') {
+      if (e.team === 'home') { d.hg++; setLiveHG(d.hg); }
+      else { d.ag++; setLiveAG(d.ag); }
+    }
+    setShown(d.idx);
+  };
+
+  const loadSquad = async () => {
+    try {
+      const sq = await api('/api/squad');
+      const lineupIds = (save && save.lineup) || [];
+      setMyXI(sq.filter((p) => lineupIds.includes(p.id)));
+      setBench(sq.filter((p) => !lineupIds.includes(p.id) && p.injured_weeks === 0));
+    } catch (e) { void e; }
+  };
+
+  const playFirstHalf = async () => {
+    stopTick(); setPlaying(true); setPaused(false); setHalfTime(false);
+    setPhase('first'); phaseRef.current = 'first'; setShown(0); setResult(null); setLiveHG(0); setLiveAG(0);
+    setSubsMade(0); setSubPick({ out: '', inn: '' }); setHalfTimeState(null); htsRef.current = null;
+    setEvents([{ minute: 0, type: 'info', team: 'none', text: 'Kick-off babak pertama! Gas! 🔥' }]);
+    try {
+      const r = await api('/api/play', { method: 'POST', body: JSON.stringify({ phase: 'first' }) });
+      if (r.finished || r.done) {
+        setEvents([{ minute: 90, type: 'info', team: 'none', text: 'Musim selesai! 🏆' }]);
+        setShown(1); setPlaying(false); onPlayed(r); return;
+      }
+      const evs = r.userResult.events.slice();
+      setEvents([{ minute: 0, type: 'info', team: 'none', text: 'Kick-off babak pertama! Gas! 🔥' }, ...evs]);
+      setShown(0);
+      dataRef.current = { evs, idx: 0, hg: 0, ag: 0, done: r };
+      setHalfTimeState(r.halfTimeState || null);
+      htsRef.current = r.halfTimeState || null;
+      await loadSquad();
+      const sp = SPEEDS.find((s) => s.id === speed) || SPEEDS[1];
+      startTick(sp.delay);
+    } catch (e) {
+      setEvents((old) => [...old, { minute: 0, type: 'info', team: 'none', text: 'Gagal: ' + e.message }]);
+      setShown(2); setPlaying(false);
+    }
+  };
+
+  const playSecondHalf = async () => {
+    if (!halfTimeState) return;
+    stopTick(); setHalfTime(false); setPlaying(true); setPaused(false);
+    setPhase('second'); phaseRef.current = 'second'; setSubsMade(0); setSubPick({ out: '', inn: '' });
+    setEvents((old) => [...old, { minute: 45, type: 'info', team: 'none', text: '⚔️ Kick-off babak kedua! Semangat!' }]);
+    try {
+      const r = await api('/api/play', { method: 'POST', body: JSON.stringify({ phase: 'second', halfTimeState }) });
+      if (r.finished || r.done) {
+        setEvents([{ minute: 90, type: 'info', team: 'none', text: 'Musim selesai! 🏆' }]);
+        setShown(1); setPlaying(false); onPlayed(r); return;
+      }
+      const h2 = r.userResult.events.filter((e) => e.minute >= 46);
+      setEvents((old) => [...old, ...h2]);
+      // Lanjutkan skor live dari babak pertama (jangan reset ke 0).
+      dataRef.current = { evs: h2, idx: 0, hg: liveHG, ag: liveAG, done: r };
+      setShown(0); await loadSquad();
+      const sp = SPEEDS.find((s) => s.id === speed) || SPEEDS[1];
+      startTick(sp.delay);
+    } catch (e) {
+      setEvents((old) => [...old, { minute: 0, type: 'info', team: 'none', text: 'Gagal babak 2: ' + e.message }]);
+      setShown(2); setPlaying(false);
+    }
+  };
+
+  const doSub = async () => {
+    if (!subPick.out || !subPick.inn || subsMade >= 3) return;
+    try {
+      await api('/api/sub', { method: 'POST', body: JSON.stringify({ outId: Number(subPick.out), inId: Number(subPick.inn) }) });
+      const outP = myXI.find((p) => p.id === Number(subPick.out));
+      const inP = bench.find((p) => p.id === Number(subPick.inn));
+      if (inP) {
+        setMyXI((xi) => [...xi.filter((p) => p.id !== Number(subPick.out)), inP]);
+        setBench((b) => [...b.filter((p) => p.id !== Number(subPick.inn)), ...(outP ? [outP] : [])]);
+      }
+      setSubsMade((s) => s + 1); setSubPick({ out: '', inn: '' });
+    } catch (e) { alert(e.message); }
+  };
+
+  const vis = events.slice(0, shown + 1);
+  const hg = result ? result.userResult.homeGoals : liveHG;
+  const ag = result ? result.userResult.awayGoals : liveAG;
+  const homeShort = (result && result.userResult.homeName) || (next && !next.finished ? next.home.short_name : 'HOME');
+  const awayShort = (result && result.userResult.awayName) || (next && !next.finished ? next.away.short_name : 'AWAY');
+  const userSide = (result && result.userResult.userSide) || (next ? (next.userHome ? 'home' : 'away') : 'home');
+  const scoreLine = userSide === 'home' ? 'Kamu ' + hg + ' - ' + ag + ' ' + awayShort : homeShort + ' ' + hg + ' - ' + ag + ' Kamu';
+
+  return (
+    <div className="grid gap-3">
+      <div className="scoreboard anim-pop">
+        {next && !next.finished ? (
+          <>
+            <div className="score-top">BRI SUPER LEAGUE 2026/27 • PEKAN {next.matchday}</div>
+            <div className="score-teams">
+              <div className="score-side">
+                <img src={clubLogo(next.home)} alt={homeShort} className="score-logo" />
+                <div className="score-name">{homeShort}{userSide === 'home' ? ' (KAMU)' : ''}</div>
+                <div className="score-tag">HOME</div>
+              </div>
+              <div className="score-mid">
+                <div className="score-num">{hg}-{ag}</div>
+                <div className="score-min">{result ? 'FT' : (halfTime ? 'HT' : (playing ? 'LIVE' : 'Kick-off'))}</div>
+              </div>
+              <div className="score-side">
+                <img src={clubLogo(next.away)} alt={awayShort} className="score-logo" />
+                <div className="score-name">{awayShort}{userSide === 'away' ? ' (KAMU)' : ''}</div>
+                <div className="score-tag">AWAY</div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="text-xl font-black mt-1">Musim Tamat 🏆</div>
+        )}
+        <div className="score-sub">Skor urutan HOME - AWAY (tidak dibolak-balik). Dari sisimu: <b>{scoreLine}</b></div>
+        {result && (
+          <div className="score-xg">xG {result.userResult.xg.home}-{result.userResult.xg.away} • sim {result.ms}ms ⚡</div>
+        )}
+        <div className="flex items-center justify-center gap-2 mt-3 flex-wrap">
+          <span className="text-xs">Kecepatan:</span>
+          {SPEEDS.map((s) => (
+            <button key={s.id} onClick={() => { setSpeed(s.id); if (playing && !paused && !halfTime) startTick(s.delay); }}
+              className={'text-xs rounded-full px-3 py-1 font-bold ' + (speed === s.id ? 'bg-lime-400 text-slate-950' : 'bg-white/15')}>
+              {s.label}
+            </button>
+          ))}
+        </div>
+        <div className="text-[11px] opacity-70 mt-1">Santai ~1,4 dtk/event • Normal ~0,65 dtk/event</div>
+        <button
+          disabled={playing || halfTime || (save.matchday > 17)}
+          onClick={playFirstHalf}
+          className="mt-3 bg-lime-400 disabled:opacity-40 text-slate-950 font-black rounded-2xl px-8 py-3 text-lg"
+        >
+          {playing ? 'LIVE... 🔴' : (halfTime ? 'HT ⏹️' : '▶️ PLAY MATCH')}
+        </button>
+      </div>
+
+      {halfTime && phase === 'first' && (
+        <div className="bg-white rounded-3xl p-4 border-2 border-amber-300 anim-pop">
+          <div className="font-black text-lg">⚔️ HALF-TIME! ({hg} - {ag})</div>
+          <div className="text-xs text-slate-500">Ganti pemain sebelum babak kedua (max 3). Subsmu memengaruhi peluang babak 2!</div>
+          <div className="grid sm:grid-cols-3 gap-2 mt-2">
+            <select value={subPick.out} onChange={(e) => setSubPick({ ...subPick, out: e.target.value })} className="border-2 rounded-xl px-2 py-2 text-sm font-bold">
+              <option value="">⬅️ Keluar...</option>
+              {myXI.filter((p) => p.pos !== 'GK').map((p) => (
+                <option key={p.id} value={p.id}>{p.pos} • {p.name}</option>
+              ))}
+            </select>
+            <select value={subPick.inn} onChange={(e) => setSubPick({ ...subPick, inn: e.target.value })} className="border-2 rounded-xl px-2 py-2 text-sm font-bold">
+              <option value="">➡️ Masuk...</option>
+              {bench.map((p) => (
+                <option key={p.id} value={p.id}>{p.pos} • {p.name} (OVR {p.ovr})</option>
+              ))}
+            </select>
+            <button onClick={doSub} disabled={!subPick.out || !subPick.inn || subsMade >= 3} className="bg-amber-400 disabled:opacity-40 font-black rounded-xl px-3 py-2 text-sm">
+              GANTI! ({subsMade}/3) 🔄
+            </button>
+          </div>
+          <button onClick={playSecondHalf} disabled={!halfTimeState} className="mt-3 w-full bg-slate-950 text-white font-black rounded-xl py-3 text-sm">
+            ▶️ LANJUT BABAK KEDUA ⚔️
+          </button>
+        </div>
+      )}
+
+      <div className="bg-white rounded-3xl p-4">
+        <div className="font-black mb-2 flex items-center gap-2">
+          {playing && !paused && !halfTime && <span className="w-2 h-2 rounded-full bg-red-500 anim-live" />}
+          {halfTime ? '⏹️ HALF-TIME' : (playing ? 'LIVE' : 'Kick-off')}
+          <span className="ml-auto text-xs font-normal text-slate-500">{vis.length}/{events.length} kejadian</span>
+        </div>
+        <div ref={boxRef} className="matchfeed scroll-slim">
+          {vis.length <= 1 && <div className="text-slate-400 text-sm p-2">Belum ada kejadian. Tekan PLAY MATCH! 👆</div>}
+          {vis.slice(1).map((e, i) => (
+            <div key={i} className={'anim-pop ' + eventRowClass(e)}>
+              <span className="mmin">{fmtClock(e.minute)}</span>
+              <span className="memo">{eventEmoji(e.type)} {e.text}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
