@@ -37,7 +37,7 @@ function mkPlayer(clubId, pos, base, foreign, over) {
 export async function seedAll() {
   await initSchema();
   await exec('DELETE FROM players; DELETE FROM fixtures; DELETE FROM standings_cache; DELETE FROM news; DELETE FROM saves; DELETE FROM managers; DELETE FROM clubs;');
-  const clubStmts = CLUBS.map((c) => stmt('INSERT INTO clubs (id,name,short_name,city,logo,color_primary,color_secondary,strength,budget,reputation) VALUES (@id,@name,@short_name,@city,@logo,@color_primary,@color_secondary,@strength,@budget,@reputation)', c));
+  const clubStmts = CLUBS.map((c) => stmt('INSERT INTO clubs (id,name,short_name,city,logo,color_primary,color_secondary,strength,budget,reputation) VALUES (?,?,?,?,?,?,?,?,?,?)', [c.id, c.name, c.short_name, c.city, c.logo, c.color_primary, c.color_secondary, c.strength, c.budget, c.reputation]));
   await batch(clubStmts);
   const playerStmts = [];
   const used = new Set();
@@ -75,8 +75,8 @@ export async function seedAll() {
 }
 
 function playerInsert(p) {
-  return stmt(`INSERT INTO players (club_id,name,pos,age,is_foreign,pac,sho,pas,def,gk,sta,morale,market_value,wage,contract_years)
-    VALUES (@club_id,@name,@pos,@age,@is_foreign,@pac,@sho,@pas,@def,@gk,@sta,@morale,@market_value,@wage,@contract_years)`, p);
+  return stmt('INSERT INTO players (club_id,name,pos,age,is_foreign,pac,sho,pas,def,gk,sta,morale,market_value,wage,contract_years) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+    [p.club_id, p.name, p.pos, p.age, p.is_foreign, p.pac, p.sho, p.pas, p.def, p.gk, p.sta, p.morale, p.market_value, p.wage, p.contract_years]);
 }
 
 function makeFixtures() {

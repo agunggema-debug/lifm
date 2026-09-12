@@ -4,7 +4,6 @@ Game simulasi manajer sepak bola **open source (MIT)** — ringan, tanpa install
 Bikin karier, pilih 1 dari **18 klub BRI Super League 2026/27** (logo resmi di `lifm/backend/src/public/img/clubs/`),
 main di atas **background stadion** (`lifm/backend/src/public/img/background.jpg`), atur taktik, tekan **PLAY MATCH**! 🏆
 
-
 > Bahasa: Indonesia • Gaya UI: Gen Alpha (playful, emoji, gede, responsif HP & desktop) 🇮🇩
 
 ## ✨ Fitur (sesuai PRD MVP)
@@ -60,32 +59,29 @@ Hapus file `backend/lifm.db` lalu restart backend — auto-seed 18 klub + 432 pe
 ## 🕹️ Cara main
 
 1. Isi **nama manajer** → pilih klub → **GAS MULAI KARIR! 🚀**
-2. Tab **Skuad 🧢**: pilih formasi + mentalitas + klik 11 pemain → **SIMPAN TAKTIK 💾**
-   3. Tab **Match ⚽**: pilih kecepatan (Santai/Normal/Turbo) → **▶️ PLAY MATCH** → simulasi babak 1 (menit 1-45)! 🎙️
-   5. Saat **HT (⏸️)** munuh, ganti pemain lewat dropdown **Keluar/Masuk** → tekan **▶️ LANJUTKAN BABAK KEDUA ⚔️** — subs memengaruhi rating + xG babak 2!
-   6. Setelah **FT**, lihatorat hasil akhir → poin update klasemen.
-4. Tab **Klasemen 🏆**: cek posisi + jadwal pekan lain.
-5. Tab **Transfer 💸**: beli bintang / jual buat cuan.
-6. Ulangi sampai pekan 17 → juara! 🏆
+2. Tab **Skuad 🧢**: pilih formasi + mentalitas + klik 11 pemain → **SIMPAN TAKTIK 💾** 3. Tab **Match ⚽**: pilih kecepatan (Santai/Normal/Turbo) → **▶️ PLAY MATCH** → simulasi babak 1 (menit 1-45)! 🎙️ 5. Saat **HT (⏸️)** munuh, ganti pemain lewat dropdown **Keluar/Masuk** → tekan **▶️ LANJUTKAN BABAK KEDUA ⚔️** — subs memengaruhi rating + xG babak 2! 6. Setelah **FT**, lihatorat hasil akhir → poin update klasemen.
+3. Tab **Klasemen 🏆**: cek posisi + jadwal pekan lain.
+4. Tab **Transfer 💸**: beli bintang / jual buat cuan.
+5. Ulangi sampai pekan 17 → juara! 🏆
 
 ## 🔌 API (backend port 3001)
 
-| Method | Path | Deskripsi |
-|---|---|---|
-| GET | `/api/health` | cek backend |
-| GET | `/api/state` | save + klub |
-| POST | `/api/career` | `{managerName, clubId}` mulai karier |
-| GET | `/api/squad` | skuad klub user |
-| POST | `/api/tactics` | `{formation, mentality, lineup:[ids]}` |
-| GET | `/api/next-fixture` | laga user pekan ini |
-| GET | `/api/fixtures?matchday=n` | semua laga 1 pekan |
-| POST | `/api/play` | {phase:'first'} → simulasi HT + halfTimeState; 2nd call {phase:'second',halfTimeState} untuk babak 2 |
-| POST | `/api/sub` | {outId,inId} ganti pemain — memengaruhi rating babak 2 |
-| GET | `/api/standings` | klasemen |
-| GET | `/api/news` | inbox/berita |
-| GET | `/api/transfer-list` | 60 pemain incaran |
-| POST | `/api/transfer/buy` | `{playerId}` |
-| POST | `/api/transfer/sell` | `{playerId}` |
+| Method | Path                       | Deskripsi                                                                                            |
+| ------ | -------------------------- | ---------------------------------------------------------------------------------------------------- |
+| GET    | `/api/health`              | cek backend                                                                                          |
+| GET    | `/api/state`               | save + klub                                                                                          |
+| POST   | `/api/career`              | `{managerName, clubId}` mulai karier                                                                 |
+| GET    | `/api/squad`               | skuad klub user                                                                                      |
+| POST   | `/api/tactics`             | `{formation, mentality, lineup:[ids]}`                                                               |
+| GET    | `/api/next-fixture`        | laga user pekan ini                                                                                  |
+| GET    | `/api/fixtures?matchday=n` | semua laga 1 pekan                                                                                   |
+| POST   | `/api/play`                | {phase:'first'} → simulasi HT + halfTimeState; 2nd call {phase:'second',halfTimeState} untuk babak 2 |
+| POST   | `/api/sub`                 | {outId,inId} ganti pemain — memengaruhi rating babak 2                                               |
+| GET    | `/api/standings`           | klasemen                                                                                             |
+| GET    | `/api/news`                | inbox/berita                                                                                         |
+| GET    | `/api/transfer-list`       | 60 pemain incaran                                                                                    |
+| POST   | `/api/transfer/buy`        | `{playerId}`                                                                                         |
+| POST   | `/api/transfer/sell`       | `{playerId}`                                                                                         |
 
 ## 📁 Struktur
 
@@ -99,5 +95,5 @@ lifm/
 
 ## ⚖️ Lisensi & kontribusi
 
-MIT — bebas fork, modif, rilis. Data pemain/klub **fiktif untuk game**, bukan data resmi.
+MIT — bebas fork, modif, rilis.
 Kontribusi: fork → branch → PR. Gas! 🔥

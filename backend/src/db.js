@@ -34,7 +34,8 @@ export async function batch(statements) {
   }
 }
 export async function exec(sql) {
-  await db.execute(sql);
+  // execute() hanya 1 statement; multi-statement butuh executeMultiple()
+  await db.executeMultiple(sql);
 }
 
 const SCHEMA = `
