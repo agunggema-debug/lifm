@@ -1,5 +1,5 @@
 // Base URL backend. Kosong = same-origin (dev: proxy via Vite, prod Vercel: set VITE_API_URL).
-export const API_BASE = (import.meta.env.VITE_API_URL || "https://lifm-backend.vercel.app").replace(/\/$/, "");
+export const API_BASE = (import.meta.env.VITE_API_URL || 'https://lifm-backend.vercel.app').replace(/\/$/, "");
 export async function api(path, opts) {
   const res = await fetch(API_BASE + path, {
     headers: { "Content-Type": "application/json" },
