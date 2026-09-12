@@ -6,7 +6,7 @@ main di atas **background stadion** (`lifm/backend/src/public/img/background.jpg
 
 > Bahasa: Indonesia • Gaya UI: Gen Alpha (playful, emoji, gede, responsif HP & desktop) 🇮🇩
 
-## ✨ Fitur (sesuai PRD MVP)
+## ✨ Fitur
 
 - **4.1 Taktik:** 6 formasi (4-4-2, 4-3-3, 3-5-2, 4-2-3-1, 5-3-2, 4-5-1), Starting XI klik-pilih, mentalitas Menyerang/Seimbang/Bertahan 🧠
 - **4.2 Database:** 18 klub BRI Super League 2026/27 sesuai situs resmi [ileague.id](https://ileague.id/clubs/index/BRI_SUPER_LEAGUE_2026-27) (Persija, Persib, Persebaya, Arema, Bali Utd, Borneo, PSM, Dewa Utd Banten, Madura Utd, Persita, PSS, Persik, Bhayangkara Presisi Lampung, Persijap, PSIM, Isenmulang Kalteng, Garudayaksa, Java Utd) + 432 pemain (24/klub, **nama asli dari roster ileague.id** — posisi & atribut digenerate karena tidak dipublikasikan situs). Atribut PAC/SHO/PAS/DEF/GK/STA/Morale 1–100. Kuota asing max 8 di XI 🌍. Logo: `backend/src/public/img/clubs/*.png` (18 logo resmi diunduh dari assets ileague.id via `gen_rosters.mjs`) diserve via `/img/clubs/` (Express static + Vite proxy).
