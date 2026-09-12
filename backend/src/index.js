@@ -11,7 +11,10 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 app.use(cors());
 app.use(express.json());
-// Serve gambar statis: /img/background.jpg, /img/clubs/*.png (per dokumentasi Express: express.static)
+// Serve gambar statis: /img/background.jpg, /img/clubs/*.png
+// Di Vercel, folder public/ di root proyek di-static-serve otomatis oleh platform.
+// Di lokal, Express melayani dari backend/public/img (dan fallback ke src/public/img).
+app.use('/img', express.static(path.join(__dirname, '..', 'public', 'img')));
 app.use('/img', express.static(path.join(__dirname, 'public', 'img')));
 await initSchema();
 const clubCount = await get('SELECT COUNT(*) v FROM clubs');
