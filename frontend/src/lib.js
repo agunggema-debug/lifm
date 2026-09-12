@@ -5,8 +5,9 @@ export async function api(path, opts) {
     headers: { 'Content-Type': 'application/json' },
     ...(opts || {})
   });
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.error || 'Request gagal');
+  const data = await res.json().catch(() => null);
+  if (!res.ok) throw new Error((data && data.error) || 'Request gagal');
+  if (data === null) throw new Error('Response bukan JSON dari backend'); // mis. kena rewrite SPA saat env API belum di-set
   return data;
 }
 export function rp(n) { return 'Rp' + Number(n || 0).toLocaleString('id-ID'); }
