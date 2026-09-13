@@ -8,11 +8,10 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DB_PATH = process.env.LIFM_DB || path.join(__dirname, '..', 'lifm.db');
 const url = process.env.TURSO_DATABASE_URL || 'file:' + DB_PATH;
+const clientConfig = { url };
+if (process.env.TURSO_AUTH_TOKEN) clientConfig.authToken = process.env.TURSO_AUTH_TOKEN;
 
-export const db = createClient({
-  url,
-  authToken: process.env.TURSO_AUTH_TOKEN,
-});
+export const db = createClient(clientConfig);
 
 // Helper async pengganti API sync better-sqlite3
 export const stmt = (sql, args) => ({ sql, args: args || [] });

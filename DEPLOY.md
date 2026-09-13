@@ -32,9 +32,10 @@ Env wajib:
 | `TURSO_AUTH_TOKEN` | token dari `turso db tokens create` |
 
 Catatan:
-- `backend/vercel.json` sudah meng-rewrite semua route ke `api/index.js` dengan `maxDuration: 60`.
+- `backend/vercel.json` sudah meng-rewrite HANYA `/api/*` ke `api/index.js` dengan `maxDuration: 60`.
+  Route `/img/*` dan `/` lainnya di-static-serve oleh Vercel (folder `backend/public/`).
 - Skema + seed (18 klub, 432 pemain, 153 fixture) **otomatis** dibuat saat request pertama.
-- Buka `https://backend-xxx.vercel.app/api/health` untuk verifikasi.
+- Buka `https://backend-xxx.vercel.app/api/health` dan `https://backend-xxx.vercel.app/img/clubs/persija.png` untuk verifikasi.
 
 ## 3. Deploy Frontend ke Vercel (project #2)
 
