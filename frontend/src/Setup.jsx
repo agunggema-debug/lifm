@@ -2,7 +2,7 @@ import React from "react";
 import { api, clubLogo } from "./lib.js";
 
 export default function Setup({ clubs = [], onDone }) {
-  const [name, setName] = React.useState("Coach Justin");
+  const [name, setName] = React.useState("Coach Agung");
   const [clubId, setClubId] = React.useState(clubs[0]?.id || 1);
   const [busy, setBusy] = React.useState(false);
   const start = async () => {
