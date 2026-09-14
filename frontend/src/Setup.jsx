@@ -67,7 +67,7 @@ export default function Setup({ clubs = [], onDone }) {
           <a href="https://fainaya.netlify.app" className="hover:underline" target="_blank" rel="noopener noreferrer">
             Fainaya Services&Art
           </a>{" "}
-          • MIT • BRI Super League 2026/27
+          • MIT • LIFM v.1.0
         </p>
       </div>
     </div>

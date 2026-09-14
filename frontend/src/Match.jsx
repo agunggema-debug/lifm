@@ -109,7 +109,13 @@ export default function Match({ save, next, onPlayed }) {
     if (!halfTimeState) return;
     stopTick(); setHalfTime(false); setPlaying(true); setPaused(false);
     setPhase('second'); phaseRef.current = 'second'; setSubsMade(0); setSubPick({ out: '', inn: '' });
-    setEvents((old) => [...old, { minute: 45, type: 'info', team: 'none', text: '⚔️ Kick-off babak kedua! Semangat!' }]);
+    const d = dataRef.current;
+    // Lanjutkan tick dari posisi akhir babak 1 (JANGAN reset idx — feed jangan mengulang dari menit 1).
+    d.idx = d.evs.length;
+    d.hg = liveHG; d.ag = liveAG;
+    const kick2 = { minute: 45, type: 'info', team: 'none', text: '⚔️ Kick-off babak kedua! Semangat!' };
+    d.evs = [...d.evs, kick2];
+    setEvents((old) => [...old, kick2]);
     try {
       const r = await api('/api/play', { method: 'POST', body: JSON.stringify({ phase: 'second', halfTimeState }) });
       if (r.finished || r.done) {
@@ -117,10 +123,10 @@ export default function Match({ save, next, onPlayed }) {
         setShown(1); setPlaying(false); onPlayed(r); return;
       }
       const h2 = r.userResult.events.filter((e) => e.minute >= 46);
+      d.evs = [...d.evs, ...h2];
+      d.done = r;
       setEvents((old) => [...old, ...h2]);
-      // Lanjutkan skor live dari babak pertama (jangan reset ke 0).
-      dataRef.current = { evs: h2, idx: 0, hg: liveHG, ag: liveAG, done: r };
-      setShown(0); await loadSquad();
+      await loadSquad();
       const sp = SPEEDS.find((s) => s.id === speed) || SPEEDS[1];
       startTick(sp.delay);
     } catch (e) {
@@ -146,20 +152,24 @@ export default function Match({ save, next, onPlayed }) {
   const vis = events.slice(0, shown + 1);
   const hg = result ? result.userResult.homeGoals : liveHG;
   const ag = result ? result.userResult.awayGoals : liveAG;
-  const homeShort = (result && result.userResult.homeName) || (next && !next.finished ? next.home.short_name : 'HOME');
-  const awayShort = (result && result.userResult.awayName) || (next && !next.finished ? next.away.short_name : 'AWAY');
+  // Setelah FT, tetap tampilkan laga yang BARUSAN dimainkan (dari result),
+  // bukan laga pekan berikutnya.
+  const fx = (result && result.userResult && result.userResult.fixture) ? result.userResult.fixture : next;
+  const showBoard = !!fx && (result || !fx.finished);
+  const homeShort = (result && result.userResult.homeName) || (fx && !fx.finished ? fx.home.short_name : 'HOME');
+  const awayShort = (result && result.userResult.awayName) || (fx && !fx.finished ? fx.away.short_name : 'AWAY');
   const userSide = (result && result.userResult.userSide) || (next ? (next.userHome ? 'home' : 'away') : 'home');
   const scoreLine = userSide === 'home' ? 'Kamu ' + hg + ' - ' + ag + ' ' + awayShort : homeShort + ' ' + hg + ' - ' + ag + ' Kamu';
 
   return (
     <div className="grid gap-3">
       <div className="scoreboard anim-pop">
-        {next && !next.finished ? (
+        {showBoard ? (
           <>
-            <div className="score-top">BRI SUPER LEAGUE 2026/27 • PEKAN {next.matchday}</div>
+            <div className="score-top">BRI SUPER LEAGUE 2026/27 • PEKAN {fx.matchday}</div>
             <div className="score-teams">
               <div className="score-side">
-                <img src={clubLogo(next.home)} alt={homeShort} className="score-logo" />
+                <img src={clubLogo(fx.home)} alt={homeShort} className="score-logo" />
                 <div className="score-name">{homeShort}{userSide === 'home' ? ' (KAMU)' : ''}</div>
                 <div className="score-tag">HOME</div>
               </div>
@@ -168,7 +178,7 @@ export default function Match({ save, next, onPlayed }) {
                 <div className="score-min">{result ? 'FT' : (halfTime ? 'HT' : (playing ? 'LIVE' : 'Kick-off'))}</div>
               </div>
               <div className="score-side">
-                <img src={clubLogo(next.away)} alt={awayShort} className="score-logo" />
+                <img src={clubLogo(fx.away)} alt={awayShort} className="score-logo" />
                 <div className="score-name">{awayShort}{userSide === 'away' ? ' (KAMU)' : ''}</div>
                 <div className="score-tag">AWAY</div>
               </div>
