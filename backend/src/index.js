@@ -18,7 +18,8 @@ app.use('/img', express.static(path.join(__dirname, '..', 'public', 'img')));
 app.use('/img', express.static(path.join(__dirname, 'public', 'img')));
 await initSchema();
 const clubCount = await get('SELECT COUNT(*) v FROM clubs');
-if (!clubCount || !clubCount.v) await seedAll();
+// Auto-reseed: DB kosong ATAU masih seed lama (belum ada 3 klub ACL Two -> total < 21)
+if (!clubCount || !clubCount.v || clubCount.v < 21) await seedAll();
 
 // wrapper async handler dengan error handling
 const h = (fn) => (req, res) => Promise.resolve(fn(req, res)).catch((e) => {
@@ -126,7 +127,9 @@ app.get('/api/standings/acl', h(async (req, res) => {
   const table = {};
   const ids = [2, 19, 20, 21];
   const clubs = await clubMap();
-  for (const id of ids) table[id] = { club_id: id, name: clubs[id].name, short_name: clubs[id].short_name, logo: clubs[id].logo, played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, gd: 0, points: 0 };
+  // Skip klub yang belum ada di DB (seed lama) agar tidak 500
+  const validIds = ids.filter((id) => clubs[id]);
+  for (const id of validIds) table[id] = { club_id: id, name: clubs[id].name, short_name: clubs[id].short_name, logo: clubs[id].logo, played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, gd: 0, points: 0 };
   for (const f of rows) {
     if (!f.played) continue;
     for (const side of ['home', 'away']) {
@@ -139,7 +142,7 @@ app.get('/api/standings/acl', h(async (req, res) => {
       if (gf > ga) { t.won++; t.points += 3; } else if (gf === ga) { t.drawn++; t.points += 1; } else t.lost++;
     }
   }
-  res.json(ids.map((id) => table[id]).sort((a, b) => b.points - a.points || b.gd - a.gd || b.gf - a.gf).map((r) => ({ ...r, logo_url: r.logo ? '/img/clubs/' + r.logo : '' })));
+  res.json(validIds.map((id) => table[id]).sort((a, b) => b.points - a.points || b.gd - a.gd || b.gf - a.gf).map((r) => ({ ...r, logo_url: r.logo ? '/img/clubs/' + r.logo : '' })));
 }));
 app.get('/api/standings', h(async (req, res) => {
   const rows = await all('SELECT s.*, c.name, c.short_name, c.color_primary, c.logo FROM standings_cache s JOIN clubs c ON c.id=s.club_id ORDER BY s.points DESC, s.gd DESC, s.gf DESC, c.name');
