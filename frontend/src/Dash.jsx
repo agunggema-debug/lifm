@@ -47,7 +47,7 @@ export default function Dash({ save0, reload }) {
             <div>
               <div className="font-black leading-tight">{c.name}</div>
               <div className="text-xs opacity-80">
-                Coach {save.manager_name} • Pekan {Math.min(save.matchday, 17)}/17 • 💰 Rp{Number(save.budget).toLocaleString("id-ID")}
+                Coach {save.manager_name} • Pekan {(save.matchday > 17 ? 'ACL MD ' + (save.matchday - 17) + '/6' : Math.min(save.matchday, 17) + '/17')} • 💰 Rp{Number(save.budget).toLocaleString("id-ID")}
               </div>
             </div>
           </div>

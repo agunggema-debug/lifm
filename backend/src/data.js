@@ -24,7 +24,11 @@ export const CLUBS = [
   { id: 15, name: 'PSIM Yogyakarta', short_name: 'PSIM', city: 'Yogyakarta', logo: 'psim.png', color_primary: '#0B6B3A', color_secondary: '#FFFFFF', strength: 77, budget: 23000000, reputation: 70 },
   { id: 16, name: 'Isenmulang Kalteng FC', short_name: 'ISENMULANG', city: 'Kalteng', logo: 'isenmulang.png', color_primary: '#0EA5E9', color_secondary: '#111111', strength: 76, budget: 20000000, reputation: 68 },
   { id: 17, name: 'Garudayaksa FC', short_name: 'GARUDA', city: 'Bekasi', logo: 'garudayaksa.png', color_primary: '#C8102E', color_secondary: '#F5C518', strength: 75, budget: 19000000, reputation: 72 },
-  { id: 18, name: 'Java United FC', short_name: 'JAVA', city: 'Jawa', logo: 'java.png', color_primary: '#0B6B3A', color_secondary: '#F5C518', strength: 75, budget: 19000000, reputation: 68 }
+    { id: 18, name: 'Java United FC', short_name: 'JAVA', city: 'Jawa', logo: 'java.png', color_primary: '#0B6B3A', color_secondary: '#F5C518', strength: 75, budget: 19000000, reputation: 68 },
+  // 3 klub tetangga ACL Two Grup E 2026/27 (hanya bertanding di ACL Two, bukan liga)
+  { id: 19, name: 'FC Seoul', short_name: 'SEoul', city: 'Seoul', logo: 'fcseoul.png', color_primary: '#C8102E', color_secondary: '#1E3A8A', strength: 85, budget: 45000000, reputation: 82 },
+  { id: 20, name: 'Melbourne Victory', short_name: 'MELB', city: 'Melbourne', logo: 'melbournevictory.png', color_primary: '#1E3A8A', color_secondary: '#FFFFFF', strength: 83, budget: 42000000, reputation: 78 },
+  { id: 21, name: 'Thé Công–Viettel', short_name: 'THC', city: 'Hanoi', logo: 'thecong.png', color_primary: '#FF6B00', color_secondary: '#002856', strength: 80, budget: 35000000, reputation: 74 }
 ];
 
 export function logoMissing() {
@@ -173,3 +177,25 @@ const SQUAD_CORES_LEGACY = { // (tidak dipakai — digantikan roster asli ileagu
 // (baris "Posisi"/"Negara" di-comment di HTML) -> posisi dibagi deterministik
 // GK2/DF8/MF8/FW6 dan flag asing memakai heuristik pola nama.
 export const SQUAD_CORES = JSON.parse(fs.readFileSync(path.join(__dirname, 'rosters.json'), 'utf8'));
+
+// ===== ACL Two 2026/27 Grup E =====
+// Grup E (East Region) — 4 tim: Persib, FC Seoul, Melbourne Victory, Thé Công–Viettel
+// Setiap tim bertanding 6 kali (3 lawan x home+away) = 12 fixture total.
+// Matchday liga: 1-17. Matchday ACL Two: 18-23 (2 laga per pekan).
+export const ACL_CLUB_IDS = [2, 19, 20, 21];
+export const ACL_CLUB_IDS_SET = new Set(ACL_CLUB_IDS);
+export const ACL_TOTAL_MATCHDAYS = 6;
+
+// Nama pemain asing (digenerate secara acak untuk klub ACL Two)
+export const ACL_FOREIGN_NAMES = {
+  19: ['Son Heung-min','Hwang Inbeom','Cho Sumin','Jung Woo-chan','Kim Min-jae','Lee Kang-in','Kim Young-gwon','Gu Sung-yun','Jung Tae-woong','Kim Hyun-jun','Oh Hyeon-gyu','Lee Keun-ho','Lee Yong','Joo Su-hun','Yoon Jong-gyu','Park Sung-ho','Kim Hyun','Choi Minhwan','Lee Geun-ho','Park Joo-ho'],
+    20: ['Bruno Fornaroli','Luca Simeone','Riley McGough','Mitch Nichols','Andrew Redmayne','Scott Gallow','James Donachie','Benny Ibini','Cameron Devlin','Nathaniel Atkinson','Milan Šimčák','Daniel Pinicio','Alessandro Lazov','Valère Germain','Socceroos'],
+  21: ['Nguyễn Quang Hải','Đoàn Văn Đức','Phạm Huy Phong','Lê Công Vinh','Nguyễn Hồng Sơn','Trần Văn Đạt','Phùng Sài','Lương Chữ','Nguyễn Công Phượng','Vũ Văn Hoành','Trần Bảo Vĩnh','Lê Huỳnh Đức','Nguyễn Bảo Nam','Phạm Văn Tài','Đỗ Duy Cường','Nguyễn Hữu Thắng']
+};
+
+// Daftar nama lokal untuk generasi acak pemain klub ACL Two
+export const ACL_LOCAL_NAMES = {
+  19: ['Kim','Lee','Park','Choi','Jung','Hwang','Son','Gu','Oh','Yoon','Joo','Na','Kang','Min','Woo','Chan'],
+  20: ['Alessandro','Bruno','Mitch','Scott','Andrew','James','Benny','Cameron','Nathaniel','Milan','Daniel','Valère','Luca','Riley'],
+    21: ['Nguyễn','Trần','Phạm','Lê','Phùng','Lương','Đoàn','Vũ','Đỗ','Bảo','Huỳnh','Hải','Đức','Sơn','Phong','Tài','Cường','Nam','Hoành','Vĩnh','Sài','Chữ','Khang','Long']
+};

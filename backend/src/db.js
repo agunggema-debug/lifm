@@ -75,12 +75,13 @@ const SCHEMA = `
     wage INTEGER NOT NULL,
     contract_years INTEGER NOT NULL DEFAULT 2
   );
-  CREATE TABLE IF NOT EXISTS fixtures (
+    CREATE TABLE IF NOT EXISTS fixtures (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     season INTEGER NOT NULL DEFAULT 1,
     matchday INTEGER NOT NULL,
     home_id INTEGER NOT NULL REFERENCES clubs(id),
     away_id INTEGER NOT NULL REFERENCES clubs(id),
+    competition TEXT NOT NULL DEFAULT 'league',
     played INTEGER NOT NULL DEFAULT 0,
     home_goals INTEGER DEFAULT NULL,
     away_goals INTEGER DEFAULT NULL,
@@ -119,5 +120,10 @@ export async function initSchema() {
   const cols = await all('PRAGMA table_info(clubs)');
   if (cols.length && !cols.some((c) => c.name === 'logo')) {
     await db.execute("ALTER TABLE clubs ADD COLUMN logo TEXT NOT NULL DEFAULT ''");
+  }
+  // Migrasi: kolom competition pada fixtures (ACL Two)
+  const fxCols = await all('PRAGMA table_info(fixtures)');
+  if (fxCols.length && !fxCols.some((c) => c.name === 'competition')) {
+    await db.execute("ALTER TABLE fixtures ADD COLUMN competition TEXT NOT NULL DEFAULT 'league'");
   }
 }

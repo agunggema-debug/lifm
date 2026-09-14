@@ -9,19 +9,22 @@ function Logo({ club, cls }) {
 
 export default function Tables() {
   const [rows, setRows] = React.useState([]);
+  const [aclRows, setAclRows] = React.useState([]);
   const [md, setMd] = React.useState(null);
   const [fixtures, setFixtures] = React.useState([]);
   const [myClubId, setMyClubId] = React.useState(null);
   React.useEffect(() => {
     api('/api/standings').then(setRows).catch(() => setRows([]));
+    api('/api/standings/acl').then(setAclRows).catch(() => setAclRows([]));
     api('/api/state').then((s) => {
       if (s.hasSave) setMyClubId(s.save.club_id);
-      const m = s.hasSave ? Math.min(s.save.matchday, 17) : 1;
+      const m = s.hasSave ? Math.min(s.save.matchday, 23) : 1;
       setMd(m);
       return api('/api/fixtures?matchday=' + m);
     }).then(setFixtures).catch(() => {});
   }, []);
   const loadMd = async (m) => { setMd(m); setFixtures(await api('/api/fixtures?matchday=' + m)); };
+  const isAclMd = md != null && md > 17;
   const userIn = (f) => myClubId != null && (f.home.club_id === myClubId || f.away.club_id === myClubId);
 
   return (
@@ -61,12 +64,47 @@ export default function Tables() {
         </div>
       </div>
 
+      {aclRows.length > 0 && (
+        <div className="card overflow-auto">
+          <div className="card-title">🌏 Klasemen ACL Two Grup E 2026/27</div>
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="text-left text-[11px] uppercase tracking-wide text-slate-400">
+                <th className="pr-2">#</th><th>Klub</th><th className="text-center">M</th><th className="text-center">W</th><th className="text-center">D</th><th className="text-center">L</th><th className="text-center">GD</th><th className="text-center">Pts</th>
+              </tr>
+            </thead>
+            <tbody>
+              {aclRows.map((r, i) => (
+                <tr key={r.club_id} className={'border-t border-slate-100 ' + (i === 0 ? 'bg-lime-50/70' : '') + (r.club_id === myClubId ? ' ring-2 ring-lime-400' : '')}>
+                  <td className="py-1.5 font-black pr-2">
+                    <span className={'inline-grid place-items-center w-6 h-6 rounded-lg text-xs ' + (i === 0 ? 'bg-lime-400 text-slate-950' : 'bg-slate-100 text-slate-600')}>{i + 1}</span>
+                  </td>
+                  <td className="font-bold">
+                    <span className="flex items-center gap-1.5">
+                      <Logo club={r} cls="w-6 h-6 object-contain bg-white border rounded-md p-0.5" />
+                      <span className="truncate">{r.short_name}{r.club_id === myClubId ? ' ⭐' : ''}</span>
+                    </span>
+                  </td>
+                  <td className="text-center text-slate-500">{r.played}</td>
+                  <td className="text-center">{r.won}</td>
+                  <td className="text-center text-slate-500">{r.drawn}</td>
+                  <td className="text-center text-slate-500">{r.lost}</td>
+                  <td className="text-center">{r.gd > 0 ? '+' + r.gd : r.gd}</td>
+                  <td className="text-center font-black text-base">{r.points}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="text-[11px] text-slate-500 mt-2">🟩 Juara grup melaju ke babak gugur • Persib, FC Seoul, Melbourne Victory, Thé Công–Viettel</div>
+        </div>
+      )}
+
       <div className="card">
-        <div className="card-title">🗓️ Jadwal &amp; Hasil <span className="chip chip-slate ml-auto">Pekan {md ?? '-'} / 17</span></div>
+        <div className="card-title">🗓️ Jadwal &amp; Hasil <span className="chip chip-slate ml-auto">{isAclMd ? ('ACL MD ' + ((md || 1) - 17) + ' / 6') : ('Pekan ' + (md ?? '-') + ' / 17')}</span></div>
         <div className="flex items-center justify-center gap-3 mb-3">
           <button onClick={() => loadMd(Math.max(1, (md || 1) - 1))} disabled={(md || 1) <= 1} className="btn-ghost rounded-full px-4 py-1.5 disabled:opacity-30">◀ Prev</button>
-          <span className="font-black">Pekan {md}</span>
-          <button onClick={() => loadMd(Math.min(17, (md || 1) + 1))} disabled={(md || 1) >= 17} className="btn-ghost rounded-full px-4 py-1.5 disabled:opacity-30">Next ▶</button>
+          <span className="font-black">{isAclMd ? 'ACL MD ' + ((md || 1) - 17) : 'Pekan ' + md}</span>
+          <button onClick={() => loadMd(Math.min(23, (md || 1) + 1))} disabled={(md || 1) >= 23} className="btn-ghost rounded-full px-4 py-1.5 disabled:opacity-30">Next ▶</button>
         </div>
         <div className="grid gap-1.5">
           {fixtures.map((f) => {

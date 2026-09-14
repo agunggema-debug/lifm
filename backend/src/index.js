@@ -105,7 +105,7 @@ app.post('/api/tactics', h(async (req, res) => {
 app.post('/api/play', h(async (req, res) => {
   const s = await getSave();
   if (!s) return res.status(400).json({ error: 'Belum ada karier' });
-  if (s.matchday > 17) return res.json({ finished: true });
+  if (s.matchday > 23) return res.json({ finished: true });
   const t0 = Date.now();
   const phase = (req.body || {}).phase || 'first';
   let out;
@@ -119,6 +119,27 @@ app.post('/api/play', h(async (req, res) => {
   out.phase = phase;
   out.save = await saveView();
   res.json(out);
+}));
+app.get('/api/standings/acl', h(async (req, res) => {
+  // ACL Two Grup E: standings dihitung langsung dari fixtures competition='acl_two'
+  const rows = await all("SELECT * FROM fixtures WHERE competition='acl_two'");
+  const table = {};
+  const ids = [2, 19, 20, 21];
+  const clubs = await clubMap();
+  for (const id of ids) table[id] = { club_id: id, name: clubs[id].name, short_name: clubs[id].short_name, logo: clubs[id].logo, played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, gd: 0, points: 0 };
+  for (const f of rows) {
+    if (!f.played) continue;
+    for (const side of ['home', 'away']) {
+      const isHome = side === 'home';
+      const t = table[isHome ? f.home_id : f.away_id];
+      if (!t) continue;
+      const gf = isHome ? f.home_goals : f.away_goals;
+      const ga = isHome ? f.away_goals : f.home_goals;
+      t.played++; t.gf += gf; t.ga += ga; t.gd += gf - ga;
+      if (gf > ga) { t.won++; t.points += 3; } else if (gf === ga) { t.drawn++; t.points += 1; } else t.lost++;
+    }
+  }
+  res.json(ids.map((id) => table[id]).sort((a, b) => b.points - a.points || b.gd - a.gd || b.gf - a.gf).map((r) => ({ ...r, logo_url: r.logo ? '/img/clubs/' + r.logo : '' })));
 }));
 app.get('/api/standings', h(async (req, res) => {
   const rows = await all('SELECT s.*, c.name, c.short_name, c.color_primary, c.logo FROM standings_cache s JOIN clubs c ON c.id=s.club_id ORDER BY s.points DESC, s.gd DESC, s.gf DESC, c.name');

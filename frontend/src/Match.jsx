@@ -166,7 +166,7 @@ export default function Match({ save, next, onPlayed }) {
       <div className="scoreboard anim-pop">
         {showBoard ? (
           <>
-            <div className="score-top">BRI SUPER LEAGUE 2026/27 • PEKAN {fx.matchday}</div>
+            <div className="score-top">{fx.matchday > 17 ? 'ACL TWO GRUP E 2026/27' : 'BRI SUPER LEAGUE 2026/27'} • {fx.matchday > 17 ? 'ACL MD ' + (fx.matchday - 17) : 'PEKAN ' + fx.matchday}</div>
             <div className="score-teams">
               <div className="score-side">
                 <img src={clubLogo(fx.home)} alt={homeShort} className="score-logo" />
@@ -202,7 +202,7 @@ export default function Match({ save, next, onPlayed }) {
         </div>
         <div className="text-[11px] opacity-70 mt-1">Santai ~1,4 dtk/event • Normal ~0,65 dtk/event</div>
         <button
-          disabled={playing || halfTime || (save.matchday > 17)}
+          disabled={playing || halfTime || (save.matchday > 23)}
           onClick={playFirstHalf}
           className="mt-3 bg-lime-400 disabled:opacity-40 text-slate-950 font-black rounded-2xl px-8 py-3 text-lg"
         >

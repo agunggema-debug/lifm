@@ -121,10 +121,13 @@ export async function playMatchdaySecondHalf(save, body) {
       if (s2) res.events.push(s2);
       res.events.sort(function (a, b) { return a.minute - b.minute; });
     }
-    await run('UPDATE fixtures SET played=1, home_goals=?, away_goals=?, events_json=? WHERE id=?',
+        await run('UPDATE fixtures SET played=1, home_goals=?, away_goals=?, events_json=? WHERE id=?',
       [res.homeGoals, res.awayGoals, JSON.stringify(isUser ? res.events : []), f.id]);
-    await bump(f.home_id, res.homeGoals, res.awayGoals);
-    await bump(f.away_id, res.awayGoals, res.homeGoals);
+    // Hanya update standings_cache untuk liga; ACL Two standings dihitung dari fixtures
+    if (f.competition !== 'acl_two') {
+      await bump(f.home_id, res.homeGoals, res.awayGoals);
+      await bump(f.away_id, res.awayGoals, res.homeGoals);
+    }
     await pm2(homeXI2, 'home', res);
     await pm2(awayXI2, 'away', res);
     if (isUser) userResult = { fixture: { ...f, home: clubs[f.home_id], away: clubs[f.away_id] }, userSide: f.home_id === save.club_id ? 'home' : 'away', homeGoals: res.homeGoals, awayGoals: res.awayGoals, homeName: clubs[f.home_id].short_name, awayName: clubs[f.away_id].short_name, userGoals: f.home_id === save.club_id ? res.homeGoals : res.awayGoals, oppGoals: f.home_id === save.club_id ? res.awayGoals : res.homeGoals, oppName: f.home_id === save.club_id ? clubs[f.away_id].short_name : clubs[f.home_id].short_name, events: res.events, xg: res.xg };
@@ -139,7 +142,7 @@ export async function playMatchdaySecondHalf(save, body) {
   ]);
   const next = save.matchday + 1;
   await run("UPDATE saves SET matchday=?, updated_at=datetime('now') WHERE id=1", [next]);
-  return { userResult: userResult, others: others, nextMatchday: next, finished: next > 17 };
+  return { userResult: userResult, others: others, nextMatchday: next, finished: next > 23 };
 }
 
 async function bump(clubId, gf, ga) {
