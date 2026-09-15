@@ -1,5 +1,5 @@
 import React from 'react';
-import { api, clubLogo } from './lib.js';
+import { api, clubLogo, aclRound } from './lib.js';
 
 const SPEEDS = [
   { id: 0, label: 'Santai 🐢', delay: 1400 },
@@ -160,13 +160,15 @@ export default function Match({ save, next, onPlayed }) {
   const awayShort = (result && result.userResult.awayName) || (fx && !fx.finished ? fx.away.short_name : 'AWAY');
   const userSide = (result && result.userResult.userSide) || (next ? (next.userHome ? 'home' : 'away') : 'home');
   const scoreLine = userSide === 'home' ? 'Kamu ' + hg + ' - ' + ag + ' ' + awayShort : homeShort + ' ' + hg + ' - ' + ag + ' Kamu';
+  // Kompetisi laga ditentukan dari field competition fixture (ACL Two kini digelar di antara pekan liga).
+  const fxIsAcl = !!(fx && fx.fixture && fx.fixture.competition === 'acl_two');
 
   return (
     <div className="grid gap-3">
       <div className="scoreboard anim-pop">
         {showBoard ? (
           <>
-            <div className="score-top">{fx.matchday > 17 ? 'ACL TWO GRUP E 2026/27' : 'BRI SUPER LEAGUE 2026/27'} • {fx.matchday > 17 ? 'ACL MD ' + (fx.matchday - 17) : 'PEKAN ' + fx.matchday}</div>
+            <div className="score-top">{fxIsAcl ? 'ACL TWO GRUP E 2026/27' : 'BRI SUPER LEAGUE 2026/27'} • {fxIsAcl ? 'ACL MD ' + aclRound(fx.matchday) : 'PEKAN ' + fx.matchday}</div>
             <div className="score-teams">
               <div className="score-side">
                 <img src={clubLogo(fx.home)} alt={homeShort} className="score-logo" />
@@ -202,7 +204,7 @@ export default function Match({ save, next, onPlayed }) {
         </div>
         <div className="text-[11px] opacity-70 mt-1">Santai ~1,4 dtk/event • Normal ~0,65 dtk/event</div>
         <button
-          disabled={playing || halfTime || (save.matchday > 23)}
+          disabled={playing || halfTime || (save.matchday > 17)}
           onClick={playFirstHalf}
           className="mt-3 bg-lime-400 disabled:opacity-40 text-slate-950 font-black rounded-2xl px-8 py-3 text-lg"
         >

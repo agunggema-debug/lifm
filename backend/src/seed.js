@@ -116,34 +116,36 @@ function makeFixtures() {
 // ===== ACL Two 2026/27 Grup E =====
 // 4 tim: Persib (2), FC Seoul (19), Melbourne Victory (20), Thé Công–Viettel (21)
 // Home-away round-robin: tiap tim bertanding 6 kali vs 3 lawan = 12 fixture total.
-// Matchday 18-23 (6 pekan ACL, masing-masing 2 laga).
+// ACL digelar DI ANTARA pekan BRI Super League (pekan ganda: liga + ACL dalam satu pekan),
+// mirip jadwal ACL asli. Mapping: ACL MD -> matchday liga.
 // competition='acl_two' membedakan dari liga (competition='league', md 1-17).
+const ACL_MD_LEAGUE = { 1: 3, 2: 5, 3: 8, 4: 10, 5: 13, 6: 16 }; // ACL MD1=pekan 3, MD2=5, MD3=8, MD4=10, MD5=13, MD6=16
 function makeAclFixtures() {
   const ACL = [2, 19, 20, 21]; // Persib, FC Seoul, Melbourne Victory, Thé Công–Viettel
+// ACL MD1 digelar di Pekan 3, dst. — di antara pekan BRI Super League
   const pairings = [
-    // ACL MD1 (matchday 18)
+    // ACL MD1 (Pekan 3)
     { md: 1, h: ACL[0], a: ACL[1] }, // Persib vs FC Seoul
     { md: 1, h: ACL[2], a: ACL[3] }, // Melbourne Victory vs Thé Công–Viettel
-    // ACL MD2 (matchday 19)
+    // ACL MD2 (Pekan 5)
     { md: 2, h: ACL[0], a: ACL[2] }, // Persib vs Melbourne Victory
     { md: 2, h: ACL[1], a: ACL[3] }, // FC Seoul vs Thé Công–Viettel
-    // ACL MD3 (matchday 20)
+    // ACL MD3 (Pekan 8)
     { md: 3, h: ACL[0], a: ACL[3] }, // Persib vs Thé Công–Viettel
     { md: 3, h: ACL[1], a: ACL[2] }, // FC Seoul vs Melbourne Victory
-    // ACL MD4 (matchday 21) — leg 2
+    // ACL MD4 (Pekan 10) — leg 2
     { md: 4, h: ACL[1], a: ACL[0] }, // FC Seoul vs Persib
     { md: 4, h: ACL[3], a: ACL[2] }, // Thé Công–Viettel vs Melbourne Victory
-    // ACL MD5 (matchday 22)
+    // ACL MD5 (Pekan 13)
     { md: 5, h: ACL[2], a: ACL[0] }, // Melbourne Victory vs Persib
     { md: 5, h: ACL[3], a: ACL[1] }, // Thé Công–Viettel vs FC Seoul
-    // ACL MD6 (matchday 23)
+    // ACL MD6 (Pekan 16)
     { md: 6, h: ACL[3], a: ACL[0] }, // Thé Công–Viettel vs Persib
     { md: 6, h: ACL[2], a: ACL[1] }  // Melbourne Victory vs FC Seoul
   ];
-  const START_MD = 18; // matchday dimulai setelah liga (17) selesai
   return pairings.map((f) => stmt(
     'INSERT INTO fixtures (season,matchday,home_id,away_id,competition) VALUES (1,?,?,?,?)',
-    [START_MD + f.md - 1, f.h, f.a, 'acl_two']
+    [ACL_MD_LEAGUE[f.md], f.h, f.a, 'acl_two']
   ));
 }
 

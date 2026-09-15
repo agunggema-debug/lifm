@@ -60,7 +60,10 @@ export async function playMatchdayFirstHalf(save) {
     }
     const h1 = simulateHalf({ home: homeXI, away: awayXI, homeName: clubs[f.home_id].short_name, awayName: clubs[f.away_id].short_name, homeTactic: homeT, awayTactic: awayT, from: 1, to: 45 });
     halfTimeState.push({ fixtureId: f.id, isUser, homeXIIds: homeXI.map((p) => p.id), awayXIIds: awayXI.map((p) => p.id), h1 });
-    if (isUser) {
+    // Pekan ganda (liga + ACL di pekan yang sama): laga LIGA jadi laga interaktif utama user,
+    // laga ACL user ikut disimulasikan & tampil di daftar "Laga lain".
+    const isUserMain = isUser && (!userResult || f.competition === 'league');
+    if (isUserMain) {
       userResult = { fixture: { ...f, home: clubs[f.home_id], away: clubs[f.away_id] }, userSide: f.home_id === save.club_id ? 'home' : 'away', homeName: clubs[f.home_id].short_name, awayName: clubs[f.away_id].short_name, homeGoals: h1.homeGoals, awayGoals: h1.awayGoals, userGoals: f.home_id === save.club_id ? h1.homeGoals : h1.awayGoals, oppGoals: f.home_id === save.club_id ? h1.awayGoals : h1.homeGoals, oppName: f.home_id === save.club_id ? clubs[f.away_id].short_name : clubs[f.home_id].short_name, events: h1.events, xg: h1.xg, halfTime: true };
     } else {
       others.push({ home: clubs[f.home_id].short_name, away: clubs[f.away_id].short_name, hg: h1.homeGoals, ag: h1.awayGoals, halfTime: true });
@@ -110,7 +113,7 @@ export async function playMatchdaySecondHalf(save, body) {
     if (hg > ag) tail = clubs[f.home_id].short_name + ' menang! Horeg!';
     if (ag > hg) tail = clubs[f.away_id].short_name + ' mencuri 3 poin! Cold!';
     res.events.push({ minute: 90, type: 'fulltime', team: 'none', text: 'FT: ' + clubs[f.home_id].short_name + ' ' + hg + ' - ' + ag + ' ' + clubs[f.away_id].short_name + '! ' + tail });
-    if (isUser) {
+    if (isUser && f.competition === 'league') {
       const oppSide = f.home_id === save.club_id ? 'away' : 'home';
       const oppShort = f.home_id === save.club_id ? clubs[f.away_id].short_name : clubs[f.home_id].short_name;
       const oppId = f.home_id === save.club_id ? f.away_id : f.home_id;
@@ -130,7 +133,7 @@ export async function playMatchdaySecondHalf(save, body) {
     }
     await pm2(homeXI2, 'home', res);
     await pm2(awayXI2, 'away', res);
-    if (isUser) userResult = { fixture: { ...f, home: clubs[f.home_id], away: clubs[f.away_id] }, userSide: f.home_id === save.club_id ? 'home' : 'away', homeGoals: res.homeGoals, awayGoals: res.awayGoals, homeName: clubs[f.home_id].short_name, awayName: clubs[f.away_id].short_name, userGoals: f.home_id === save.club_id ? res.homeGoals : res.awayGoals, oppGoals: f.home_id === save.club_id ? res.awayGoals : res.homeGoals, oppName: f.home_id === save.club_id ? clubs[f.away_id].short_name : clubs[f.home_id].short_name, events: res.events, xg: res.xg };
+    if (isUser && (!userResult || f.competition === 'league')) userResult = { fixture: { ...f, home: clubs[f.home_id], away: clubs[f.away_id] }, userSide: f.home_id === save.club_id ? 'home' : 'away', homeGoals: res.homeGoals, awayGoals: res.awayGoals, homeName: clubs[f.home_id].short_name, awayName: clubs[f.away_id].short_name, userGoals: f.home_id === save.club_id ? res.homeGoals : res.awayGoals, oppGoals: f.home_id === save.club_id ? res.awayGoals : res.homeGoals, oppName: f.home_id === save.club_id ? clubs[f.away_id].short_name : clubs[f.home_id].short_name, events: res.events, xg: res.xg };
     else others.push({ home: clubs[f.home_id].short_name, away: clubs[f.away_id].short_name, hg: res.homeGoals, ag: res.awayGoals });
   }
   await run('UPDATE players SET injured_weeks = injured_weeks - 1 WHERE injured_weeks > 0');

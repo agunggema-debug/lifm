@@ -1,5 +1,5 @@
 import React from "react";
-import { api, clubLogo } from "./lib.js";
+import { api, clubLogo, ACL_MDS, aclRound } from "./lib.js";
 import Squad from "./Squad.jsx";
 import Match from "./Match.jsx";
 import Tables from "./Tables.jsx";
@@ -47,7 +47,7 @@ export default function Dash({ save0, reload }) {
             <div>
               <div className="font-black leading-tight">{c.name}</div>
               <div className="text-xs opacity-80">
-                Coach {save.manager_name} • Pekan {(save.matchday > 17 ? 'ACL MD ' + (save.matchday - 17) + '/6' : Math.min(save.matchday, 17) + '/17')} • 💰 Rp{Number(save.budget).toLocaleString("id-ID")}
+                Coach {save.manager_name} • Pekan {Math.min(save.matchday, 17)}/17{ACL_MDS.includes(save.matchday) ? ' • ACL MD ' + aclRound(save.matchday) : ''} • 💰 Rp{Number(save.budget).toLocaleString("id-ID")}
               </div>
             </div>
           </div>
@@ -60,7 +60,7 @@ export default function Dash({ save0, reload }) {
         {tab === "home" && (
           <div className="grid gap-3">
             <div className="anim-pop rounded-3xl p-5 shadow-2xl text-white" style={{ background: "linear-gradient(180deg, #020617, #0f172a)", border: "1px solid rgba(255,255,255,.12)" }}>
-              <div className="text-[11px] uppercase tracking-widest opacity-60 text-center">Next Match • Pekan {next ? next.matchday : "-"} • BRI Super League 2026/27</div>
+              <div className="text-[11px] uppercase tracking-widest opacity-60 text-center">Next Match • Pekan {next ? next.matchday : "-"}{next && next.fixture && next.fixture.competition === 'acl_two' ? ' • ACL TWO Grup E' : ' • BRI Super League 2026/27'}</div>
               {next && !next.finished ? (
                 <div className="mt-3 flex items-center justify-center gap-3 sm:gap-5">
                   <div className="text-center flex-1 min-w-0">
@@ -88,7 +88,7 @@ export default function Dash({ save0, reload }) {
                 </button>
               </div>
             </div>
-            {last && (
+            {last && last.userResult && (
               <div className="card anim-pop" style={{ border: "2px solid #bef264" }}>
                 <div className="chip chip-lime mb-2">HASIL TERAKHIR ⚡ {last.ms}ms di server</div>
                 <div className="font-black text-lg">

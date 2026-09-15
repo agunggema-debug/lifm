@@ -45,7 +45,8 @@ app.get('/api/clubs', h(async (req, res) => {
 app.get('/api/state', h(async (req, res) => {
   const s = await saveView();
   if (!s) {
-    const rows = await all('SELECT * FROM clubs ORDER BY name');
+    // Hanya 18 klub Super League Indonesia yang bisa dipilih di layar awal (klub ACL 19-21 tidak bisa dipilih & tidak ada di klasemen)
+    const rows = await all('SELECT * FROM clubs WHERE id <= 18 ORDER BY name');
     return res.json({ hasSave: false, season: '2026/27', league: 'BRI Super League', background: '/img/background.jpg', clubs: rows.map((c) => ({ ...c, logo_url: c.logo ? '/img/clubs/' + c.logo : '' })) });
   }
   res.json({ hasSave: true, save: s, season: '2026/27', league: 'BRI Super League', background: '/img/background.jpg' });
@@ -145,7 +146,7 @@ app.get('/api/standings/acl', h(async (req, res) => {
   res.json(validIds.map((id) => table[id]).sort((a, b) => b.points - a.points || b.gd - a.gd || b.gf - a.gf).map((r) => ({ ...r, logo_url: r.logo ? '/img/clubs/' + r.logo : '' })));
 }));
 app.get('/api/standings', h(async (req, res) => {
-  const rows = await all('SELECT s.*, c.name, c.short_name, c.color_primary, c.logo FROM standings_cache s JOIN clubs c ON c.id=s.club_id ORDER BY s.points DESC, s.gd DESC, s.gf DESC, c.name');
+  const rows = await all('SELECT s.*, c.name, c.short_name, c.color_primary, c.logo FROM standings_cache s JOIN clubs c ON c.id=s.club_id WHERE s.club_id <= 18 ORDER BY s.points DESC, s.gd DESC, s.gf DESC, c.name');
   res.json(rows.map((r) => ({ ...r, logo_url: r.logo ? '/img/clubs/' + r.logo : '' })));
 }));
 app.get('/api/news', h(async (req, res) => res.json(await all('SELECT * FROM news ORDER BY id DESC LIMIT 20'))));

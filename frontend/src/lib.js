@@ -43,6 +43,10 @@ export function moraleMeta(m) {
   return { color: "red", emoji: "😞", label: "Down", ring: "#ef4444", bg: "#fee2e2", text: "#991b1b" };
 }
 export const FORMATIONS = ["4-4-2", "4-3-3", "3-5-2", "4-2-3-1", "5-3-2", "4-5-1"];
+// Pekan liga tempat 6 ronde ACL Two Grup E digelar (pekan ganda: liga + ACL dalam satu pekan).
+// Harus sinkron dengan ACL_MD_LEAGUE di backend/src/seed.js.
+export const ACL_MDS = [3, 5, 8, 10, 13, 16];
+export function aclRound(md) { const i = ACL_MDS.indexOf(Number(md)); return i >= 0 ? i + 1 : 0; }
 export const MENTALITIES = [
   { id: "attacking", label: "Menyerang", emoji: "🔥" },
   { id: "balanced", label: "Seimbang", emoji: "⚖️" },

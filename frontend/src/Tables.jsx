@@ -1,10 +1,10 @@
 import React from 'react';
-import { api, clubLogo } from './lib.js';
+import { api, clubLogo, aclRound } from './lib.js';
 
 function Logo({ club, cls }) {
   const src = clubLogo(club);
   if (!src) return <span className={cls + ' bg-slate-200 rounded-md grid place-items-center text-[9px] font-black text-slate-500'}>{(club.short_name || '?').slice(0, 2)}</span>;
-  return <img src={src} alt={club.short_name} className={cls} />;
+  return <img src={src} alt={club.short_name} className={cls} onError={(e) => { e.currentTarget.outerHTML = '<span class="' + cls + ' bg-slate-200 rounded-md grid place-items-center text-[9px] font-black text-slate-500">' + (club.short_name || '?').slice(0, 2) + '</span>'; }} />;
 }
 
 export default function Tables() {
@@ -18,13 +18,13 @@ export default function Tables() {
     api('/api/standings/acl').then(setAclRows).catch(() => setAclRows([]));
     api('/api/state').then((s) => {
       if (s.hasSave) setMyClubId(s.save.club_id);
-      const m = s.hasSave ? Math.min(s.save.matchday, 23) : 1;
+      const m = s.hasSave ? Math.min(s.save.matchday, 17) : 1;
       setMd(m);
       return api('/api/fixtures?matchday=' + m);
     }).then(setFixtures).catch(() => {});
   }, []);
   const loadMd = async (m) => { setMd(m); setFixtures(await api('/api/fixtures?matchday=' + m)); };
-  const isAclMd = md != null && md > 17;
+  const aclMd = aclRound(md); // >0 jika pekan ini juga ada laga ACL Two (pekan ganda)
   const userIn = (f) => myClubId != null && (f.home.club_id === myClubId || f.away.club_id === myClubId);
 
   return (
@@ -66,7 +66,7 @@ export default function Tables() {
 
       {aclRows.length > 0 && (
         <div className="card overflow-auto">
-          <div className="card-title">🌏 Klasemen ACL Two Grup E 2026/27</div>
+          <div className="card-title">🌏 Klasemen ACL Two Grup E 2026/27 <span className="chip chip-slate ml-auto">{Math.round(aclRows.reduce((a, r) => a + r.played, 0) / 2)}/6 MD</span></div>
           <table className="w-full text-sm">
             <thead>
               <tr className="text-left text-[11px] uppercase tracking-wide text-slate-400">
@@ -95,22 +95,22 @@ export default function Tables() {
               ))}
             </tbody>
           </table>
-          <div className="text-[11px] text-slate-500 mt-2">🟩 Juara grup melaju ke babak gugur • Persib, FC Seoul, Melbourne Victory, Thé Công–Viettel</div>
+          <div className="text-[11px] text-slate-500 mt-2">🟩 Juara grup melaju ke babak gugur • Persib, FC Seoul, Melbourne Victory, Thé Công–Viettel • Digelar di antara pekan liga (pekan ganda)</div>
         </div>
       )}
 
       <div className="card">
-        <div className="card-title">🗓️ Jadwal &amp; Hasil <span className="chip chip-slate ml-auto">{isAclMd ? ('ACL MD ' + ((md || 1) - 17) + ' / 6') : ('Pekan ' + (md ?? '-') + ' / 17')}</span></div>
+        <div className="card-title">🗓️ Jadwal &amp; Hasil <span className="chip chip-slate ml-auto">Pekan {(md ?? '-')} / 17{aclMd ? ' • ACL MD ' + aclMd : ''}</span></div>
         <div className="flex items-center justify-center gap-3 mb-3">
           <button onClick={() => loadMd(Math.max(1, (md || 1) - 1))} disabled={(md || 1) <= 1} className="btn-ghost rounded-full px-4 py-1.5 disabled:opacity-30">◀ Prev</button>
-          <span className="font-black">{isAclMd ? 'ACL MD ' + ((md || 1) - 17) : 'Pekan ' + md}</span>
-          <button onClick={() => loadMd(Math.min(23, (md || 1) + 1))} disabled={(md || 1) >= 23} className="btn-ghost rounded-full px-4 py-1.5 disabled:opacity-30">Next ▶</button>
+          <span className="font-black">{aclMd ? 'Pekan ' + md + ' • ACL MD ' + aclMd : 'Pekan ' + md}</span>
+          <button onClick={() => loadMd(Math.min(17, (md || 1) + 1))} disabled={(md || 1) >= 17} className="btn-ghost rounded-full px-4 py-1.5 disabled:opacity-30">Next ▶</button>
         </div>
         <div className="grid gap-1.5">
           {fixtures.map((f) => {
             const wl = userIn(f) && f.played ? (f.home.club_id === myClubId ? (f.home_goals > f.away_goals ? 'W' : f.home_goals < f.away_goals ? 'L' : 'D') : (f.away_goals > f.home_goals ? 'W' : f.away_goals < f.home_goals ? 'L' : 'D')) : null;
             return (
-              <div key={f.id} className={'fixture-row' + (userIn(f) ? ' fixture-user' : '')}>
+              <div key={f.id} className={'fixture-row' + (userIn(f) ? ' fixture-user' : '') + (f.competition === 'acl_two' ? ' fixture-acl' : '')}>
                 <div className="fixture-home">
                   {wl && <span className={'fixture-wl fixture-wl-' + wl.toLowerCase()}>{wl}</span>}
                   <span className="fixture-team-name">{f.home.short_name}</span>
@@ -130,7 +130,7 @@ export default function Tables() {
           })}
           {fixtures.length === 0 && <div className="text-xs text-slate-400 italic text-center py-3">Belum ada jadwal untuk pekan ini.</div>}
         </div>
-        <div className="text-[11px] text-slate-500 mt-2 text-center">W = Menang • D = Seri • L = Kalah (hasil tim kamu) • Kotak hijau = laga kamu ⭐</div>
+        <div className="text-[11px] text-slate-500 mt-2 text-center">W = Menang • D = Seri • L = Kalah (hasil tim kamu) • Kotak hijau = laga kamu ⭐ • Baris biru = laga ACL Two 🌏</div>
       </div>
     </div>
   );

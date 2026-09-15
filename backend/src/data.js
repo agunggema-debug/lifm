@@ -26,9 +26,10 @@ export const CLUBS = [
   { id: 17, name: 'Garudayaksa FC', short_name: 'GARUDA', city: 'Bekasi', logo: 'garudayaksa.png', color_primary: '#C8102E', color_secondary: '#F5C518', strength: 75, budget: 19000000, reputation: 72 },
     { id: 18, name: 'Java United FC', short_name: 'JAVA', city: 'Jawa', logo: 'java.png', color_primary: '#0B6B3A', color_secondary: '#F5C518', strength: 75, budget: 19000000, reputation: 68 },
   // 3 klub tetangga ACL Two Grup E 2026/27 (hanya bertanding di ACL Two, bukan liga)
-  { id: 19, name: 'FC Seoul', short_name: 'SEoul', city: 'Seoul', logo: 'fcseoul.png', color_primary: '#C8102E', color_secondary: '#1E3A8A', strength: 85, budget: 45000000, reputation: 82 },
-  { id: 20, name: 'Melbourne Victory', short_name: 'MELB', city: 'Melbourne', logo: 'melbournevictory.png', color_primary: '#1E3A8A', color_secondary: '#FFFFFF', strength: 83, budget: 42000000, reputation: 78 },
-  { id: 21, name: 'Thé Công–Viettel', short_name: 'THC', city: 'Hanoi', logo: 'thecong.png', color_primary: '#FF6B00', color_secondary: '#002856', strength: 80, budget: 35000000, reputation: 74 }
+  // Klub ACL tetangga (logo: seoul.png / melbourne.png / viettel.png di public/img/clubs)
+  { id: 19, name: 'FC Seoul', short_name: 'SEoul', city: 'Seoul', logo: 'seoul.png', color_primary: '#C8102E', color_secondary: '#1E3A8A', strength: 85, budget: 45000000, reputation: 82 },
+  { id: 20, name: 'Melbourne Victory', short_name: 'MELB', city: 'Melbourne', logo: 'melbourne.png', color_primary: '#1E3A8A', color_secondary: '#FFFFFF', strength: 83, budget: 42000000, reputation: 78 },
+  { id: 21, name: 'Thé Công–Viettel', short_name: 'THC', city: 'Hanoi', logo: 'viettel.png', color_primary: '#FF6B00', color_secondary: '#002856', strength: 80, budget: 35000000, reputation: 74 }
 ];
 
 export function logoMissing() {
