@@ -1,5 +1,5 @@
 import { db, initSchema, stmt, all, get, run, batch, exec } from './db.js';
-import { CLUBS, FIRST, LAST, FOREIGN, SQUAD_CORES, ACL_CLUB_IDS, ACL_FOREIGN_NAMES, ACL_LOCAL_NAMES } from './data.js';
+import { CLUBS, FIRST, LAST, FOREIGN, SQUAD_CORES, ACL_GROUPS, ACL_CLUB_IDS, ACL_FOREIGN_NAMES, ACL_LOCAL_NAMES } from './data.js';
 
 function rnd(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
@@ -113,42 +113,32 @@ function makeFixtures() {
   return round.map((f) => stmt('INSERT INTO fixtures (season,matchday,home_id,away_id,competition) VALUES (1,?,?,?,?)', [f.md, f.h, f.a, 'league']));
 }
 
-// ===== ACL Two 2026/27 Grup E =====
-// 4 tim: Persib (2), FC Seoul (19), Melbourne Victory (20), Thé Công–Viettel (21)
-// Home-away round-robin: tiap tim bertanding 6 kali vs 3 lawan = 12 fixture total.
-// ACL digelar DI ANTARA pekan BRI Super League (pekan ganda: liga + ACL dalam satu pekan),
-// mirip jadwal ACL asli. Mapping: ACL MD -> matchday liga.
-// competition='acl_two' membedakan dari liga (competition='league', md 1-17).
+// ===== ACL Two 2026/27: 8 grup (A-H) =====
+// Fase grup: tiap grup home-away round-robin (6 ronde), digelar DI ANTARA pekan BRI Super
+// League (pekan ganda) via ACL_MD_LEAGUE. 2 terbaik tiap grup -> babak gugur (16 Besar ->
+// Perempat Final -> Semifinal -> Final) yang dibangkitkan dinamis di play.js (Pekan 18-21).
 const ACL_MD_LEAGUE = { 1: 3, 2: 5, 3: 8, 4: 10, 5: 13, 6: 16 }; // ACL MD1=pekan 3, MD2=5, MD3=8, MD4=10, MD5=13, MD6=16
 function makeAclFixtures() {
-  const ACL = [2, 19, 20, 21]; // Persib, FC Seoul, Melbourne Victory, Thé Công–Viettel
-// ACL MD1 digelar di Pekan 3, dst. — di antara pekan BRI Super League
-  const pairings = [
-    // ACL MD1 (Pekan 3)
-    { md: 1, h: ACL[0], a: ACL[1] }, // Persib vs FC Seoul
-    { md: 1, h: ACL[2], a: ACL[3] }, // Melbourne Victory vs Thé Công–Viettel
-    // ACL MD2 (Pekan 5)
-    { md: 2, h: ACL[0], a: ACL[2] }, // Persib vs Melbourne Victory
-    { md: 2, h: ACL[1], a: ACL[3] }, // FC Seoul vs Thé Công–Viettel
-    // ACL MD3 (Pekan 8)
-    { md: 3, h: ACL[0], a: ACL[3] }, // Persib vs Thé Công–Viettel
-    { md: 3, h: ACL[1], a: ACL[2] }, // FC Seoul vs Melbourne Victory
-    // ACL MD4 (Pekan 10) — leg 2
-    { md: 4, h: ACL[1], a: ACL[0] }, // FC Seoul vs Persib
-    { md: 4, h: ACL[3], a: ACL[2] }, // Thé Công–Viettel vs Melbourne Victory
-    // ACL MD5 (Pekan 13)
-    { md: 5, h: ACL[2], a: ACL[0] }, // Melbourne Victory vs Persib
-    { md: 5, h: ACL[3], a: ACL[1] }, // Thé Công–Viettel vs FC Seoul
-    // ACL MD6 (Pekan 16)
-    { md: 6, h: ACL[3], a: ACL[0] }, // Thé Công–Viettel vs Persib
-    { md: 6, h: ACL[2], a: ACL[1] }  // Melbourne Victory vs FC Seoul
+  // Ronde round-robin 4 tim (indeks dalam g.ids): leg 1 ronde 1-3, leg 2 ronde 4-6 (home/away dibalik).
+  const ROUNDS = [
+    { round: 1, pairs: [[0, 1], [2, 3]] },
+    { round: 2, pairs: [[0, 2], [1, 3]] },
+    { round: 3, pairs: [[0, 3], [1, 2]] },
+    { round: 4, pairs: [[1, 0], [3, 2]] },
+    { round: 5, pairs: [[2, 0], [3, 1]] },
+    { round: 6, pairs: [[3, 0], [2, 1]] }
   ];
-  return pairings.map((f) => stmt(
-    'INSERT INTO fixtures (season,matchday,home_id,away_id,competition) VALUES (1,?,?,?,?)',
-    [ACL_MD_LEAGUE[f.md], f.h, f.a, 'acl_two']
-  ));
+  const stmts = [];
+  for (const g of ACL_GROUPS) {
+    for (const r of ROUNDS) {
+      for (const [h, a] of r.pairs) {
+        stmts.push(stmt('INSERT INTO fixtures (season,matchday,home_id,away_id,competition) VALUES (1,?,?,?,?)', [ACL_MD_LEAGUE[r.round], g.ids[h], g.ids[a], 'acl_two']));
+      }
+    }
+  }
+  return stmts;
 }
 
 if (process.argv[1] && process.argv[1].endsWith('seed.js')) {
-  seedAll().then(() => console.log('Seed OK: 21 clubs (18 liga + 3 ACL Two), 504 players, 165 fixtures (153 liga + 12 ACL Two)')).catch((e) => { console.error(e); process.exit(1); });
+  seedAll().then(() => console.log('Seed OK: 49 clubs (18 liga + 31 ACL Two, 8 grup), 1176 players, 249 fixtures (153 liga + 96 ACL grup; 15 babak gugur dibangkitkan dinamis)')).catch((e) => { console.error(e); process.exit(1); });
 }

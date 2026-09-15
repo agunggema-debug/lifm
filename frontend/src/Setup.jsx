@@ -2,7 +2,7 @@ import React from "react";
 import { api, clubLogo } from "./lib.js";
 
 export default function Setup({ clubs = [], onDone }) {
-  const [name, setName] = React.useState("Coach Agung");
+  const [name, setName] = React.useState("Abah Agung");
   const [clubId, setClubId] = React.useState(clubs[0]?.id || 1);
   const [busy, setBusy] = React.useState(false);
   const start = async () => {
@@ -25,7 +25,7 @@ export default function Setup({ clubs = [], onDone }) {
             <br />
             <span className="text-lime-400">FOOTBALL MANAGER</span>
           </h1>
-          <p className="mt-2 text-slate-200">BRI Super League 2026/27 • No install. No ribet. Gas jadi manajer GOAT! 💪</p>
+          <p className="mt-2 text-slate-200">Indonesia Super League 2026/27 • No install. No ribet. Gas jadi manajer GOAT! 💪</p>
           <div className="flex gap-2 justify-center mt-3 text-xs">
             <span className="bg-white/10 rounded-full px-3 py-1">✅ 18 Klub 2026/27</span>
             <span className="bg-white/10 rounded-full px-3 py-1">✅ Match Engine Live</span>

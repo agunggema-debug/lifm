@@ -5,7 +5,8 @@ import { fileURLToPath } from 'node:url';
 import { initSchema, all, get, run } from './db.js';
 import { seedAll } from './seed.js';
 import { getSave, clubMap, squad, autoXI, overall } from './game.js';
-import { playMatchdayFirstHalf, playMatchdaySecondHalf } from './play.js';
+import { playMatchdayFirstHalf, playMatchdaySecondHalf, ensureAclKnockout } from './play.js';
+import { ACL_GROUPS } from './data.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -18,8 +19,8 @@ app.use('/img', express.static(path.join(__dirname, '..', 'public', 'img')));
 app.use('/img', express.static(path.join(__dirname, 'public', 'img')));
 await initSchema();
 const clubCount = await get('SELECT COUNT(*) v FROM clubs');
-// Auto-reseed: DB kosong ATAU masih seed lama (belum ada 3 klub ACL Two -> total < 21)
-if (!clubCount || !clubCount.v || clubCount.v < 21) await seedAll();
+// Auto-reseed: DB kosong ATAU masih seed lama (belum ada 31 klub ACL Two 8 grup -> total < 49)
+if (!clubCount || !clubCount.v || clubCount.v < 49) await seedAll();
 
 // wrapper async handler dengan error handling
 const h = (fn) => (req, res) => Promise.resolve(fn(req, res)).catch((e) => {
@@ -71,15 +72,17 @@ app.get('/api/squad', h(async (req, res) => {
 app.get('/api/next-fixture', h(async (req, res) => {
   const s = await getSave();
   if (!s) return res.status(400).json({ error: 'Belum ada karier' });
+  await ensureAclKnockout(s); // pastikan babak gugur ACL sudah dibangkitkan utk pekan 18-21
   const clubs = await clubMap();
   const withLogo = (c) => (c ? { ...c, logo_url: c.logo ? '/img/clubs/' + c.logo : '' } : c);
-  const f = await get('SELECT * FROM fixtures WHERE season=? AND matchday=? AND (home_id=? OR away_id=?)', [s.season, s.matchday, s.club_id, s.club_id]);
+  const f = await get('SELECT * FROM fixtures WHERE season=? AND matchday=? AND (home_id=? OR away_id=?) ORDER BY played ASC, id ASC', [s.season, s.matchday, s.club_id, s.club_id]);
   if (!f) return res.json({ finished: true });
   res.json({ matchday: s.matchday, home: withLogo(clubs[f.home_id]), away: withLogo(clubs[f.away_id]), userHome: f.home_id === s.club_id, fixture: f });
 }));
 app.get('/api/fixtures', h(async (req, res) => {
   const s = await getSave();
   const md = Number(req.query.matchday || (s ? s.matchday : 1));
+  if (s) await ensureAclKnockout(s); // bangkitkan fixture babak gugur ACL saat dilihat
   const clubs = await clubMap();
   const withLogo = (c) => (c ? { ...c, logo_url: c.logo ? '/img/clubs/' + c.logo : '' } : c);
   const rows = await all('SELECT * FROM fixtures WHERE season=1 AND matchday=? ORDER BY id', [md]);
@@ -123,27 +126,26 @@ app.post('/api/play', h(async (req, res) => {
   res.json(out);
 }));
 app.get('/api/standings/acl', h(async (req, res) => {
-  // ACL Two Grup E: standings dihitung langsung dari fixtures competition='acl_two'
-  const rows = await all("SELECT * FROM fixtures WHERE competition='acl_two'");
-  const table = {};
-  const ids = [2, 19, 20, 21];
+  // ACL Two: klasemen per grup (A-H) dihitung dari fixtures competition='acl_two' fase grup (md <= 17).
   const clubs = await clubMap();
-  // Skip klub yang belum ada di DB (seed lama) agar tidak 500
-  const validIds = ids.filter((id) => clubs[id]);
-  for (const id of validIds) table[id] = { club_id: id, name: clubs[id].name, short_name: clubs[id].short_name, logo: clubs[id].logo, played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, gd: 0, points: 0 };
-  for (const f of rows) {
-    if (!f.played) continue;
-    for (const side of ['home', 'away']) {
-      const isHome = side === 'home';
-      const t = table[isHome ? f.home_id : f.away_id];
-      if (!t) continue;
-      const gf = isHome ? f.home_goals : f.away_goals;
-      const ga = isHome ? f.away_goals : f.home_goals;
-      t.played++; t.gf += gf; t.ga += ga; t.gd += gf - ga;
-      if (gf > ga) { t.won++; t.points += 3; } else if (gf === ga) { t.drawn++; t.points += 1; } else t.lost++;
+  const rows = await all("SELECT * FROM fixtures WHERE competition='acl_two' AND matchday <= 17");
+  const out = ACL_GROUPS.map((g) => {
+    const table = {};
+    for (const id of g.ids) {
+      const c = clubs[id];
+      table[id] = { club_id: id, name: c ? c.name : 'Klub ' + id, short_name: c ? c.short_name : '?', logo: c ? c.logo : '', played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, gd: 0, points: 0 };
     }
-  }
-  res.json(validIds.map((id) => table[id]).sort((a, b) => b.points - a.points || b.gd - a.gd || b.gf - a.gf).map((r) => ({ ...r, logo_url: r.logo ? '/img/clubs/' + r.logo : '' })));
+    for (const f of rows) {
+      if (!f.played || table[f.home_id] == null || table[f.away_id] == null) continue;
+      for (const [id, gf, ga] of [[f.home_id, f.home_goals, f.away_goals], [f.away_id, f.away_goals, f.home_goals]]) {
+        const t = table[id];
+        t.played++; t.gf += gf; t.ga += ga; t.gd += gf - ga;
+        if (gf > ga) { t.won++; t.points += 3; } else if (gf === ga) { t.drawn++; t.points += 1; } else t.lost++;
+      }
+    }
+    return { name: g.name, rows: g.ids.map((id) => table[id]).sort((a, b) => b.points - a.points || b.gd - a.gd || b.gf - a.gf).map((r) => ({ ...r, logo_url: r.logo ? '/img/clubs/' + r.logo : '' })) };
+  });
+  res.json(out);
 }));
 app.get('/api/standings', h(async (req, res) => {
   const rows = await all('SELECT s.*, c.name, c.short_name, c.color_primary, c.logo FROM standings_cache s JOIN clubs c ON c.id=s.club_id WHERE s.club_id <= 18 ORDER BY s.points DESC, s.gd DESC, s.gf DESC, c.name');

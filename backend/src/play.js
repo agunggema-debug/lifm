@@ -2,6 +2,67 @@
 import { simulateHalf } from './sim.js';
 import { clubMap, squad, autoXI } from './game.js';
 import { applyPostMatch as pm2 } from './postmatch.js';
+import { ACL_GROUPS } from './data.js';
+
+// ===== Babak gugur ACL Two (dinamis) =====
+// 16 Besar = Pekan 18, Perempat Final = 19, Semifinal = 20, Final = 21.
+const ACL_KO_STAGE = { 18: '16 Besar', 19: 'Perempat Final', 20: 'Semifinal', 21: 'Final' };
+
+// Pemenang laga gugur; jika imbang -> "adu penalti" acak berbobot kekuatan klub.
+function koWinner(f, clubs) {
+  if (f.home_goals > f.away_goals) return f.home_id;
+  if (f.away_goals > f.home_goals) return f.away_id;
+  const sh = (clubs[f.home_id] && clubs[f.home_id].strength) || 80;
+  const sa = (clubs[f.away_id] && clubs[f.away_id].strength) || 80;
+  return Math.random() < sh / (sh + sa) ? f.home_id : f.away_id;
+}
+
+// Klasemen internal tiap grup dari fixture fase grup (matchday <= 17, sudah dimainkan).
+async function aclGroupTables() {
+  const rows = await all("SELECT * FROM fixtures WHERE competition='acl_two' AND matchday <= 17 AND played=1");
+  const groupOf = {};
+  for (const g of ACL_GROUPS) for (const id of g.ids) groupOf[id] = g.name;
+  const tables = {};
+  for (const g of ACL_GROUPS) tables[g.name] = {};
+  for (const f of rows) {
+    for (const [id, gf, ga] of [[f.home_id, f.home_goals, f.away_goals], [f.away_id, f.away_goals, f.home_goals]]) {
+      if (!tables[groupOf[id]]) continue;
+      if (!tables[groupOf[id]][id]) tables[groupOf[id]][id] = { pl: 0, gf: 0, ga: 0, pts: 0 };
+      const t = tables[groupOf[id]][id];
+      t.pl++; t.gf += gf; t.ga += ga;
+      if (gf > ga) t.pts += 3; else if (gf === ga) t.pts += 1;
+    }
+  }
+  const rank = (t) => Object.entries(t).map(([id, v]) => ({ id: Number(id), ...v })).sort((a, b) => b.pts - a.pts || (b.gf - b.ga) - (a.gf - a.ga) || b.gf - a.gf);
+  return Object.fromEntries(Object.entries(tables).map(([g, t]) => [g, rank(t)]));
+}
+
+// Bangkitkan fixture babak gugur utk save.matchday (18-21) jika belum ada.
+export async function ensureAclKnockout(save) {
+  const stage = ACL_KO_STAGE[save.matchday];
+  if (!stage) return;
+  const existing = await all('SELECT * FROM fixtures WHERE season=? AND matchday=?', [save.season, save.matchday]);
+  if (existing.length) return;
+  const clubs = await clubMap();
+  let pairs = [];
+  if (save.matchday === 18) {
+    // 16 besar: juara grup vs runner-up grup bersebelahan (juara jadi tuan rumah).
+    const tables = await aclGroupTables();
+    const W = {}, R = {};
+    for (const g of Object.keys(tables)) { W[g] = tables[g][0].id; R[g] = tables[g][1].id; }
+    pairs = [['A', 'B'], ['C', 'D'], ['E', 'F'], ['G', 'H'], ['B', 'A'], ['D', 'C'], ['F', 'E'], ['H', 'G']].map(([w, r]) => [W[w], R[r]]);
+  } else {
+    const prev = await all('SELECT * FROM fixtures WHERE season=? AND matchday=? AND played=1 ORDER BY id', [save.season, save.matchday - 1]);
+    const winners = prev.map((f) => koWinner(f, clubs));
+    if (save.matchday === 19) pairs = [[0, 1], [2, 3], [4, 5], [6, 7]];
+    else if (save.matchday === 20) pairs = [[0, 1], [2, 3]];
+    else pairs = [[0, 1]];
+    pairs = pairs.map(([a, b]) => [winners[a], winners[b]]);
+  }
+  for (const [h, a] of pairs) {
+    await run('INSERT INTO fixtures (season,matchday,home_id,away_id,competition) VALUES (1,?,?,?,?)', [save.matchday, h, a, 'acl_two']);
+  }
+}
 
 async function xiFor(clubId, lineupIds, formation, mentality) {
   const mySquad = await squad(clubId);
@@ -30,18 +91,29 @@ async function oppAutoSub(oppXI, oppId, oppSide, oppShort, minute) {
 }
 
 export async function playMatchdayFirstHalf(save) {
+  await ensureAclKnockout(save); // babak gugur ACL dibangkitkan otomatis saat Pekan 18-21
   const clubs = await clubMap();
-  const fixtures = await all('SELECT * FROM fixtures WHERE season=? AND matchday=? ORDER BY id', [save.season, save.matchday]);
+  // PENTING: hanya simulasi fixture yang BELUM dimainkan (penting untuk pekan ganda
+  // yang diputar bergantian — laga pertama sudah played dan tidak boleh diulang).
+  const fixtures = (await all('SELECT * FROM fixtures WHERE season=? AND matchday=? ORDER BY id', [save.season, save.matchday])).filter((f) => !f.played);
   if (!fixtures.length) {
     const champ = await get('SELECT c.* FROM standings_cache s JOIN clubs c ON c.id=s.club_id ORDER BY s.points DESC, s.gd DESC, s.gf DESC');
-    return { done: true, champion: champ };
+    // Juara ACL Two: pemenang Final (Pekan 21)
+    const fin = await get("SELECT * FROM fixtures WHERE competition='acl_two' AND matchday=21 AND played=1");
+    const aclChampion = fin ? clubs[koWinner(fin, clubs)] || null : null;
+    return { done: true, champion: champ, aclChampion, aclStage: 'Selesai' };
   }
+  // Pekan ganda (liga + ACL di pekan yang sama): laga user dimainkan BERGANTIAN satu per satu
+  // agar tidak tumpang tindih — laga liga dulu, laga ACL jadi main berikutnya di pekan yang sama.
+  const userFixtures = fixtures.filter((f) => f.home_id === save.club_id || f.away_id === save.club_id);
+  const mainFixtureId = userFixtures.length ? (userFixtures.find((f) => f.competition === 'league') || userFixtures[0]).id : null;
   const lineupIds = JSON.parse(save.lineup_json || '[]');
   let userResult = null;
   const others = [];
   const halfTimeState = [];
   for (const f of fixtures) {
     const isUser = f.home_id === save.club_id || f.away_id === save.club_id;
+    if (isUser && f.id !== mainFixtureId) continue; // laga user kedua (ACL) ditunda, tidak disimulasikan sekarang
     let homeXI; let awayXI; let homeT; let awayT;
     if (isUser) {
       const isHome = f.home_id === save.club_id;
@@ -143,9 +215,13 @@ export async function playMatchdaySecondHalf(save, body) {
     userResult ? ('xG ' + userResult.xg.home + '-' + userResult.xg.away + '. Gas evaluasi taktik bestie!') : 'Semua laga pekan ini telah dimainkan.',
     'HASIL'
   ]);
-  const next = save.matchday + 1;
+  // Pekan ganda: jika tim user masih punya laga yang BELUM dimainkan di matchday ini
+  // (mis. laga ACL setelah laga liga), jangan naik matchday — laga itu jadi main berikutnya.
+  const rem = await get('SELECT COUNT(*) AS c FROM fixtures WHERE season=? AND matchday=? AND played=0 AND (home_id=? OR away_id=?)', [save.season, save.matchday, save.club_id, save.club_id]);
+  const hasPendingUserFixture = rem && Number(rem.c) > 0;
+  const next = hasPendingUserFixture ? save.matchday : save.matchday + 1;
   await run("UPDATE saves SET matchday=?, updated_at=datetime('now') WHERE id=1", [next]);
-  return { userResult: userResult, others: others, nextMatchday: next, finished: next > 23 };
+  return { userResult: userResult, others: others, nextMatchday: next, pendingUserFixture: hasPendingUserFixture, finished: next > 23 };
 }
 
 async function bump(clubId, gf, ga) {

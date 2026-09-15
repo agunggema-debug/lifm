@@ -47,6 +47,9 @@ export const FORMATIONS = ["4-4-2", "4-3-3", "3-5-2", "4-2-3-1", "5-3-2", "4-5-1
 // Harus sinkron dengan ACL_MD_LEAGUE di backend/src/seed.js.
 export const ACL_MDS = [3, 5, 8, 10, 13, 16];
 export function aclRound(md) { const i = ACL_MDS.indexOf(Number(md)); return i >= 0 ? i + 1 : 0; }
+// Pekan babak gugur ACL Two (sinkron dengan ACL_KO_STAGE di backend/src/play.js)
+export const ACL_KO_MDS = { 18: '16 Besar', 19: 'Perempat Final', 20: 'Semifinal', 21: 'Final' };
+export function aclStage(md) { return ACL_KO_MDS[Number(md)] || null; }
 export const MENTALITIES = [
   { id: "attacking", label: "Menyerang", emoji: "🔥" },
   { id: "balanced", label: "Seimbang", emoji: "⚖️" },

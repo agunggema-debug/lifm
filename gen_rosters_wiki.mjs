@@ -50,15 +50,16 @@ async function fetchText(url) {
   return res.text();
 }
 
-// Parse semua templat "Fs player" (dan "Fs player2") pada halaman Parsoid HTML.
+// Parse semua templat "Fs player" (id.wp) / "Football squad player" & "Infobox football squad
+// player" (en.wp) pada halaman Parsoid HTML.
 function parseSquad(html) {
   const out = [];
-  const re = /"wt":"Fs player2?"[\s\S]{0,200}?"params":\{(.*?)\},"i":\d+\}/g;
+  const re = /"wt":"(?:Fs player2?|Football squad player|Infobox football squad player)"[\s\S]{0,200}?"params":\{(.*?)\},"i":\d+\}/g;
   let m;
   while ((m = re.exec(html)) !== null) {
     const params = m[1];
     const get = (k) => { const pm = params.match(new RegExp('"' + k + '":\\{"wt":"(.*?)"}')); return pm ? pm[1] : ''; };
-    const pos = get('pos').toUpperCase();
+    const pos = (get('pos') || get('position')).toUpperCase();
     const nat = get('nat').toUpperCase();
     const raw = get('name');
     if (!pos || !raw) continue;
@@ -104,16 +105,21 @@ for (const [idStr, titles] of Object.entries(WIKI_TITLES)) {
   const id = Number(idStr);
   let roster = null;
   for (const t of titles) {
-    const url = 'https://id.wikipedia.org/wiki/' + encodeURIComponent(t.replace(/ /g, '_'));
-    try {
-      const html = await fetchText(url);
-      const squad = parseSquad(html);
-      if (squad.length < 5) throw new Error('skuad tidak ditemukan (' + squad.length + ' templat)');
-      roster = buildRoster(squad);
-      const cnt = (p) => roster.filter((r) => r.p === p).length;
-      console.log('WIKI OK', id, t, '->', roster.length, 'pemain | GK:', cnt('GK'), 'DF:', cnt('DF'), 'MF:', cnt('MF'), 'FW:', cnt('FW'), '| asing:', roster.filter((r) => r.f).length);
-      break;
-    } catch (e) { console.log('WIKI GAGAL', id, t, e.message); }
+    // Coba en.wikipedia.org dulu (sesuai permintaan), lalu id.wikipedia.org sebagai fallback
+    // (skuad sama & selalu mutakhir, ditulis dengan templat Fs player).
+    const hosts = ['https://en.wikipedia.org/wiki/', 'https://id.wikipedia.org/wiki/'];
+    for (const host of hosts) {
+      try {
+        const html = await fetchText(host + encodeURIComponent(t.replace(/ /g, '_')));
+        const squad = parseSquad(html);
+        if (squad.length < 5) throw new Error('skuad tidak ditemukan (' + squad.length + ' templat)');
+        roster = buildRoster(squad);
+        const cnt = (p) => roster.filter((r) => r.p === p).length;
+        console.log('WIKI OK', id, host.includes('/en.') ? '[en]' : '[id]', t, '->', roster.length, 'pemain | GK:', cnt('GK'), 'DF:', cnt('DF'), 'MF:', cnt('MF'), 'FW:', cnt('FW'), '| asing:', roster.filter((r) => r.f).length);
+        break;
+      } catch (e) { console.log('WIKI GAGAL', id, host.includes('/en.') ? '[en]' : '[id]', t, e.message); }
+    }
+    if (roster) break;
   }
   if (!roster) { roster = fallbackRoster(id); console.log('FALLBACK ileague', id, '->', roster.length); }
   rosters[id] = roster;

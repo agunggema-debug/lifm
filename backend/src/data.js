@@ -29,7 +29,49 @@ export const CLUBS = [
   // Klub ACL tetangga (logo: seoul.png / melbourne.png / viettel.png di public/img/clubs)
   { id: 19, name: 'FC Seoul', short_name: 'SEoul', city: 'Seoul', logo: 'seoul.png', color_primary: '#C8102E', color_secondary: '#1E3A8A', strength: 85, budget: 45000000, reputation: 82 },
   { id: 20, name: 'Melbourne Victory', short_name: 'MELB', city: 'Melbourne', logo: 'melbourne.png', color_primary: '#1E3A8A', color_secondary: '#FFFFFF', strength: 83, budget: 42000000, reputation: 78 },
-  { id: 21, name: 'Thé Công–Viettel', short_name: 'THC', city: 'Hanoi', logo: 'viettel.png', color_primary: '#FF6B00', color_secondary: '#002856', strength: 80, budget: 35000000, reputation: 74 }
+  { id: 21, name: 'Thé Công–Viettel', short_name: 'THC', city: 'Hanoi', logo: 'viettel.png', color_primary: '#FF6B00', color_secondary: '#002856', strength: 80, budget: 35000000, reputation: 74 },
+  // ===== 28 klub ACL Two lainnya (id 22-49, 8 grup A-H). Logo tidak tersedia -> UI pakai fallback inisial. =====
+  { id: 22, name: 'Ulsan HD FC', short_name: 'ULS', city: 'Ulsan', logo: '', color_primary: '#005BAC', color_secondary: '#FFD700', strength: 86, budget: 48000000, reputation: 84 },
+  { id: 23, name: 'Suwon Samsung Bluewings', short_name: 'SUW', city: 'Suwon', logo: '', color_primary: '#0067B3', color_secondary: '#FFFFFF', strength: 82, budget: 38000000, reputation: 78 },
+  { id: 24, name: 'Yokohama FC', short_name: 'YOK', city: 'Yokohama', logo: '', color_primary: '#004A9F', color_secondary: '#E60012', strength: 81, budget: 36000000, reputation: 76 },
+  { id: 25, name: 'Hanoi Police FC', short_name: 'HAP', city: 'Hanoi', logo: '', color_primary: '#B71C1C', color_secondary: '#FFD54F', strength: 80, budget: 30000000, reputation: 72 },
+  { id: 26, name: 'Kawasaki Frontale', short_name: 'KAW', city: 'Kawasaki', logo: '', color_primary: '#00A0E9', color_secondary: '#000000', strength: 87, budget: 52000000, reputation: 85 },
+  { id: 27, name: 'Gamba Osaka', short_name: 'GAM', city: 'Osaka', logo: '', color_primary: '#00368E', color_secondary: '#000000', strength: 83, budget: 40000000, reputation: 80 },
+  { id: 28, name: 'Sydney FC', short_name: 'SYD', city: 'Sydney', logo: '', color_primary: '#0E4C92', color_secondary: '#F36E21', strength: 82, budget: 34000000, reputation: 77 },
+  { id: 29, name: 'Bangkok United FC', short_name: 'BGK', city: 'Bangkok', logo: '', color_primary: '#C8102E', color_secondary: '#FFFFFF', strength: 80, budget: 28000000, reputation: 73 },
+  { id: 30, name: 'Shanghai Port FC', short_name: 'SHP', city: 'Shanghai', logo: '', color_primary: '#D22630', color_secondary: '#FFFFFF', strength: 86, budget: 50000000, reputation: 83 },
+  { id: 31, name: 'Zhejiang FC', short_name: 'ZHE', city: 'Hangzhou', logo: '', color_primary: '#007A33', color_secondary: '#FFFFFF', strength: 81, budget: 36000000, reputation: 75 },
+  { id: 32, name: 'Jeonbuk Hyundai Motors', short_name: 'JEO', city: 'Jeonju', logo: '', color_primary: '#1B7A3D', color_secondary: '#FFFFFF', strength: 85, budget: 46000000, reputation: 82 },
+  { id: 33, name: 'Buriram United', short_name: 'BUR', city: 'Buriram', logo: '', color_primary: '#0B3B8C', color_secondary: '#FFD700', strength: 83, budget: 40000000, reputation: 79 },
+  { id: 34, name: 'Chengdu Rongcheng FC', short_name: 'CHG', city: 'Chengdu', logo: '', color_primary: '#B01E23', color_secondary: '#FFC300', strength: 84, budget: 44000000, reputation: 80 },
+  { id: 35, name: 'Nagoya Grampus', short_name: 'NAG', city: 'Nagoya', logo: '', color_primary: '#C8102E', color_secondary: '#1A1A1A', strength: 82, budget: 38000000, reputation: 77 },
+  { id: 36, name: 'Ho Chi Minh City FC', short_name: 'HCM', city: 'Ho Chi Minh', logo: '', color_primary: '#0F6DB4', color_secondary: '#FFFFFF', strength: 78, budget: 24000000, reputation: 70 },
+  { id: 37, name: 'Port FC', short_name: 'POR', city: 'Bangkok', logo: '', color_primary: '#123B7A', color_secondary: '#F5C518', strength: 79, budget: 25000000, reputation: 71 },
+  { id: 38, name: 'Shandong Taishan FC', short_name: 'SDT', city: 'Jinan', logo: '', color_primary: '#FF6600', color_secondary: '#FFFFFF', strength: 85, budget: 45000000, reputation: 81 },
+  { id: 39, name: 'Vissel Kobe', short_name: 'VIS', city: 'Kobe', logo: '', color_primary: '#7A2B8B', color_secondary: '#FFFFFF', strength: 86, budget: 47000000, reputation: 83 },
+  { id: 40, name: "Johor Darul Ta'zim FC", short_name: 'JOH', city: 'Johor Bahru', logo: '', color_primary: '#0A3D91', color_secondary: '#F5C518', strength: 84, budget: 46000000, reputation: 80 },
+  { id: 41, name: 'Lion City Sailors FC', short_name: 'LIO', city: 'Singapore', logo: '', color_primary: '#0B5394', color_secondary: '#FFD700', strength: 81, budget: 38000000, reputation: 74 },
+  { id: 42, name: 'Machida Zelvia', short_name: 'MAC', city: 'Machida', logo: '', color_primary: '#00A650', color_secondary: '#000000', strength: 82, budget: 36000000, reputation: 76 },
+  { id: 43, name: 'Beijing Guoan FC', short_name: 'BEI', city: 'Beijing', logo: '', color_primary: '#006837', color_secondary: '#FFD700', strength: 84, budget: 44000000, reputation: 80 },
+  { id: 44, name: 'Nam Dinh FC', short_name: 'NAM', city: 'Nam Dinh', logo: '', color_primary: '#F7C600', color_secondary: '#00539F', strength: 79, budget: 24000000, reputation: 70 },
+  { id: 45, name: 'Tampines Rovers FC', short_name: 'TAM', city: 'Singapore', logo: '', color_primary: '#F58220', color_secondary: '#FFFFFF', strength: 78, budget: 22000000, reputation: 69 },
+  { id: 46, name: 'Guangzhou FC', short_name: 'GUA', city: 'Guangzhou', logo: '', color_primary: '#C8102E', color_secondary: '#FFFFFF', strength: 82, budget: 38000000, reputation: 76 },
+  { id: 47, name: 'Daejeon Hana Citizen', short_name: 'DAE', city: 'Daejeon', logo: '', color_primary: '#E4002B', color_secondary: '#000000', strength: 81, budget: 34000000, reputation: 75 },
+  { id: 48, name: 'Macarthur FC', short_name: 'MCF', city: 'Sydney', logo: '', color_primary: '#000000', color_secondary: '#D4AF37', strength: 80, budget: 30000000, reputation: 72 },
+  { id: 49, name: 'Cong An Ha Noi FC', short_name: 'CAH', city: 'Hanoi', logo: '', color_primary: '#8B0000', color_secondary: '#FFD700', strength: 80, budget: 30000000, reputation: 72 }
+];
+
+// ===== ACL Two 2026/27: 8 grup (A-H), masing-masing 4 tim. Persib (id 2) di Grup E. =====
+// 2 terbaik tiap grup melaju ke babak gugur: 16 Besar -> Perempat Final -> Semifinal -> Final.
+export const ACL_GROUPS = [
+  { name: 'A', ids: [22, 23, 24, 25] },
+  { name: 'B', ids: [26, 27, 28, 29] },
+  { name: 'C', ids: [30, 31, 32, 33] },
+  { name: 'D', ids: [34, 35, 36, 37] },
+  { name: 'E', ids: [2, 19, 20, 21] },
+  { name: 'F', ids: [38, 39, 40, 41] },
+  { name: 'G', ids: [42, 43, 44, 45] },
+  { name: 'H', ids: [46, 47, 48, 49] }
 ];
 
 export function logoMissing() {
