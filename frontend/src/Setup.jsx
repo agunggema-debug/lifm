@@ -5,6 +5,10 @@ export default function Setup({ clubs = [], onDone }) {
   const [name, setName] = React.useState("Abah Agung");
   const [clubId, setClubId] = React.useState(clubs[0]?.id || 1);
   const [busy, setBusy] = React.useState(false);
+  const [visitors, setVisitors] = React.useState(null);
+  React.useEffect(() => {
+    api("/api/visitors").then(setVisitors).catch(() => {});
+  }, []);
   const start = async () => {
     setBusy(true);
     try {
@@ -31,6 +35,12 @@ export default function Setup({ clubs = [], onDone }) {
             <span className="bg-white/10 rounded-full px-3 py-1">✅ Match Engine Live</span>
             <span className="bg-white/10 rounded-full px-3 py-1">✅ Transfer Gacha</span>
           </div>
+          {visitors ? (
+            <div className="flex gap-2 justify-center mt-3 text-xs">
+              <span className="bg-white/10 rounded-full px-3 py-1">👥 {Number(visitors.total).toLocaleString("id-ID")} Total Visitor</span>
+              <span className="bg-white/10 rounded-full px-3 py-1">📅 {Number(visitors.today).toLocaleString("id-ID")} Hari Ini</span>
+            </div>
+          ) : null}
         </div>
         <div className="bg-white/95 text-slate-900 rounded-3xl p-5 sm:p-8 shadow-2xl">
           <label className="font-bold text-sm">NAMA MANAJER</label>

@@ -39,6 +39,25 @@ async function saveView() {
   return { ...s, club, lineup: JSON.parse(s.lineup_json || '[]') };
 }
 
+// ==== Visitor counter ====
+// Catat setiap kunjungan /api/state (halaman dibuka) ke tabel visitors.
+app.use('/api/state', (req, res, next) => {
+  const rawIp = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || '';
+  run('INSERT INTO visitors (ip,user_agent,path) VALUES (?,?,?)', [
+    String(rawIp).split(',')[0].trim(),
+    String(req.headers['user-agent'] || '').slice(0, 300),
+    req.originalUrl || '/api/state',
+  ]).catch((e) => console.error('visitor log failed', e));
+  next();
+});
+
+app.get('/api/visitors', h(async (req, res) => {
+  // Hitung visitor unik berdasarkan IP (bukan per load halaman)
+  const total = await get("SELECT COUNT(DISTINCT CASE WHEN ip != '' THEN ip ELSE user_agent END) v FROM visitors");
+  const today = await get("SELECT COUNT(DISTINCT CASE WHEN ip != '' THEN ip ELSE user_agent END) v FROM visitors WHERE created_at >= date('now')");
+  res.json({ total: total?.v || 0, today: today?.v || 0 });
+}));
+
 app.get('/api/health', (req, res) => res.json({ ok: true, game: 'LIFM' }));
 app.get('/api/meta', (req, res) => res.json({ season: '2026/27', league: 'BRI Super League', background: '/img/background.jpg' }));
 app.get('/api/clubs', h(async (req, res) => {

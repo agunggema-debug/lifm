@@ -112,6 +112,13 @@ const SCHEMA = `
     body TEXT NOT NULL,
     tag TEXT NOT NULL DEFAULT 'INFO'
   );
+  CREATE TABLE IF NOT EXISTS visitors (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ip TEXT NOT NULL DEFAULT '',
+    user_agent TEXT NOT NULL DEFAULT '',
+    path TEXT NOT NULL DEFAULT '/',
+    created_at TEXT DEFAULT (datetime('now'))
+  );
 `;
 
 export async function initSchema() {

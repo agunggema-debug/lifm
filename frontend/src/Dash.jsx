@@ -19,11 +19,13 @@ export default function Dash({ save0, reload }) {
   const [next, setNext] = React.useState(null);
   const [news, setNews] = React.useState([]);
   const [last, setLast] = React.useState(null);
+  const [visitors, setVisitors] = React.useState(null);
   const refresh = React.useCallback(async () => {
     const st = await api("/api/state");
     setSave(st.save);
     setNext(await api("/api/next-fixture").catch(() => null));
     setNews(await api("/api/news").catch(() => []));
+    setVisitors(await api("/api/visitors").catch(() => null));
   }, []);
   React.useEffect(() => {
     refresh();
@@ -48,6 +50,7 @@ export default function Dash({ save0, reload }) {
               <div className="font-black leading-tight">{c.name}</div>
               <div className="text-xs opacity-80">
                 Coach {save.manager_name} • Pekan {Math.min(save.matchday, 17)}/17{ACL_MDS.includes(save.matchday) ? ' • ACL MD ' + aclRound(save.matchday) : ''}{aclStage(save.matchday) ? ' • ACL ' + aclStage(save.matchday) : ''} • 💰 Rp{Number(save.budget).toLocaleString("id-ID")}
+                {visitors ? <> • 👥 {Number(visitors.total).toLocaleString("id-ID")} visitor</> : null}
               </div>
             </div>
           </div>
