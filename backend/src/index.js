@@ -19,8 +19,10 @@ app.use('/img', express.static(path.join(__dirname, '..', 'public', 'img')));
 app.use('/img', express.static(path.join(__dirname, 'public', 'img')));
 await initSchema();
 const clubCount = await get('SELECT COUNT(*) v FROM clubs');
-// Auto-reseed: DB kosong ATAU masih seed lama (belum ada 31 klub ACL Two 8 grup -> total < 49)
-if (!clubCount || !clubCount.v || clubCount.v < 49) await seedAll();
+// Auto-reseed: DB kosong ATAU masih seed lama (jumlah klub < 49) ATAU belum memuat
+// nama-nama klub ACL Two terbaru (marker: 'Gangwon FC') -> seed ulang sekali.
+const aclMarker = await get("SELECT id FROM clubs WHERE name='Gangwon FC'");
+if (!clubCount || !clubCount.v || clubCount.v < 49 || !aclMarker) await seedAll();
 
 // wrapper async handler dengan error handling
 const h = (fn) => (req, res) => Promise.resolve(fn(req, res)).catch((e) => {
