@@ -12,6 +12,17 @@ body { font-family: ui-sans-serif, system-ui, 'Segoe UI', Roboto, sans-serif; }
   background-position: center;
   background-attachment: fixed;
 }
+/* Versi MOBILE: pakai gambar potret khusus HP (frontend/public/img/9x6.jpg)
+   agar komposisi stadion pas di layar sempit (tidak ter-crop berlebihan). */
+@media (max-width: 640px) {
+  .bg-lifm {
+    background-image: linear-gradient(rgba(2, 6, 23, 0.6), rgba(2, 6, 23, 0.8)), url('/img/9x6.jpg');
+    background-size: cover;
+    background-position: center;
+    /* background-attachment: fixed tidak stabil di browser HP -> pakai scroll */
+    background-attachment: scroll;
+  }
+}
 .bg-lifm-card { backdrop-filter: blur(2px); }
 /* Lapangan bola vertikal: gawang sendiri di bawah, gawang lawan di atas */
 .pitch-wrap { background: linear-gradient(180deg, #15803d 0%, #16a34a 45%, #15803d 100%); border: 1px solid rgba(255,255,255,.25); box-shadow: inset 0 0 40px rgba(0,0,0,.35); }
