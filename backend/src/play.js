@@ -93,7 +93,7 @@ async function oppAutoSub(oppXI, oppId, oppSide, oppShort, minute) {
     "Lawan ganti pemain! Yang masuk langsung senyum-senyum gak jelas!",
     "Pergantian! Pelatih lawan mutusin pakai otak, katanya!"
   ];
-  return { minute: minute, type: 'sub', team: oppSide, outName: out.name, inName: inn.name, text: minute + "' " + SUB_TXT[Math.floor(Math.random() * SUB_TXT.length)] + ' (' + outName + ' ➡️ ' + inn.name + ')' };
+  return { minute: minute, type: 'sub', team: oppSide, outName: out.name, inName: inn.name, text: minute + "' " + SUB_TXT[Math.floor(Math.random() * SUB_TXT.length)] + ' (' + out.name + ' ➡️ ' + inn.name + ')' };
 }
 
 export async function playMatchdayFirstHalf(save) {
@@ -159,6 +159,7 @@ export async function playMatchdaySecondHalf(save, body) {
   for (const hs of halfTimeState) {
     const f = await get('SELECT * FROM fixtures WHERE id=?', [hs.fixtureId]);
     if (!f) continue;
+    if (f.played) continue; // safety retry: fixture yang sudah tersimpan jangan di-simulasi ulang (hindari skor dobel)
     const isUser = hs.isUser;
         const h1 = hs.h1 || { homeGoals: 0, awayGoals: 0, events: [], scorers: { home: {}, away: {} }, xg: { home: 0, away: 0 } };
     const h1s = h1.scorers || { home: {}, away: {} };

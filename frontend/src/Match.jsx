@@ -205,9 +205,14 @@ export default function Match({ save, next, onPlayed }) {
       const sp = SPEEDS.find((s) => s.id === speed) || SPEEDS[1];
       startTick(sp.delay);
     } catch (e) {
-      setEvents((old) => [...old, { minute: 0, type: "info", team: "none", text: "Gagal babak 2: " + e.message }]);
-      setShown(2);
+      // Gagal di server: kembalikan panel HT agar pemain bisa mencoba LANJUT BABAK KEDUA lagi
+      // (jangan sampai dead-end dan tombol PLAY tidak berfungsi).
+      setEvents((old) => [...old, { minute: 0, type: "info", team: "none", text: "Gagal babak 2: " + e.message + " — coba tekan LANJUT BABAK KEDUA lagi! 🙏" }]);
+      setShown(events.length + 1);
       setPlaying(false);
+      setHalfTime(true);
+      setPhase("first");
+      phaseRef.current = "first";
     }
   };
 
