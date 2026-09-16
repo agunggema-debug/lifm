@@ -108,6 +108,8 @@ export default function Match({ save, next, onPlayed }) {
   };
 
   const playFirstHalf = async () => {
+    // Guard: jangan restart babak 1 kalau match sedang live / menunggu lanjutan babak 2.
+    if (playing || halfTime || halfTimeState || htsRef.current) return;
     stopTick();
     setPlaying(true);
     setPaused(false);
@@ -176,6 +178,11 @@ export default function Match({ save, next, onPlayed }) {
     setEvents((old) => [...old, kick2]);
     try {
       const r = await api("/api/play", { method: "POST", body: JSON.stringify({ phase: "second", halfTimeState }) });
+      // Babak 2 selesai diproses server — bersihkan state HT agar tombol PLAY untuk
+      // laga berikutnya tidak terblokir guard anti-restart.
+      setHalfTime(false);
+      setHalfTimeState(null);
+      htsRef.current = null;
       if (r.finished || r.done) {
         setEvents([{ minute: 90, type: "info", team: "none", text: "Musim selesai! 🏆" }]);
         setShown(1);
@@ -297,9 +304,19 @@ export default function Match({ save, next, onPlayed }) {
           ))}
         </div>
         <div className="text-[11px] opacity-70 mt-1">Santai ~1,4 dtk/event • Normal ~0,65 dtk/event</div>
-        <button disabled={playing || halfTime || save.matchday > 21} onClick={playFirstHalf} className="mt-3 bg-lime-400 disabled:opacity-40 text-slate-950 font-black rounded-2xl px-8 py-3 text-lg">
-          {playing ? "LIVE... 🔴" : halfTime ? "HT ⏹️" : "▶️ PLAY MATCH"}
-        </button>
+        {!playing && !halfTime ? (
+          <button
+            disabled={save.matchday > 21}
+            onClick={playFirstHalf}
+            className="mt-3 bg-lime-400 disabled:opacity-40 text-slate-950 font-black rounded-2xl px-8 py-3 text-lg"
+          >
+            ▶️ PLAY MATCH
+          </button>
+        ) : (
+          <button disabled className="mt-3 bg-slate-500 text-white font-black rounded-2xl px-8 py-3 text-lg cursor-not-allowed">
+            {playing ? "LIVE... 🔴" : "⏸️ ISTIRAHAT — LANJUTKAN DI BAWAH ⬇️"}
+          </button>
+        )}
         {result && next && !next.finished && next.matchday === (result.userResult && result.userResult.fixture ? result.userResult.fixture.matchday : null) && (
           <div className="text-[11px] opacity-80 mt-1">🌏 Laga berikutnya di pekan yang sama: {next.home.short_name} vs {next.away.short_name} — tekan PLAY MATCH lagi!</div>
         )}
