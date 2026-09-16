@@ -122,11 +122,11 @@ export default function Match({ save, next, onPlayed }) {
     setSubPick({ out: "", inn: "" });
     setHalfTimeState(null);
     htsRef.current = null;
-    setEvents([{ minute: 0, type: "info", team: "none", text: "Kick-off babak pertama! Gas! 🔥" }]);
+    setEvents([{ minute: 0, type: "info", team: "none", text: "Kick-off! Wasit tiup peluit, popok penonton sampai terbang! 🔥" }]);
     try {
       const r = await api("/api/play", { method: "POST", body: JSON.stringify({ phase: "first" }) });
       if (r.finished || r.done) {
-        setEvents([{ minute: 90, type: "info", team: "none", text: "Musim selesai! 🏆" }]);
+        setEvents([{ minute: 90, type: "info", team: "none", text: "Musim selesai! Trophy-nya simpan di lemari, jangan dilap pake kaos! 🏆" }]);
         setShown(1);
         setPlaying(false);
         onPlayed(r);
@@ -141,7 +141,7 @@ export default function Match({ save, next, onPlayed }) {
         return;
       }
       const evs = r.userResult.events.slice();
-      setEvents([{ minute: 0, type: "info", team: "none", text: "Kick-off babak pertama! Gas! 🔥" }, ...evs]);
+      setEvents([{ minute: 0, type: "info", team: "none", text: "Kick-off! Wasit tiup peluit, popok penonton sampai terbang! 🔥" }, ...evs]);
       setShown(0);
       dataRef.current = { evs, idx: 0, hg: 0, ag: 0, done: r };
       setHalfTimeState(r.halfTimeState || null);
@@ -171,7 +171,7 @@ export default function Match({ save, next, onPlayed }) {
     d.idx = d.evs.length;
     d.hg = liveHG;
     d.ag = liveAG;
-    const kick2 = { minute: 45, type: "info", team: "none", text: "⚔️ Kick-off babak kedua! Semangat!" };
+    const kick2 = { minute: 45, type: "info", team: "none", text: "⚔️ Babak kedua dimulai! Pemain lari lagi, penonton gigit kuku lagi!" };
     d.evs = [...d.evs, kick2];
     setEvents((old) => [...old, kick2]);
     try {

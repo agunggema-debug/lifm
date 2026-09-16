@@ -1,10 +1,53 @@
 import { rateTeam } from './matchEngine.js';
-const GOAL_TXT = ['GOOOOL! Stadion meledak!', 'GOL! Crowd goes wild!', 'Cetar membahana! GOL!', 'GOL SIIII! Horeg!'];
-const CHANCE_TXT = ['Peluang emas! Tipis di samping gawang', 'Tendangan keras! Kiper terbang!', 'Sundulan! Mistar bergetar!', 'Skill issue buat bek lawan!'];
-const SAVE_TXT = ['What a save! Kiper mode prime!'];
-const YEL_TXT = ['Kartu kuning! Mainnya keras bet', 'Pelanggaran taktis, wasit keluarin kartu'];
-const RED_TXT = ['KARTU MERAH! Auto ngamuk suporter!'];
-const INJ_TXT = ['Aduh pemain tumbang! Tim medis masuk', 'Cedera! Semoga lekas sembuh'];
+const GOAL_TXT = [
+  'GOOOOL! Bobokoookkk! Stadion sampai kena getarkan!',
+  'GOL! Yang bener aja, gawangnya kok bolong ya?',
+  'GOLLL MUANTAAAPP! Suporter teriak sampai tetangga ikut kaget!',
+  'GOL! Skakmat! Lawan masih buffering!',
+  'GOL! Ini bukan impi, ini PENCURIAN TERANG-DAYLIGHT!',
+  'GOOOOL! Kiper-nya nonton bola dari kursi, katanya!',
+  'GOL SAKTI! Bola-nya kayak punya GPS ke gawang!',
+  'GOL! Skuad lawan langsung berdiskusi sambil megang kepala!'
+];
+const CHANCE_TXT = [
+  'HUUY hampir! Bola cium mistar gawang!',
+  'Peluang emas! Bek lawan kayak kena lag!',
+  'Tendangan keras! Bola melesat gak jelas arah, tapi serem!',
+  'Sundulan! Mistar-nya sampai kusut mikir!',
+  'Nyaris! Kaki emas tapi kiper-nya mode sultan reflex!',
+  'Duel satu lawan satu! Jantung suporter deg-degan! 💓',
+  'Peluang! Sayang finishing-nya masih versi beta!',
+  'Dribel liar! Bek lawan sampai terpeleset nontonin!',
+  'Opsss... bola lewat tipis! Nekatnya level dewa!'
+];
+const SAVE_TXT = [
+  'SAVE SAKTI! Tangan kiper itu kayak ada magnetnya!',
+  'Kiper mode CEO! Reflex-nya gila sih!',
+  'SAVED! Sampai kucing di tribun ikut teriak kagum!',
+  'Kiper-nya nge-cheat? Reflex luar biasa!',
+  'Sensasi kiper! Bola dipeluk erat kayak charger!',
+  'Ditampis! Kiper-nya langsung pose kek ganteng!'
+];
+const YEL_TXT = [
+  'Kartu kuning! Tackling-nya kayak debat kandidat',
+  'Kuning! Wasit-nya gak bisa diajak kompromi sama sekali',
+  'Kartu kuning! Main kaki dulu, mikir belakangan',
+  'Pelanggaran! Kayak ngambil charger orang tanpa izin',
+  'Kuning! Slide-nya kena review VAR sampai ke tetangga sebelah',
+  'Kartu kuning! Pelatih di pinggir sampai lepas kacamata'
+];
+const RED_TXT = [
+  'KARTU MERAH! Kakek wasit langsung ngamuk!',
+  'MERAAAH! Dikick-out! Malu-maluin bestie!',
+  'Kartu merah! Mode speedrun keluar lapangan!',
+  'MERAH! Suporter jadi komposer lagu duka seketika!'
+];
+const INJ_TXT = [
+  'Aduh! Keseleo kayak kaki masuk kulkas! Tim medis masuk',
+  'Pemain tumbang! Kram alias kehabisan baterai 🔋',
+  'Tim medis lari lebih cepet dari pemainnya!',
+  'Aduh! Kayak kena tackle dari masa depan! Perawatan dulu'
+];
 
 function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
 function scorerOf(list, posWanted) {
@@ -88,9 +131,9 @@ export function simulateMatch(o) {
   for (const k of Object.keys(h2.scorers.home)) scorers.home[k] = (scorers.home[k] || 0) + h2.scorers.home[k];
   for (const k of Object.keys(h1.scorers.away)) scorers.away[k] = (scorers.away[k] || 0) + h1.scorers.away[k];
   for (const k of Object.keys(h2.scorers.away)) scorers.away[k] = (scorers.away[k] || 0) + h2.scorers.away[k];
-  let tail = 'Imbang bestie!';
-  if (hg > ag) tail = o.homeName + ' menang! Horeg!';
-  if (ag > hg) tail = o.awayName + ' mencuri 3 poin! Cold!';
+  let tail = 'Imbang! Dua-duanya sama kuat, sama-sama gak pede bestie! 🤝';
+  if (hg > ag) tail = o.homeName + ' menang! Stadion rame kayak konser tiket murah! 🎉';
+  if (ag > hg) tail = o.awayName + ' nyolong 3 poin pulang bawa koper! 🧊';
   events.push({ minute: 90, type: 'fulltime', team: 'none', text: 'FT: ' + o.homeName + ' ' + hg + ' - ' + ag + ' ' + o.awayName + '! ' + tail });
   events.sort(function (a, b) { return a.minute - b.minute; });
   return { homeGoals: hg, awayGoals: ag, events: events, scorers: scorers, xg: { home: +((h1.xg.home + h2.xg.home) / 2).toFixed(2), away: +((h1.xg.away + h2.xg.away) / 2).toFixed(2) }, halves: { h1: h1, h2: h2 } };

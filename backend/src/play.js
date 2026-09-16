@@ -87,7 +87,13 @@ async function oppAutoSub(oppXI, oppId, oppSide, oppShort, minute) {
   if (!out || !inn) return null;
   const ni = oppXI.findIndex((p) => p.id === out.id);
   oppXI[ni] = inn;
-  return { minute: minute, type: 'sub', team: oppSide, outName: out.name, inName: inn.name, text: minute + "' sub lawan." };
+  const SUB_TXT = [
+    "Pergantian lawan! Yang keluar pasrah, yang masuk sumringah!",
+    "Sub lawan! Pemain keluar sambil nge-check baterai - habis!",
+    "Lawan ganti pemain! Yang masuk langsung senyum-senyum gak jelas!",
+    "Pergantian! Pelatih lawan mutusin pakai otak, katanya!"
+  ];
+  return { minute: minute, type: 'sub', team: oppSide, outName: out.name, inName: inn.name, text: minute + "' " + SUB_TXT[Math.floor(Math.random() * SUB_TXT.length)] + ' (' + outName + ' ➡️ ' + inn.name + ')' };
 }
 
 export async function playMatchdayFirstHalf(save) {
@@ -212,7 +218,7 @@ export async function playMatchdaySecondHalf(save, body) {
   await run('INSERT INTO news (day_label,title,body,tag) VALUES (?,?,?,?)', [
     'MD' + save.matchday,
     userResult ? ('Pekan ' + save.matchday + ': ' + userResult.fixture.home.short_name + ' ' + userResult.homeGoals + '-' + userResult.awayGoals + ' ' + userResult.fixture.away.short_name) : ('Pekan ' + save.matchday + ' selesai'),
-    userResult ? ('xG ' + userResult.xg.home + '-' + userResult.xg.away + '. Gas evaluasi taktik bestie!') : 'Semua laga pekan ini telah dimainkan.',
+    userResult ? ('xG ' + userResult.xg.home + '-' + userResult.xg.away + '. Kiper lawan sampai kram kaki, gila serem!') : 'Semua laga pekan ini tuntas. Yang kalah, semangat cuci kaos ya!',
     'HASIL'
   ]);
   // Pekan ganda: jika tim user masih punya laga yang BELUM dimainkan di matchday ini
