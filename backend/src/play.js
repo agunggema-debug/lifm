@@ -156,10 +156,12 @@ export async function playMatchdaySecondHalf(save, body) {
   if (!halfTimeState.length) return await playMatchdayFirstHalf(save);
   let userResult = null;
   const others = [];
+  let simulated = 0; // jumlah fixture yang BENAR-BENAR disimulasikan di panggilan ini
   for (const hs of halfTimeState) {
     const f = await get('SELECT * FROM fixtures WHERE id=? AND save_id=?', [hs.fixtureId, save.id]);
     if (!f) continue;
     if (f.played) continue; // safety retry: fixture yang sudah tersimpan jangan di-simulasi ulang (hindari skor dobel)
+    simulated++;
     const isUser = hs.isUser;
         const h1 = hs.h1 || { homeGoals: 0, awayGoals: 0, events: [], scorers: { home: {}, away: {} }, xg: { home: 0, away: 0 } };
     const h1s = h1.scorers || { home: {}, away: {} };
@@ -214,6 +216,14 @@ export async function playMatchdaySecondHalf(save, body) {
     await pm2(awayXI2, 'away', res);
     if (isUser && (!userResult || f.competition === 'league')) userResult = { fixture: { ...f, home: clubs[f.home_id], away: clubs[f.away_id] }, userSide: f.home_id === save.club_id ? 'home' : 'away', homeGoals: res.homeGoals, awayGoals: res.awayGoals, homeName: clubs[f.home_id].short_name, awayName: clubs[f.away_id].short_name, userGoals: f.home_id === save.club_id ? res.homeGoals : res.awayGoals, oppGoals: f.home_id === save.club_id ? res.awayGoals : res.homeGoals, oppName: f.home_id === save.club_id ? clubs[f.away_id].short_name : clubs[f.home_id].short_name, events: res.events, xg: res.xg };
     else others.push({ home: clubs[f.home_id].short_name, away: clubs[f.away_id].short_name, hg: res.homeGoals, ag: res.awayGoals });
+  }
+  if (!simulated) {
+    // SEMUA fixture sudah dimainkan -> ini dobel POST / retry jaringan. JANGAN geser
+    // matchday, jangan insert berita dobel, jangan pulihkan cedera 2x (integritas data).
+    // Kembalikan state terkini agar client bisa lanjut normal.
+    const cur = await get('SELECT * FROM careers WHERE id=?', [save.id]);
+    const md = cur ? cur.matchday : save.matchday;
+    return { userResult: null, others: [], nextMatchday: md, pendingUserFixture: false, finished: md > 23, duplicate: true };
   }
   await run('UPDATE players SET injured_weeks = injured_weeks - 1 WHERE injured_weeks > 0 AND save_id = ?', [save.id]);
   await run('INSERT INTO news (save_id,day_label,title,body,tag) VALUES (?,?,?,?,?)', [

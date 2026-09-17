@@ -35,6 +35,16 @@ export default function Match({ save, next, onPlayed }) {
   const [liveHG, setLiveHG] = React.useState(0);
   const [liveAG, setLiveAG] = React.useState(0);
   const [halfTimeState, setHalfTimeState] = React.useState(null);
+  // ==== Sinkronisasi substitusi → server (live-data safety) ====
+  // - subBusy: satu request /api/sub dalam satu waktu (dobel-klik tidak mengirim request paralel
+  //   yang bisa saling menimpa lineup di server).
+  // - start2Ref: LANJUT BABAK KEDUA menunggu sub selesai tersimpan & tak bisa dobel-fire
+  //   (dobel POST /api/play phase=second bisa membuat pekan loncat 2x di server).
+  const [subBusy, setSubBusy] = React.useState(false);
+  const [subStatus, setSubStatus] = React.useState(""); // "", "ok", "fail"
+  const subBusyRef = React.useRef(false);
+  const start1Ref = React.useRef(false); // guard dobel-klik PLAY MATCH
+  const start2Ref = React.useRef(false); // guard dobel-klik LANJUT BABAK KEDUA
   const boxRef = React.useRef(null);
   const timerRef = React.useRef(null);
   const dataRef = React.useRef({ evs: [], idx: 0, hg: 0, ag: 0, done: null });
@@ -110,6 +120,8 @@ export default function Match({ save, next, onPlayed }) {
   const playFirstHalf = async () => {
     // Guard: jangan restart babak 1 kalau match sedang live / menunggu lanjutan babak 2.
     if (playing || halfTime || halfTimeState || htsRef.current) return;
+    if (start1Ref.current) return; // anti dobel-klik: satu request play dalam satu waktu
+    start1Ref.current = true;
     stopTick();
     setPlaying(true);
     setPaused(false);
@@ -122,6 +134,7 @@ export default function Match({ save, next, onPlayed }) {
     setLiveAG(0);
     setSubsMade(0);
     setSubPick({ out: "", inn: "" });
+    setSubStatus(""); // reset indikator sinkronisasi sub dari laga sebelumnya
     setHalfTimeState(null);
     htsRef.current = null;
     setEvents([{ minute: 0, type: "info", team: "none", text: "Kick-off! Wasit tiup peluit, popok penonton sampai terbang! 🔥" }]);
@@ -155,11 +168,15 @@ export default function Match({ save, next, onPlayed }) {
       setEvents((old) => [...old, { minute: 0, type: "info", team: "none", text: "Gagal: " + e.message }]);
       setShown(2);
       setPlaying(false);
+    } finally {
+      start1Ref.current = false; // request play pertama selesai (sukses/gagal) — buka kunci
     }
   };
 
   const playSecondHalf = async () => {
     if (!halfTimeState) return;
+    if (start2Ref.current) return; // anti dobel-klik: dobel POST /api/play bisa membuat pekan loncat 2x di server
+    start2Ref.current = true;
     stopTick();
     setHalfTime(false);
     setPlaying(true);
@@ -168,6 +185,7 @@ export default function Match({ save, next, onPlayed }) {
     phaseRef.current = "second";
     setSubsMade(0);
     setSubPick({ out: "", inn: "" });
+    setSubStatus(""); // bersihkan indikator sub HT sebelum babak 2 berjalan
     const d = dataRef.current;
     // Lanjutkan tick dari posisi akhir babak 1 (JANGAN reset idx — feed jangan mengulang dari menit 1).
     d.idx = d.evs.length;
@@ -213,11 +231,17 @@ export default function Match({ save, next, onPlayed }) {
       setHalfTime(true);
       setPhase("first");
       phaseRef.current = "first";
+    } finally {
+      start2Ref.current = false; // request babak 2 selesai (sukses/gagal) — buka kunci
     }
   };
 
   const doSub = async () => {
     if (!subPick.out || !subPick.inn || subsMade >= 3) return;
+    if (subBusyRef.current) return; // anti dobel-klik: jangan kirim 2 request sub paralel
+    subBusyRef.current = true;
+    setSubBusy(true);
+    setSubStatus("");
     try {
       await api("/api/sub", { method: "POST", body: JSON.stringify({ outId: Number(subPick.out), inId: Number(subPick.inn) }) });
       const outP = myXI.find((p) => p.id === Number(subPick.out));
@@ -228,8 +252,14 @@ export default function Match({ save, next, onPlayed }) {
       }
       setSubsMade((s) => s + 1);
       setSubPick({ out: "", inn: "" });
+      setSubStatus("ok");
     } catch (e) {
+      setSubStatus("fail");
       alert(e.message);
+    } finally {
+      subBusyRef.current = false;
+      setSubBusy(false);
+      setTimeout(() => setSubStatus(""), 2500); // indikator status memudar sendiri
     }
   };
 
@@ -352,11 +382,18 @@ export default function Match({ save, next, onPlayed }) {
                 </option>
               ))}
             </select>
-            <button onClick={doSub} disabled={!subPick.out || !subPick.inn || subsMade >= 3} className="bg-amber-400 disabled:opacity-40 font-black rounded-xl px-3 py-2 text-sm">
-              GANTI! ({subsMade}/3) 🔄
+            <button onClick={doSub} disabled={subBusy || !subPick.out || !subPick.inn || subsMade >= 3} className="bg-amber-400 disabled:opacity-40 font-black rounded-xl px-3 py-2 text-sm">
+              {subBusy ? "MENYIMPAN…" : "GANTI! (" + subsMade + "/3) 🔄"}
             </button>
           </div>
-          <button onClick={playSecondHalf} disabled={!halfTimeState} className="mt-3 w-full bg-slate-950 text-white font-black rounded-xl py-3 text-sm">
+          {subBusy ? (
+            <div className="text-[11px] font-bold text-amber-600 mt-2">🔄 Menyimpan substitusi ke server — babak 2 menunggu sampai sub tersinkron…</div>
+          ) : subStatus === "ok" ? (
+            <div className="text-[11px] font-bold text-green-600 mt-2">✅ Sub tersimpan &amp; sinkron dengan server — babak 2 pakai XI barumu!</div>
+          ) : subStatus === "fail" ? (
+            <div className="text-[11px] font-bold text-red-600 mt-2">⚠️ Sub gagal tersimpan — coba lagi sebelum lanjut babak 2.</div>
+          ) : null}
+          <button onClick={playSecondHalf} disabled={!halfTimeState || subBusy} title={subBusy ? "Tunggu substitusi tersimpan dulu…" : undefined} className="mt-3 w-full bg-slate-950 text-white font-black rounded-xl py-3 text-sm disabled:opacity-40">
             ▶️ LANJUT BABAK KEDUA ⚔️
           </button>
         </div>
