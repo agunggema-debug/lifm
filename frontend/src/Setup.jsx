@@ -119,19 +119,19 @@ export default function Setup({ clubs = [], onDone }) {
                 }}
               />
               <h2 className="text-xl font-black mt-2">
-                Tentang <span className="text-lime-400">LIFM</span> ⚽
+                Tentang <span className="text-lime-400">LIFM</span>
               </h2>
             </div>
             <p className="mt-3 text-sm text-slate-300 leading-relaxed">
               <strong>Liga Indonesia Football Manager (LIFM)</strong> adalah game simulasi manajer sepak bola{" "}
               <strong>open source (lisensi MIT)</strong> — ringan, tanpa install, dan langsung jalan di browser.
-              Pilih klub BRI Super League, atur taktik & formasi, jalani simulasi pertandingan play-by-play,
+              Pilih klub Indonesia Super League, atur taktik & formasi, jalani simulasi pertandingan play-by-play,
               dan jadilah manajer GOAT! 🏆
             </p>
             <ul className="mt-3 text-sm text-slate-300 space-y-1 list-disc list-inside">
               <li>Frontend: React + Vite ⚡</li>
               <li>Backend: Express + libSQL/SQLite (server-authoritative match engine)</li>
-              <li>18 klub BRI Super League 2026/27 + kompetisi ACL Two</li>
+              <li>18 klub Indonesia Super League 2026/27 + kompetisi ACL Two</li>
               <li>Multi-user: setiap pengunjung punya karier sendiri</li>
             </ul>
             <p className="mt-3 text-xs text-slate-400 text-center">

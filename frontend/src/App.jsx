@@ -11,7 +11,15 @@ export default function App() {
     api('/api/state').then(setState).catch(() => setState({ error: true })).finally(() => setLoading(false));
   }, []);
   React.useEffect(() => { load(); }, [load]);
-  if (loading) return <div className="min-h-screen grid place-items-center bg-slate-950 text-white text-xl">Loading... ⚽</div>;
+  if (loading) return (
+    <div className="min-h-screen grid place-items-center bg-slate-950 text-white text-center">
+      <div>
+        <img src="/img/lifm.png" alt="LIFM" className="w-24 h-24 mx-auto object-contain anim-pop" />
+        <div className="text-xl mt-3 font-black">Loading...</div>
+        <div className="text-xs text-slate-400 mt-1">Menyiapkan stadion ⚡</div>
+      </div>
+    </div>
+  );
   // Validasi bentuk response: harus punya save (hasSave=true) ATAU daftar clubs (belum ada karier).
   const valid = state && !state.error && (state.hasSave ? !!state.save && !!state.save.club : Array.isArray(state.clubs));
   if (!valid) return (

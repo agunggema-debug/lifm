@@ -112,7 +112,7 @@ function playerInsert(saveId, p) {
 }
 
 function makeFixtures(saveId) {
-  // Hanya klub BRI Super League (id 1-18); klub ACL Two (id 19-21) khusus bertanding di ACL Two.
+  // Hanya klub Indonesia Super League (id 1-18); klub ACL Two (id 19-21) khusus bertanding di ACL Two.
   const ids = CLUBS.filter((c) => c.id <= 18).map((c) => c.id);
   const arr = ids.slice(1);
   let round = [];
@@ -132,7 +132,7 @@ function makeFixtures(saveId) {
 }
 
 // ===== ACL Two 2026/27: 8 grup (A-H) =====
-// Fase grup: tiap grup home-away round-robin (6 ronde), digelar DI ANTARA pekan BRI Super
+// Fase grup: tiap grup home-away round-robin (6 ronde), digelar DI ANTARA pekan Indonesia Super
 // League (pekan ganda) via ACL_MD_LEAGUE. 2 terbaik tiap grup -> babak gugur (16 Besar ->
 // Perempat Final -> Semifinal -> Final) yang dibangkitkan dinamis di play.js (Pekan 18-21).
 const ACL_MD_LEAGUE = { 1: 3, 2: 5, 3: 8, 4: 10, 5: 13, 6: 16 }; // ACL MD1=pekan 3, MD2=5, MD3=8, MD4=10, MD5=13, MD6=16

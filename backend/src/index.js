@@ -77,7 +77,7 @@ app.get('/api/visitors', h(async (req, res) => {
 }));
 
 app.get('/api/health', (req, res) => res.json({ ok: true, game: 'LIFM' }));
-app.get('/api/meta', (req, res) => res.json({ season: '2026/27', league: 'BRI Super League', background: '/img/background.jpg' }));
+app.get('/api/meta', (req, res) => res.json({ season: '2026/27', league: 'Indonesia Super League', background: '/img/background.jpg' }));
 app.get('/api/clubs', h(async (req, res) => {
   const rows = await all('SELECT * FROM clubs ORDER BY reputation DESC');
   res.json(rows.map((c) => ({ ...c, logo_url: c.logo ? '/img/clubs/' + c.logo : '' })));
@@ -87,9 +87,9 @@ app.get('/api/state', h(async (req, res) => {
   if (!s) {
     // Hanya 18 klub Super League Indonesia yang bisa dipilih di layar awal (klub ACL 19-21 tidak bisa dipilih & tidak ada di klasemen)
     const rows = await all('SELECT * FROM clubs WHERE id <= 18 ORDER BY name');
-    return res.json({ hasSave: false, season: '2026/27', league: 'BRI Super League', background: '/img/background.jpg', clubs: rows.map((c) => ({ ...c, logo_url: c.logo ? '/img/clubs/' + c.logo : '' })) });
+    return res.json({ hasSave: false, season: '2026/27', league: 'Indonesia Super League', background: '/img/background.jpg', clubs: rows.map((c) => ({ ...c, logo_url: c.logo ? '/img/clubs/' + c.logo : '' })) });
   }
-  res.json({ hasSave: true, save: await saveView(s), season: '2026/27', league: 'BRI Super League', background: '/img/background.jpg' });
+  res.json({ hasSave: true, save: await saveView(s), season: '2026/27', league: 'Indonesia Super League', background: '/img/background.jpg' });
 }));
 app.post('/api/career', h(async (req, res) => {
   const name = String((req.body || {}).managerName || 'Manajer').slice(0, 40);

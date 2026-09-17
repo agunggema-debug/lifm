@@ -4,7 +4,7 @@ import fs from 'node:fs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// 18 klub BRI Super League 2026/27 (mapping 1:1 ke file logo di src/public/img/clubs/*.png).
+// 18 klub Indonesia Super League 2026/27 (mapping 1:1 ke file logo di src/public/img/clubs/*.png).
 // Catatan: user menulis "2026/2007" — diasumsikan maksudnya musim 2026/2027.
 export const CLUBS = [
   { id: 1, name: 'Persija Jakarta', short_name: 'PERSIJA', city: 'Jakarta', logo: 'persija.png', color_primary: '#C8102E', color_secondary: '#FFFFFF', strength: 86, budget: 45000000, reputation: 90 },
@@ -84,7 +84,7 @@ export const FIRST = ['Rizky','Andi','Bagus','Dimas','Fajar','Ilham','Yoga','Egi
 export const LAST = ['Pratama','Saputra','Wijaya','Santoso','Nugroho','Ramadhan','Kurniawan','Setiawan','Hidayat','Maulana','Fauzi','Rahmat','Syahputra','Gunawan','Firmansyah','Alamsyah','Putra','Siregar','Nasution','Lestaluhu','Kambera','Solossa','Wanggai','Rumakiek','Klok','Arhan','Asnawi','Febriansyah','Sayuri','Pluim','Lilipaly','Spasojevic','Ciro','David','Brass','Moreira','Costa','Silva','Santos','Oliveira'];
 export const FOREIGN = ['Carlos Eduardo','Matheus Silva','Lucas Costa','Rafael Oliveira','Diego Santos','Gustavo Almeida','Bruno Moreira','Tiago Alves','Pedro Costa','Anderson Silva','Alex Martins','Joao Pedro','Marcel Silva','Igor Costa','Ramon Bueno','Caio Ruan','David Lopez','Marco Reusanda','Kenji Sato','Moussa Diallo'];
 
-// Skuad inti PERKIRAAN BRI Super League 2026/27 (berbasis skuad musim 2025/26).
+// Skuad inti PERKIRAAN Indonesia Super League 2026/27 (berbasis skuad musim 2025/26).
 // f:1 = pemain asing. Bursa transfer berjalan terus — koreksi manual di sini bila ada yang pindah.
 // Klub 16-18 (promosi/baru, data skuad minim) + sisa slot tiap klub diisi generator nama lokal.
 const SQUAD_CORES_LEGACY = { // (tidak dipakai — digantikan roster asli ileague.id, lihat bawah)
