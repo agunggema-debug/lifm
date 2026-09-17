@@ -9,7 +9,9 @@ export default function Setup({ clubs = [], onDone }) {
   const [visitors, setVisitors] = React.useState(null);
   const [showAbout, setShowAbout] = React.useState(false);
   React.useEffect(() => {
-    api("/api/visitors").then(setVisitors).catch(() => {});
+    api("/api/visitors")
+      .then(setVisitors)
+      .catch(() => {});
   }, []);
   const start = async () => {
     setBusy(true);
@@ -83,7 +85,7 @@ export default function Setup({ clubs = [], onDone }) {
         </div>
         <p className="text-center text-slate-300 text-xs mt-4">
           Open source by{" "}
-          <a href="https://fainaya.netlify.app" className="hover:underline" target="_blank" rel="noopener noreferrer">
+          <a href="https://fainaya.netlify.app" className="hover:underline font-bold text-lime-400" target="_blank" rel="noopener noreferrer">
             Fainaya Services&Art
           </a>{" "}
           • MIT • LIFM v.1.0 •{" "}
@@ -99,20 +101,9 @@ export default function Setup({ clubs = [], onDone }) {
       <HowToPlay />
 
       {showAbout ? (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
-          onClick={() => setShowAbout(false)}
-        >
-          <div
-            className="bg-slate-900 text-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-white/10 anim-pop relative"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              type="button"
-              onClick={() => setShowAbout(false)}
-              className="absolute top-3 right-4 text-slate-400 hover:text-white text-2xl leading-none"
-              aria-label="Tutup"
-            >
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4" onClick={() => setShowAbout(false)}>
+          <div className="bg-slate-900 text-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-white/10 anim-pop relative" onClick={(e) => e.stopPropagation()}>
+            <button type="button" onClick={() => setShowAbout(false)} className="absolute top-3 right-4 text-slate-400 hover:text-white text-2xl leading-none" aria-label="Tutup">
               ×
             </button>
             <div className="text-center">
@@ -129,10 +120,8 @@ export default function Setup({ clubs = [], onDone }) {
               </h2>
             </div>
             <p className="mt-3 text-sm text-slate-300 leading-relaxed">
-              <strong>Liga Indonesia Football Manager (LIFM)</strong> adalah game simulasi manajer sepak bola{" "}
-              <strong>open source (lisensi MIT)</strong> — ringan, tanpa install, dan langsung jalan di browser.
-              Pilih klub Indonesia Super League, atur taktik & formasi, jalani simulasi pertandingan play-by-play,
-              dan jadilah manajer GOAT! 🏆
+              <strong>Liga Indonesia Football Manager (LIFM)</strong> adalah game simulasi manajer sepak bola <strong>open source (lisensi MIT)</strong> — ringan, tanpa install, dan langsung jalan di browser. Pilih klub Indonesia Super
+              League, atur taktik & formasi, jalani simulasi pertandingan play-by-play, dan jadilah manajer GOAT! 🏆
             </p>
             <ul className="mt-3 text-sm text-slate-300 space-y-1 list-disc list-inside">
               <li>Frontend: React + Vite ⚡</li>
@@ -140,23 +129,12 @@ export default function Setup({ clubs = [], onDone }) {
               <li>18 klub Indonesia Super League 2026/27 + kompetisi ACL Two</li>
               <li>Multi-user: setiap pengunjung punya karier sendiri</li>
             </ul>
-            <p className="mt-3 text-xs text-slate-400 text-center">
-              Kode source bebas dipakai, dipelajari, dan dikembangkan sesuai lisensi MIT.
-            </p>
+            <p className="mt-3 text-xs text-slate-400 text-center">Kode source bebas dipakai, dipelajari, dan dikembangkan sesuai lisensi MIT.</p>
             <div className="mt-4 flex gap-2 justify-center">
-              <a
-                href="https://github.com/agunggema-debug/lifm"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 rounded-xl bg-lime-400 hover:bg-lime-300 text-slate-950 font-black text-sm"
-              >
+              <a href="https://github.com/agunggema-debug/lifm" target="_blank" rel="noopener noreferrer" className="px-4 py-2 rounded-xl bg-lime-400 hover:bg-lime-300 text-slate-950 font-black text-sm">
                 📦 Repo GitHub
               </a>
-              <button
-                type="button"
-                onClick={() => setShowAbout(false)}
-                className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 font-bold text-sm"
-              >
+              <button type="button" onClick={() => setShowAbout(false)} className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 font-bold text-sm">
                 Tutup
               </button>
             </div>
