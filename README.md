@@ -54,7 +54,7 @@ npm run dev
 
 ### Reset database
 
-Hapus file `backend/lifm.db` lalu restart backend — auto-seed 18 klub + 432 pemain + 153 fixture. Atau tekan **↺ Reset** di header / `POST /api/career/reset`.
+Hapus file `backend/lifm.db` lalu restart backend — auto-seed klub global. Tekan **↺ Reset** di header / `POST /api/career/reset` untuk **menghapus karier kamu sendiri saja** (multi-user: setiap browser punya karier & dunia sendiri via token di localStorage).
 
 ## 🕹️ Cara main
 

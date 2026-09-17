@@ -1,8 +1,31 @@
 // Base URL backend. Kosong = same-origin (dev: proxy via Vite, prod Vercel: set VITE_API_URL).
-export const API_BASE = (import.meta.env.VITE_API_URL || 'https://lifm-backend.vercel.app').replace(/\/$/, "");
+export const API_BASE = (import.meta.env.VITE_API_URL || "https://lifm-backend.vercel.app").replace(/\/$/, "");
+// ==== Identitas pengunjung (multi-user) ====
+// Token unik per browser disimpan di localStorage & dikirim via header X-Lifm-Token,
+// sehingga tiap pengunjung punya karier + dunia gamenya sendiri.
+function randomToken() {
+  const c = globalThis.crypto;
+  if (c && c.randomUUID) return c.randomUUID();
+  return "t" + Date.now() + "-" + Math.random().toString(36).slice(2, 10);
+}
+export function getToken() {
+  try {
+    let t = localStorage.getItem("lifm_token");
+    if (!t) {
+      t = randomToken();
+      localStorage.setItem("lifm_token", t);
+    }
+    return t;
+  } catch {
+    return randomToken();
+  }
+}
+export function resetToken() {
+  try { localStorage.setItem("lifm_token", randomToken()); } catch { /* ignore */ }
+}
 export async function api(path, opts) {
   const res = await fetch(API_BASE + path, {
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "X-Lifm-Token": getToken() },
     ...(opts || {}),
   });
   const data = await res.json().catch(() => null);

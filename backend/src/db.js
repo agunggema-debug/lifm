@@ -58,6 +58,7 @@ const SCHEMA = `
   );
   CREATE TABLE IF NOT EXISTS players (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    save_id INTEGER NOT NULL DEFAULT 0,
     club_id INTEGER NOT NULL REFERENCES clubs(id),
     name TEXT NOT NULL,
     pos TEXT NOT NULL,
@@ -77,6 +78,7 @@ const SCHEMA = `
   );
     CREATE TABLE IF NOT EXISTS fixtures (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    save_id INTEGER NOT NULL DEFAULT 0,
     season INTEGER NOT NULL DEFAULT 1,
     matchday INTEGER NOT NULL,
     home_id INTEGER NOT NULL REFERENCES clubs(id),
@@ -88,13 +90,16 @@ const SCHEMA = `
     events_json TEXT DEFAULT '[]'
   );
   CREATE TABLE IF NOT EXISTS standings_cache (
-    club_id INTEGER PRIMARY KEY REFERENCES clubs(id),
+    save_id INTEGER NOT NULL DEFAULT 0,
+    club_id INTEGER REFERENCES clubs(id),
     played INTEGER DEFAULT 0, won INTEGER DEFAULT 0, drawn INTEGER DEFAULT 0,
     lost INTEGER DEFAULT 0, gf INTEGER DEFAULT 0, ga INTEGER DEFAULT 0,
-    gd INTEGER DEFAULT 0, points INTEGER DEFAULT 0
+    gd INTEGER DEFAULT 0, points INTEGER DEFAULT 0,
+    PRIMARY KEY (save_id, club_id)
   );
-  CREATE TABLE IF NOT EXISTS saves (
-    id INTEGER PRIMARY KEY CHECK (id = 1),
+  CREATE TABLE IF NOT EXISTS careers (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    token TEXT NOT NULL UNIQUE,
     manager_name TEXT NOT NULL,
     club_id INTEGER NOT NULL REFERENCES clubs(id),
     season INTEGER NOT NULL DEFAULT 1,
@@ -107,6 +112,7 @@ const SCHEMA = `
   );
   CREATE TABLE IF NOT EXISTS news (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    save_id INTEGER NOT NULL DEFAULT 0,
     day_label TEXT NOT NULL,
     title TEXT NOT NULL,
     body TEXT NOT NULL,
@@ -123,7 +129,9 @@ const SCHEMA = `
 
 export async function initSchema() {
   await db.executeMultiple(SCHEMA);
-  // Migrasi ringan untuk DB lama yang belum punya kolom logo
+  // ==== Migrasi ringan (aman dijalankan berulang, DB lama ikut ke-upgrade) ====
+  const safe = (sql) => db.execute(sql).catch(() => {});
+  // Migrasi: kolom logo pada clubs
   const cols = await all('PRAGMA table_info(clubs)');
   if (cols.length && !cols.some((c) => c.name === 'logo')) {
     await db.execute("ALTER TABLE clubs ADD COLUMN logo TEXT NOT NULL DEFAULT ''");
@@ -133,4 +141,57 @@ export async function initSchema() {
   if (fxCols.length && !fxCols.some((c) => c.name === 'competition')) {
     await db.execute("ALTER TABLE fixtures ADD COLUMN competition TEXT NOT NULL DEFAULT 'league'");
   }
+  // ==== Migrasi MULTI-USER: save_id pada players/fixtures/standings_cache/news ====
+  const addCol = async (table, ddl) => {
+    const t = await all('PRAGMA table_info(' + table + ')');
+    if (t.length && !t.some((c) => c.name === 'save_id')) await db.execute('ALTER TABLE ' + table + ' ADD COLUMN ' + ddl);
+  };
+  await addCol('players', "save_id INTEGER NOT NULL DEFAULT 0");
+  await addCol('fixtures', "save_id INTEGER NOT NULL DEFAULT 0");
+  await addCol('standings_cache', "save_id INTEGER NOT NULL DEFAULT 0");
+  // standings_cache lama punya PRIMARY KEY(club_id) tunggal -> harus dibangun ulang jadi komposit (save_id, club_id)
+  const stCols = await all('PRAGMA table_info(standings_cache)');
+  if (stCols.length) {
+    const pkCount = stCols.filter((c) => c.pk > 0).length;
+    const hasComposite = stCols.some((c) => c.name === 'save_id' && c.pk > 0);
+    if (pkCount === 1 && !hasComposite) {
+      // Salin hanya kolom yang benar-benar ada di tabel lama (DB lama bisa punya skema berbeda)
+      const keep = ['save_id', 'club_id', 'played', 'won', 'drawn', 'lost', 'gf', 'ga', 'gd', 'points'];
+      const oldNames = stCols.map((c) => c.name);
+      const selCols = keep.filter((k) => oldNames.includes(k)).join(', ');
+      await db.executeMultiple([
+        'DROP TABLE IF EXISTS standings_cache_old', // sisa migrasi yang gagal/terputus
+        'ALTER TABLE standings_cache RENAME TO standings_cache_old',
+        'CREATE TABLE standings_cache (save_id INTEGER NOT NULL DEFAULT 0, club_id INTEGER REFERENCES clubs(id), played INTEGER DEFAULT 0, won INTEGER DEFAULT 0, drawn INTEGER DEFAULT 0, lost INTEGER DEFAULT 0, gf INTEGER DEFAULT 0, ga INTEGER DEFAULT 0, gd INTEGER DEFAULT 0, points INTEGER DEFAULT 0, PRIMARY KEY (save_id, club_id))',
+        'INSERT OR IGNORE INTO standings_cache (' + selCols + ') SELECT ' + selCols + ' FROM standings_cache_old',
+        'DROP TABLE standings_cache_old'
+      ].join('; '));
+    }
+  }
+  await addCol('news', "save_id INTEGER NOT NULL DEFAULT 0");
+  // Tabel lama `saves` (id=1, shared) -> data dunia lama (save_id=0) milik save lama:
+  // pindahkan manager ke tabel baru `careers` dengan token kosong (diambil via migrasi localStorage).
+  const savesCols = await all('PRAGMA table_info(saves)');
+  if (savesCols.length && savesCols.some((c) => c.name === 'manager_name')) {
+    const old = await get('SELECT * FROM saves WHERE id = 1');
+    if (old) {
+      try {
+        const dup = await get('SELECT id FROM careers WHERE id = 1');
+        const clubExists = await get('SELECT id FROM clubs WHERE id = ?', [old.club_id]);
+        if (!dup && clubExists) {
+          await run('INSERT INTO careers (id,token,manager_name,club_id,season,matchday,formation,mentality,lineup_json,budget) VALUES (1,?,?,?,?,?,?,?,?,?)',
+            ['', old.manager_name, old.club_id, old.season, old.matchday, old.formation, old.mentality, old.lineup_json, old.budget]);
+        }
+        await db.execute('DROP TABLE saves');
+      } catch (e) {
+        console.error('Migrasi save lama dilewati:', e && e.message);
+      }
+    }
+  }
+  // Pastikan kolom token UNIQUE dan index pencarian per-karier
+  await safe('CREATE UNIQUE INDEX IF NOT EXISTS idx_careers_token ON careers(token)');
+  await safe('CREATE INDEX IF NOT EXISTS idx_players_save ON players(save_id)');
+  await safe('CREATE INDEX IF NOT EXISTS idx_fixtures_save ON fixtures(save_id)');
+  await safe('CREATE INDEX IF NOT EXISTS idx_news_save ON news(save_id)');
+  await safe('CREATE INDEX IF NOT EXISTS idx_visitors_created ON visitors(created_at)');
 }

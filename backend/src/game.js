@@ -7,8 +7,18 @@ export function overall(p) {
   return Math.round(p.sho * 0.5 + p.pac * 0.25 + p.pas * 0.15 + p.sta * 0.1);
 }
 
+// ==== Multi-user: fungsi kini ber-scope per karier (save) ====
+// getSaveById: ambil karier berdasarkan id; getSave (legacy) = karier id 1 (token kosong).
+export async function getSaveById(id) {
+  return (await get('SELECT * FROM careers WHERE id = ?', [id])) || null;
+}
+
 export async function getSave() {
-  return (await get('SELECT * FROM saves WHERE id = 1')) || null;
+  return (await get('SELECT * FROM careers WHERE id = 1')) || null;
+}
+
+export async function getSaveByToken(token) {
+  return (await get('SELECT * FROM careers WHERE token = ?', [token])) || null;
 }
 
 export async function clubMap() {
@@ -17,8 +27,9 @@ export async function clubMap() {
   return m;
 }
 
-export async function squad(clubId) {
-  const rows = await all('SELECT * FROM players WHERE club_id = ?', [clubId]);
+// Skuad klub dari DUNIA milik karier tertentu
+export async function squad(saveId, clubId) {
+  const rows = await all('SELECT * FROM players WHERE save_id = ? AND club_id = ?', [saveId, clubId]);
   return rows.map((p) => ({ ...p, ovr: overall(p) })).sort((a, b) => b.ovr - a.ovr);
 }
 
@@ -31,8 +42,8 @@ export function formationNeeds(f) {
   return { GK: v[0], DF: v[1], MF: v[2], FW: v[3] };
 }
 
-export async function autoXI(clubId, formation, mentality) {
-  const s = (await squad(clubId)).filter((p) => p.injured_weeks === 0);
+export async function autoXI(saveId, clubId, formation, mentality) {
+  const s = (await squad(saveId, clubId)).filter((p) => p.injured_weeks === 0);
   const need = formationNeeds(formation);
   const xi = [];
   const order = ['GK', 'DF', 'MF', 'FW'];
@@ -44,12 +55,12 @@ export async function autoXI(clubId, formation, mentality) {
   return { xi: xi.slice(0, 11), formation: formation, mentality: mentality };
 }
 
-export async function bumpStanding(clubId, gf, ga) {
+export async function bumpStanding(saveId, clubId, gf, ga) {
   const won = gf > ga ? 1 : 0;
   const drawn = gf === ga ? 1 : 0;
   const lost = gf < ga ? 1 : 0;
   const pts = won ? 3 : drawn ? 1 : 0;
-  await run('UPDATE standings_cache SET played=played+1, won=won+?, drawn=drawn+?, lost=lost+?, gf=gf+?, ga=ga+?, gd=gd+?, points=points+? WHERE club_id=?',
-    [won, drawn, lost, gf, ga, gf - ga, pts, clubId]);
+  await run('UPDATE standings_cache SET played=played+1, won=won+?, drawn=drawn+?, lost=lost+?, gf=gf+?, ga=ga+?, gd=gd+?, points=points+? WHERE save_id=? AND club_id=?',
+    [won, drawn, lost, gf, ga, gf - ga, pts, saveId, clubId]);
 }
 

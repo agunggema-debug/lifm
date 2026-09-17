@@ -58,4 +58,4 @@ Catatan:
 turso db shell lifm < backend\schema.sql   # jika ingin restore manual
 ```
 
-Cara paling gampang: biarkan Vercel auto-seed. Untuk reset data di prod: `POST https://backend-xxx.vercel.app/api/career/reset`.
+Cara paling gampang: biarkan Vercel auto-seed. Untuk reset karier di prod: `POST https://backend-xxx.vercel.app/api/career/reset` (dengan header `X-Lifm-Token` — hanya menghapus karier milik token tersebut, tidak mengganggu pengunjung lain).

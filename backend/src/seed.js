@@ -44,11 +44,21 @@ function mkPlayer(clubId, pos, base, foreign, over) {
   return { ...p, ovr };
 }
 
-export async function seedAll() {
+// Klub bersifat GLOBAL & statis — hanya di-seed sekali (tidak dihapus saat user mulai karier).
+export async function seedClubs() {
   await initSchema();
-  await exec('DELETE FROM players; DELETE FROM fixtures; DELETE FROM standings_cache; DELETE FROM news; DELETE FROM saves; DELETE FROM managers; DELETE FROM clubs;');
+  const cnt = await get('SELECT COUNT(*) v FROM clubs');
+  if (cnt && cnt.v >= 49) return; // sudah ter-seed
+  const marker = await get("SELECT id FROM clubs WHERE name='Gangwon FC'");
+  if (marker) return;
+  await exec('DELETE FROM clubs;');
   const clubStmts = CLUBS.map((c) => stmt('INSERT INTO clubs (id,name,short_name,city,logo,color_primary,color_secondary,strength,budget,reputation) VALUES (?,?,?,?,?,?,?,?,?,?)', [c.id, c.name, c.short_name, c.city, c.logo, c.color_primary, c.color_secondary, c.strength, c.budget, c.reputation]));
   await batch(clubStmts);
+}
+
+// Membuat DUNIA PRIBADI untuk satu karier (pemain, jadwal, klasemen, berita).
+// Setiap pengunjung punya dunia sendiri sehingga tidak saling mengganggu.
+export async function seedWorld(saveId) {
   const playerStmts = [];
   const used = new Set();
   const TARGET = { GK: 2, DF: 8, MF: 8, FW: 6 };
@@ -63,7 +73,7 @@ export async function seedAll() {
       for (const co of list) {
         const pl = mkPlayer(c.id, pos, c.strength, !!co.f, { name: co.n });
         used.add(pl.name);
-        playerStmts.push(playerInsert(pl));
+        playerStmts.push(playerInsert(saveId, pl));
       }
       const need = TARGET[pos] - list.length;
       const coreF = list.filter((x) => x.f).length;
@@ -77,23 +87,31 @@ export async function seedAll() {
         let guard = 0;
         while (used.has(pl.name) && guard++ < 10) pl = mkPlayer(c.id, pos, c.strength, foreign, isAcl ? { name: aclPlayerName(c.id) } : {});
         used.add(pl.name);
-        playerStmts.push(playerInsert(pl));
+        playerStmts.push(playerInsert(saveId, pl));
       }
     }
-    playerStmts.push(stmt('INSERT INTO standings_cache (club_id) VALUES (?)', [c.id]));
+    playerStmts.push(stmt('INSERT INTO standings_cache (save_id,club_id) VALUES (?,?)', [saveId, c.id]));
   }
   await batch(playerStmts);
-  await batch(makeFixtures());
-  await batch(makeAclFixtures());
-  await run("INSERT INTO news (day_label,title,body,tag) VALUES ('Pra-musim','Selamat datang di Liga Indonesia FM!','Pilih klub favoritmu, atur taktik, dan bawa mereka juara. Gas!','INFO')");
+  await batch(makeFixtures(saveId));
+  await batch(makeAclFixtures(saveId));
+  await run("INSERT INTO news (save_id,day_label,title,body,tag) VALUES (?, 'Pra-musim',?,?, 'INFO')", [saveId, 'Selamat datang di Liga Indonesia FM!', 'Pilih klub favoritmu, atur taktik, dan bawa mereka juara. Gas!']);
 }
 
-function playerInsert(p) {
-  return stmt('INSERT INTO players (club_id,name,pos,age,is_foreign,pac,sho,pas,def,gk,sta,morale,market_value,wage,contract_years) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-    [p.club_id, p.name, p.pos, p.age, p.is_foreign, p.pac, p.sho, p.pas, p.def, p.gk, p.sta, p.morale, p.market_value, p.wage, p.contract_years]);
+// Kompatibilitas: seed dunia untuk save lama (id=1 / token kosong)
+export async function seedAll() {
+  await seedClubs();
+  await seedWorld(1);
 }
 
-function makeFixtures() {
+function playerInsert(saveId, p) {
+  const cols = 'save_id,club_id,name,pos,age,is_foreign,pac,sho,pas,def,gk,sta,morale,market_value,wage,contract_years';
+  const marks = cols.split(',').map(() => '?').join(',');
+  return stmt('INSERT INTO players (' + cols + ') VALUES (' + marks + ')',
+    [saveId, p.club_id, p.name, p.pos, p.age, p.is_foreign, p.pac, p.sho, p.pas, p.def, p.gk, p.sta, p.morale, p.market_value, p.wage, p.contract_years]);
+}
+
+function makeFixtures(saveId) {
   // Hanya klub BRI Super League (id 1-18); klub ACL Two (id 19-21) khusus bertanding di ACL Two.
   const ids = CLUBS.filter((c) => c.id <= 18).map((c) => c.id);
   const arr = ids.slice(1);
@@ -110,7 +128,7 @@ function makeFixtures() {
     // rotate
     fixed.splice(1, 0, fixed.pop());
   }
-  return round.map((f) => stmt('INSERT INTO fixtures (season,matchday,home_id,away_id,competition) VALUES (1,?,?,?,?)', [f.md, f.h, f.a, 'league']));
+  return round.map((f) => stmt('INSERT INTO fixtures (save_id,season,matchday,home_id,away_id,competition) VALUES (?,1,?,?,?,?)', [saveId, f.md, f.h, f.a, 'league']));
 }
 
 // ===== ACL Two 2026/27: 8 grup (A-H) =====
@@ -118,7 +136,7 @@ function makeFixtures() {
 // League (pekan ganda) via ACL_MD_LEAGUE. 2 terbaik tiap grup -> babak gugur (16 Besar ->
 // Perempat Final -> Semifinal -> Final) yang dibangkitkan dinamis di play.js (Pekan 18-21).
 const ACL_MD_LEAGUE = { 1: 3, 2: 5, 3: 8, 4: 10, 5: 13, 6: 16 }; // ACL MD1=pekan 3, MD2=5, MD3=8, MD4=10, MD5=13, MD6=16
-function makeAclFixtures() {
+function makeAclFixtures(saveId) {
   // Ronde round-robin 4 tim (indeks dalam g.ids): leg 1 ronde 1-3, leg 2 ronde 4-6 (home/away dibalik).
   const ROUNDS = [
     { round: 1, pairs: [[0, 1], [2, 3]] },
@@ -132,7 +150,7 @@ function makeAclFixtures() {
   for (const g of ACL_GROUPS) {
     for (const r of ROUNDS) {
       for (const [h, a] of r.pairs) {
-        stmts.push(stmt('INSERT INTO fixtures (season,matchday,home_id,away_id,competition) VALUES (1,?,?,?,?)', [ACL_MD_LEAGUE[r.round], g.ids[h], g.ids[a], 'acl_two']));
+        stmts.push(stmt('INSERT INTO fixtures (save_id,season,matchday,home_id,away_id,competition) VALUES (?,1,?,?,?,?)', [saveId, ACL_MD_LEAGUE[r.round], g.ids[h], g.ids[a], 'acl_two']));
       }
     }
   }

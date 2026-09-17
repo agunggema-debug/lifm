@@ -18,8 +18,8 @@ function koWinner(f, clubs) {
 }
 
 // Klasemen internal tiap grup dari fixture fase grup (matchday <= 17, sudah dimainkan).
-async function aclGroupTables() {
-  const rows = await all("SELECT * FROM fixtures WHERE competition='acl_two' AND matchday <= 17 AND played=1");
+async function aclGroupTables(save) {
+  const rows = await all("SELECT * FROM fixtures WHERE save_id=? AND competition='acl_two' AND matchday <= 17 AND played=1", [save.id]);
   const groupOf = {};
   for (const g of ACL_GROUPS) for (const id of g.ids) groupOf[id] = g.name;
   const tables = {};
@@ -41,18 +41,18 @@ async function aclGroupTables() {
 export async function ensureAclKnockout(save) {
   const stage = ACL_KO_STAGE[save.matchday];
   if (!stage) return;
-  const existing = await all('SELECT * FROM fixtures WHERE season=? AND matchday=?', [save.season, save.matchday]);
+  const existing = await all('SELECT * FROM fixtures WHERE save_id=? AND season=? AND matchday=?', [save.id, save.season, save.matchday]);
   if (existing.length) return;
   const clubs = await clubMap();
   let pairs = [];
   if (save.matchday === 18) {
     // 16 besar: juara grup vs runner-up grup bersebelahan (juara jadi tuan rumah).
-    const tables = await aclGroupTables();
+    const tables = await aclGroupTables(save);
     const W = {}, R = {};
     for (const g of Object.keys(tables)) { W[g] = tables[g][0].id; R[g] = tables[g][1].id; }
     pairs = [['A', 'B'], ['C', 'D'], ['E', 'F'], ['G', 'H'], ['B', 'A'], ['D', 'C'], ['F', 'E'], ['H', 'G']].map(([w, r]) => [W[w], R[r]]);
   } else {
-    const prev = await all('SELECT * FROM fixtures WHERE season=? AND matchday=? AND played=1 ORDER BY id', [save.season, save.matchday - 1]);
+    const prev = await all('SELECT * FROM fixtures WHERE save_id=? AND season=? AND matchday=? AND played=1 ORDER BY id', [save.id, save.season, save.matchday - 1]);
     const winners = prev.map((f) => koWinner(f, clubs));
     if (save.matchday === 19) pairs = [[0, 1], [2, 3], [4, 5], [6, 7]];
     else if (save.matchday === 20) pairs = [[0, 1], [2, 3]];
@@ -60,24 +60,24 @@ export async function ensureAclKnockout(save) {
     pairs = pairs.map(([a, b]) => [winners[a], winners[b]]);
   }
   for (const [h, a] of pairs) {
-    await run('INSERT INTO fixtures (season,matchday,home_id,away_id,competition) VALUES (1,?,?,?,?)', [save.matchday, h, a, 'acl_two']);
+    await run('INSERT INTO fixtures (save_id,season,matchday,home_id,away_id,competition) VALUES (?,?,?,?,?,?)', [save.id, save.season, save.matchday, h, a, 'acl_two']);
   }
 }
 
-async function xiFor(clubId, lineupIds, formation, mentality) {
-  const mySquad = await squad(clubId);
+async function xiFor(save, clubId, lineupIds, formation, mentality) {
+  const mySquad = await squad(save.id, clubId);
   const byId = {};
   for (const p of mySquad) byId[p.id] = p;
   let mine = (lineupIds || []).map((id) => byId[id]).filter(Boolean).filter((p) => p.injured_weeks === 0);
   if (mine.length < 11) {
-    const auto = (await autoXI(clubId, formation, mentality)).xi;
+    const auto = (await autoXI(save.id, clubId, formation, mentality)).xi;
     for (const p of auto) { if (mine.length >= 11) break; if (!mine.find((x) => x.id === p.id)) mine.push(p); }
   }
   return mine.slice(0, 11);
 }
 
-async function oppAutoSub(oppXI, oppId, oppSide, oppShort, minute) {
-  const oppSquad = await squad(oppId);
+async function oppAutoSub(saveId, oppXI, oppId, oppSide, oppShort, minute) {
+  const oppSquad = await squad(saveId, oppId);
   const bench = oppSquad.filter((p) => !oppXI.find((x) => x.id === p.id) && p.injured_weeks === 0);
   if (!bench.length) return null;
   const outPool = oppXI.filter((p) => p.pos !== 'GK');
@@ -101,11 +101,11 @@ export async function playMatchdayFirstHalf(save) {
   const clubs = await clubMap();
   // PENTING: hanya simulasi fixture yang BELUM dimainkan (penting untuk pekan ganda
   // yang diputar bergantian — laga pertama sudah played dan tidak boleh diulang).
-  const fixtures = (await all('SELECT * FROM fixtures WHERE season=? AND matchday=? ORDER BY id', [save.season, save.matchday])).filter((f) => !f.played);
+  const fixtures = (await all('SELECT * FROM fixtures WHERE save_id=? AND season=? AND matchday=? ORDER BY id', [save.id, save.season, save.matchday])).filter((f) => !f.played);
   if (!fixtures.length) {
-    const champ = await get('SELECT c.* FROM standings_cache s JOIN clubs c ON c.id=s.club_id ORDER BY s.points DESC, s.gd DESC, s.gf DESC');
+    const champ = await get('SELECT c.* FROM standings_cache s JOIN clubs c ON c.id=s.club_id WHERE s.save_id=? ORDER BY s.points DESC, s.gd DESC, s.gf DESC', [save.id]);
     // Juara ACL Two: pemenang Final (Pekan 21)
-    const fin = await get("SELECT * FROM fixtures WHERE competition='acl_two' AND matchday=21 AND played=1");
+    const fin = await get("SELECT * FROM fixtures WHERE save_id=? AND competition='acl_two' AND matchday=21 AND played=1", [save.id]);
     const aclChampion = fin ? clubs[koWinner(fin, clubs)] || null : null;
     return { done: true, champion: champ, aclChampion, aclStage: 'Selesai' };
   }
@@ -124,15 +124,15 @@ export async function playMatchdayFirstHalf(save) {
     if (isUser) {
       const isHome = f.home_id === save.club_id;
       const myT = { formation: save.formation, mentality: save.mentality };
-      const mine = await xiFor(save.club_id, lineupIds, save.formation, save.mentality);
-      const opp = (await autoXI(isHome ? f.away_id : f.home_id, '4-4-2', 'balanced')).xi;
+      const mine = await xiFor(save, save.club_id, lineupIds, save.formation, save.mentality);
+      const opp = (await autoXI(save.id, isHome ? f.away_id : f.home_id, '4-4-2', 'balanced')).xi;
       homeXI = isHome ? mine : opp;
       awayXI = isHome ? opp : mine;
       homeT = isHome ? myT : { formation: '4-4-2', mentality: 'balanced' };
       awayT = isHome ? { formation: '4-4-2', mentality: 'balanced' } : myT;
     } else {
-      homeXI = (await autoXI(f.home_id, '4-4-2', 'balanced')).xi;
-      awayXI = (await autoXI(f.away_id, '4-4-2', 'balanced')).xi;
+      homeXI = (await autoXI(save.id, f.home_id, '4-4-2', 'balanced')).xi;
+      awayXI = (await autoXI(save.id, f.away_id, '4-4-2', 'balanced')).xi;
       homeT = { formation: '4-4-2', mentality: 'balanced' };
       awayT = { formation: '4-4-2', mentality: 'balanced' };
     }
@@ -157,7 +157,7 @@ export async function playMatchdaySecondHalf(save, body) {
   let userResult = null;
   const others = [];
   for (const hs of halfTimeState) {
-    const f = await get('SELECT * FROM fixtures WHERE id=?', [hs.fixtureId]);
+    const f = await get('SELECT * FROM fixtures WHERE id=? AND save_id=?', [hs.fixtureId, save.id]);
     if (!f) continue;
     if (f.played) continue; // safety retry: fixture yang sudah tersimpan jangan di-simulasi ulang (hindari skor dobel)
     const isUser = hs.isUser;
@@ -168,15 +168,15 @@ export async function playMatchdaySecondHalf(save, body) {
     if (isUser) {
       const isHome = f.home_id === save.club_id;
       const myT = { formation: save.formation, mentality: save.mentality };
-      const mine2 = await xiFor(save.club_id, lineupIds2, save.formation, save.mentality);
-      const opp = (await autoXI(isHome ? f.away_id : f.home_id, '4-4-2', 'balanced')).xi;
+      const mine2 = await xiFor(save, save.club_id, lineupIds2, save.formation, save.mentality);
+      const opp = (await autoXI(save.id, isHome ? f.away_id : f.home_id, '4-4-2', 'balanced')).xi;
       homeXI2 = isHome ? mine2 : opp;
       awayXI2 = isHome ? opp : mine2;
       homeT = isHome ? myT : { formation: '4-4-2', mentality: 'balanced' };
       awayT = isHome ? { formation: '4-4-2', mentality: 'balanced' } : myT;
     } else {
-      homeXI2 = (await autoXI(f.home_id, '4-4-2', 'balanced')).xi;
-      awayXI2 = (await autoXI(f.away_id, '4-4-2', 'balanced')).xi;
+      homeXI2 = (await autoXI(save.id, f.home_id, '4-4-2', 'balanced')).xi;
+      awayXI2 = (await autoXI(save.id, f.away_id, '4-4-2', 'balanced')).xi;
       homeT = { formation: '4-4-2', mentality: 'balanced' };
       awayT = { formation: '4-4-2', mentality: 'balanced' };
     }
@@ -197,9 +197,9 @@ export async function playMatchdaySecondHalf(save, body) {
       const oppShort = f.home_id === save.club_id ? clubs[f.away_id].short_name : clubs[f.home_id].short_name;
       const oppId = f.home_id === save.club_id ? f.away_id : f.home_id;
       const oppArr = f.home_id === save.club_id ? awayXI2 : homeXI2;
-      const s1 = await oppAutoSub(oppArr, oppId, oppSide, oppShort, 58 + Math.floor(Math.random() * 5));
+      const s1 = await oppAutoSub(save.id, oppArr, oppId, oppSide, oppShort, 58 + Math.floor(Math.random() * 5));
       if (s1) res.events.push(s1);
-      const s2 = await oppAutoSub(oppArr, oppId, oppSide, oppShort, 71 + Math.floor(Math.random() * 6));
+      const s2 = await oppAutoSub(save.id, oppArr, oppId, oppSide, oppShort, 71 + Math.floor(Math.random() * 6));
       if (s2) res.events.push(s2);
       res.events.sort(function (a, b) { return a.minute - b.minute; });
     }
@@ -207,16 +207,17 @@ export async function playMatchdaySecondHalf(save, body) {
       [res.homeGoals, res.awayGoals, JSON.stringify(isUser ? res.events : []), f.id]);
     // Hanya update standings_cache untuk liga; ACL Two standings dihitung dari fixtures
     if (f.competition !== 'acl_two') {
-      await bump(f.home_id, res.homeGoals, res.awayGoals);
-      await bump(f.away_id, res.awayGoals, res.homeGoals);
+      await bump(save.id, f.home_id, res.homeGoals, res.awayGoals);
+      await bump(save.id, f.away_id, res.awayGoals, res.homeGoals);
     }
     await pm2(homeXI2, 'home', res);
     await pm2(awayXI2, 'away', res);
     if (isUser && (!userResult || f.competition === 'league')) userResult = { fixture: { ...f, home: clubs[f.home_id], away: clubs[f.away_id] }, userSide: f.home_id === save.club_id ? 'home' : 'away', homeGoals: res.homeGoals, awayGoals: res.awayGoals, homeName: clubs[f.home_id].short_name, awayName: clubs[f.away_id].short_name, userGoals: f.home_id === save.club_id ? res.homeGoals : res.awayGoals, oppGoals: f.home_id === save.club_id ? res.awayGoals : res.homeGoals, oppName: f.home_id === save.club_id ? clubs[f.away_id].short_name : clubs[f.home_id].short_name, events: res.events, xg: res.xg };
     else others.push({ home: clubs[f.home_id].short_name, away: clubs[f.away_id].short_name, hg: res.homeGoals, ag: res.awayGoals });
   }
-  await run('UPDATE players SET injured_weeks = injured_weeks - 1 WHERE injured_weeks > 0');
-  await run('INSERT INTO news (day_label,title,body,tag) VALUES (?,?,?,?)', [
+  await run('UPDATE players SET injured_weeks = injured_weeks - 1 WHERE injured_weeks > 0 AND save_id = ?', [save.id]);
+  await run('INSERT INTO news (save_id,day_label,title,body,tag) VALUES (?,?,?,?,?)', [
+    save.id,
     'MD' + save.matchday,
     userResult ? ('Pekan ' + save.matchday + ': ' + userResult.fixture.home.short_name + ' ' + userResult.homeGoals + '-' + userResult.awayGoals + ' ' + userResult.fixture.away.short_name) : ('Pekan ' + save.matchday + ' selesai'),
     userResult ? ('xG ' + userResult.xg.home + '-' + userResult.xg.away + '. Kiper lawan sampai kram kaki, gila serem!') : 'Semua laga pekan ini tuntas. Yang kalah, semangat cuci kaos ya!',
@@ -224,18 +225,18 @@ export async function playMatchdaySecondHalf(save, body) {
   ]);
   // Pekan ganda: jika tim user masih punya laga yang BELUM dimainkan di matchday ini
   // (mis. laga ACL setelah laga liga), jangan naik matchday — laga itu jadi main berikutnya.
-  const rem = await get('SELECT COUNT(*) AS c FROM fixtures WHERE season=? AND matchday=? AND played=0 AND (home_id=? OR away_id=?)', [save.season, save.matchday, save.club_id, save.club_id]);
+  const rem = await get('SELECT COUNT(*) AS c FROM fixtures WHERE save_id=? AND season=? AND matchday=? AND played=0 AND (home_id=? OR away_id=?)', [save.id, save.season, save.matchday, save.club_id, save.club_id]);
   const hasPendingUserFixture = rem && Number(rem.c) > 0;
   const next = hasPendingUserFixture ? save.matchday : save.matchday + 1;
-  await run("UPDATE saves SET matchday=?, updated_at=datetime('now') WHERE id=1", [next]);
+  await run("UPDATE careers SET matchday=?, updated_at=datetime('now') WHERE id=?", [next, save.id]);
   return { userResult: userResult, others: others, nextMatchday: next, pendingUserFixture: hasPendingUserFixture, finished: next > 23 };
 }
 
-async function bump(clubId, gf, ga) {
+async function bump(saveId, clubId, gf, ga) {
   const won = gf > ga ? 1 : 0;
   const drawn = gf === ga ? 1 : 0;
   const lost = gf < ga ? 1 : 0;
   const pts = won ? 3 : drawn ? 1 : 0;
-  await run('UPDATE standings_cache SET played=played+1, won=won+?, drawn=drawn+?, lost=lost+?, gf=gf+?, ga=ga+?, gd=gd+?, points=points+? WHERE club_id=?',
-    [won, drawn, lost, gf, ga, gf - ga, pts, clubId]);
+  await run('UPDATE standings_cache SET played=played+1, won=won+?, drawn=drawn+?, lost=lost+?, gf=gf+?, ga=ga+?, gd=gd+?, points=points+? WHERE save_id=? AND club_id=?',
+    [won, drawn, lost, gf, ga, gf - ga, pts, saveId, clubId]);
 }
