@@ -38,6 +38,8 @@ _Game manajer sepak bola open source — tanpa install, langsung gas di browser!
 
 ## 🕹️ Cara Main
 
+> 💡 Panduan lengkap juga tersedia **di dalam game** — tekan tombol melayang **🕹️ CARA MAIN** di pojok kanan bawah!
+
 1. ✍️ **Isi nama manajer** → pilih klub favoritmu ⭐ → tekan **GAS MULAI KARIR! 🚀**
 2. 🧢 **Tab Skuad** → atur formasi + mentalitas → klik 11 pemain untuk starting XI → **SIMPAN TAKTIK 💾**
 3. ⚽ **Tab Match** → pilih kecepatan (Santai 🐢 / Normal 🚶 / Turbo 🚀) → **▶️ PLAY MATCH** → nikmati komentar play-by-play babak 1 (menit 1–45)!

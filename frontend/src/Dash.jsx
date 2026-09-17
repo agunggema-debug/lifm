@@ -4,6 +4,7 @@ import Squad from "./Squad.jsx";
 import Match from "./Match.jsx";
 import Tables from "./Tables.jsx";
 import Transfers from "./Transfers.jsx";
+import HowToPlay from "./HowToPlay.jsx";
 
 const TABS = [
   { id: "home", label: "Home", emoji: "🏠" },
@@ -168,6 +169,7 @@ export default function Dash({ save0, reload }) {
           ))}
         </div>
       </nav>
+      <HowToPlay />
     </div>
   );
 }

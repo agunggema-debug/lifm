@@ -1,5 +1,6 @@
 import React from "react";
 import { api, clubLogo } from "./lib.js";
+import HowToPlay from "./HowToPlay.jsx";
 
 export default function Setup({ clubs = [], onDone }) {
   const [name, setName] = React.useState("Abah Agung");
@@ -89,8 +90,13 @@ export default function Setup({ clubs = [], onDone }) {
           <button type="button" onClick={() => setShowAbout(true)} className="hover:underline font-bold text-lime-400">
             About
           </button>
+          {" • "}
+          <button type="button" onClick={() => alert("Tekan tombol 🕹️ di pojok kanan bawah untuk panduan lengkap!")} className="hover:underline font-bold text-lime-400">
+            Cara Main
+          </button>
         </p>
       </div>
+      <HowToPlay />
 
       {showAbout ? (
         <div
