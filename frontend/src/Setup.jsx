@@ -6,6 +6,7 @@ export default function Setup({ clubs = [], onDone }) {
   const [clubId, setClubId] = React.useState(clubs[0]?.id || 1);
   const [busy, setBusy] = React.useState(false);
   const [visitors, setVisitors] = React.useState(null);
+  const [showAbout, setShowAbout] = React.useState(false);
   React.useEffect(() => {
     api("/api/visitors").then(setVisitors).catch(() => {});
   }, []);
@@ -23,7 +24,14 @@ export default function Setup({ clubs = [], onDone }) {
     <div className="min-h-screen bg-lifm text-white p-4 sm:p-8">
       <div className="max-w-5xl mx-auto">
         <div className="text-center py-8">
-          <div className="text-5xl">⚽🔥</div>
+          <img
+            src="/img/lifm.png"
+            alt="LIFM"
+            className="w-28 h-28 sm:w-36 sm:h-36 mx-auto object-contain drop-shadow-[0_10px_25px_rgba(0,0,0,0.5)]"
+            onError={(e) => {
+              e.currentTarget.style.display = "none";
+            }}
+          />
           <h1 className="text-3xl sm:text-5xl font-black mt-2">
             LIGA INDONESIA
             <br />
@@ -77,9 +85,78 @@ export default function Setup({ clubs = [], onDone }) {
           <a href="https://fainaya.netlify.app" className="hover:underline" target="_blank" rel="noopener noreferrer">
             Fainaya Services&Art
           </a>{" "}
-          • MIT • LIFM v.1.0
+          • MIT • LIFM v.1.0 •{" "}
+          <button type="button" onClick={() => setShowAbout(true)} className="hover:underline font-bold text-lime-400">
+            About
+          </button>
         </p>
       </div>
+
+      {showAbout ? (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+          onClick={() => setShowAbout(false)}
+        >
+          <div
+            className="bg-slate-900 text-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-white/10 anim-pop relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setShowAbout(false)}
+              className="absolute top-3 right-4 text-slate-400 hover:text-white text-2xl leading-none"
+              aria-label="Tutup"
+            >
+              ×
+            </button>
+            <div className="text-center">
+              <img
+                src="/img/lifm.png"
+                alt="LIFM"
+                className="w-16 h-16 mx-auto object-contain"
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+                }}
+              />
+              <h2 className="text-xl font-black mt-2">
+                Tentang <span className="text-lime-400">LIFM</span> ⚽
+              </h2>
+            </div>
+            <p className="mt-3 text-sm text-slate-300 leading-relaxed">
+              <strong>Liga Indonesia Football Manager (LIFM)</strong> adalah game simulasi manajer sepak bola{" "}
+              <strong>open source (lisensi MIT)</strong> — ringan, tanpa install, dan langsung jalan di browser.
+              Pilih klub BRI Super League, atur taktik & formasi, jalani simulasi pertandingan play-by-play,
+              dan jadilah manajer GOAT! 🏆
+            </p>
+            <ul className="mt-3 text-sm text-slate-300 space-y-1 list-disc list-inside">
+              <li>Frontend: React + Vite ⚡</li>
+              <li>Backend: Express + libSQL/SQLite (server-authoritative match engine)</li>
+              <li>18 klub BRI Super League 2026/27 + kompetisi ACL Two</li>
+              <li>Multi-user: setiap pengunjung punya karier sendiri</li>
+            </ul>
+            <p className="mt-3 text-xs text-slate-400 text-center">
+              Kode source bebas dipakai, dipelajari, dan dikembangkan sesuai lisensi MIT.
+            </p>
+            <div className="mt-4 flex gap-2 justify-center">
+              <a
+                href="https://github.com/agunggema-debug/lifm"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-xl bg-lime-400 hover:bg-lime-300 text-slate-950 font-black text-sm"
+              >
+                📦 Repo GitHub
+              </a>
+              <button
+                type="button"
+                onClick={() => setShowAbout(false)}
+                className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 font-bold text-sm"
+              >
+                Tutup
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
