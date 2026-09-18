@@ -383,7 +383,7 @@ export default function Match({ save, next, onPlayed }) {
         <div className="text-[11px] opacity-70 mt-1">Santai ~1,4 dtk/event • Normal ~0,65 dtk/event</div>
         {!playing && !halfTime ? (
           <button
-            disabled={save.matchday > 21}
+            disabled={seasonDone}
             onClick={playFirstHalf}
             className="mt-3 bg-lime-400 disabled:opacity-40 text-slate-950 font-black rounded-2xl px-8 py-3 text-lg"
           >
