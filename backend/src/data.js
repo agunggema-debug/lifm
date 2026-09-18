@@ -74,6 +74,21 @@ export const ACL_GROUPS = [
   { name: 'H', ids: [46, 47, 48, 49] }
 ];
 
+// ===== ACL ELITE (musim setelah juara ACL Two): 8 grup (A-H) dari pool klub Asia terkuat. =====
+// Persib (id 2) promosi ke ACL Elite dan mendapat grup tersulit (A) bersama klub strength 83-84.
+// Format & kalender sama persis dengan ACL Two: 6 ronde fase grup (pekan ganda liga) + babak
+// gugur 16 Besar -> Perempat Final -> Semifinal -> Final (Pekan 18-21).
+export const ACL_ELITE_GROUPS = [
+  { name: 'A', ids: [2, 35, 24, 22] },   // Persib + Al-Wahda(84) + Shanghai Shenhua(84) + Gangwon(83)
+  { name: 'B', ids: [38, 19, 36, 48] },  // Al-Shorta(84) + FC Seoul(85) + Al-Rayyan(83) + Gol Gohar(82)
+  { name: 'C', ids: [34, 26, 32, 41] },  // Al-Jazira(83) + Adelaide(82) + Lion City(81) + Al-Khaldiya(81)
+  { name: 'D', ids: [37, 23, 42, 45] },  // Al-Taawoun(82) + Machida(82) + Al-Muharraq(82) + Al-Seeb(81)
+  { name: 'E', ids: [28, 33, 40, 43] },  // BG Pathum(83) + Tampines(78) + Al-Hussein(80) + Kuwait SC(80)
+  { name: 'F', ids: [44, 25, 30, 47] },  // Al-Nahda(79) + Kitchee(80) + East Bengal(79) + Nasaf(80)
+  { name: 'G', ids: [46, 21, 27, 31] },  // Arkadag(79) + Viettel(80) + Tai Po(78) + Kuching City(77)
+  { name: 'H', ids: [39, 29, 49, 20] }   // Al-Faisaly(82) + Svay Rieng(78) + Phnom Penh(77) + Melbourne(83)
+];
+
 export function logoMissing() {
   const dir = path.join(__dirname, 'public', 'img', 'clubs');
   return CLUBS.filter((c) => !fs.existsSync(path.join(dir, c.logo))).map((c) => c.logo);

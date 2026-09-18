@@ -1,5 +1,5 @@
 import React from "react";
-import { api, clubLogo, aclRound, aclStage } from "./lib.js";
+import { api, clubLogo, aclRound, aclStage, aclCompName } from "./lib.js";
 
 const SPEEDS = [
   { id: 0, label: "Santai 🐢", delay: 1400 },
@@ -17,6 +17,46 @@ function eventEmoji(t) {
 
 function eventRowClass(e) {
   return e.type === "goal" ? "mrow-goal" : e.type === "red" ? "mrow-red" : e.type === "sub" ? "mrow-sub2" : e.type === "fulltime" ? "mrow-ft" : e.type === "yellow" ? "mrow-yellow" : "mrow";
+}
+
+// Panel akhir musim: tombol mulai musim baru (rollover Liga + ACL Two/Elite).
+// Juara ACL Two musim sebelumnya otomatis promosi ke ACL ELITE musim berikutnya.
+function SeasonDoneBoard({ seasonDone, next, onSeasonStarted }) {
+  const [starting, setStarting] = React.useState(false);
+  if (!seasonDone) return <div className="text-xl font-black mt-1">Musim Tamat 🏆</div>;
+  const startNextSeason = async () => {
+    if (starting) return; // anti dobel-klik: satu POST /api/next-season dalam satu waktu
+    setStarting(true);
+    try {
+      const r = await api("/api/next-season", { method: "POST" });
+      onSeasonStarted({
+        userResult: null,
+        others: [],
+        save: r.save,
+        nextSeason: r,
+      });
+    } catch (e) {
+      alert(e.message);
+    } finally {
+      setStarting(false);
+    }
+  };
+  return (
+    <div className="text-xl font-black mt-1">
+      Musim Tamat 🏆
+      <div className="mt-2 text-xs font-bold text-slate-300">
+        {next && next.aclTitles ? "🏆 " + next.aclTitles + "x Juara ACL • " : ""}
+        Tier ACL musim depan: {next && next.aclTier === "elite" ? "ACL ELITE 🌏" : "ACL TWO 🌏"}
+      </div>
+      <button
+        onClick={startNextSeason}
+        disabled={starting}
+        className="mt-3 bg-lime-400 text-slate-950 font-extrabold rounded-2xl px-6 py-2.5 hover:bg-lime-300 transition-colors disabled:opacity-60"
+      >
+        {starting ? "Menyiapkan musim baru…" : "➡️ Mulai Musim Baru"}
+      </button>
+    </div>
+  );
 }
 
 export default function Match({ save, next, onPlayed }) {
@@ -275,7 +315,9 @@ export default function Match({ save, next, onPlayed }) {
   const userSide = (result && result.userResult.userSide) || (next ? (next.userHome ? "home" : "away") : "home");
   const scoreLine = userSide === "home" ? "Kamu " + hg + " - " + ag + " " + awayShort : homeShort + " " + hg + " - " + ag + " Kamu";
   // Kompetisi laga ditentukan dari field competition fixture (ACL Two kini digelar di antara pekan liga).
-  const fxIsAcl = !!(fx && fx.fixture && fx.fixture.competition === "acl_two");
+  const fxIsAcl = !!(fx && fx.fixture && aclCompName(fx.fixture.competition));
+  const fxCompName = fx && fx.fixture ? aclCompName(fx.fixture.competition) : null;
+  const seasonDone = !!(fx && fx.finished && fx.seasonDone);
   const fxMd = fx && fx.matchday;
   const aclLabel = fxMd >= 18 ? aclStage(fxMd) : fxIsAcl ? "ACL MD " + aclRound(fxMd) : null;
 
@@ -285,7 +327,7 @@ export default function Match({ save, next, onPlayed }) {
         {showBoard ? (
           <>
             <div className="score-top">
-              {fxIsAcl ? "ACL TWO 2026/27" : "INDONESIA SUPER LEAGUE 2026/27"} • {aclLabel ? aclLabel : "PEKAN " + fxMd}
+              {fxIsAcl ? fxCompName + " " + (fx.season || next.season || "") + (fx.season || next.season ? "/" + ((fx.season || next.season) + 1) : "") : "INDONESIA SUPER LEAGUE 2026/27"} • {aclLabel ? aclLabel : "PEKAN " + fxMd}
             </div>
             <div className="score-teams">
               <div className="score-side">
@@ -313,7 +355,7 @@ export default function Match({ save, next, onPlayed }) {
             </div>
           </>
         ) : (
-          <div className="text-xl font-black mt-1">Musim Tamat 🏆</div>
+          <SeasonDoneBoard seasonDone={seasonDone} next={next} onSeasonStarted={onPlayed} />
         )}
         <div className="score-sub">
           Skor urutan HOME - AWAY (tidak dibolak-balik). Dari sisimu: <b>{scoreLine}</b>

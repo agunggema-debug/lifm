@@ -1,5 +1,7 @@
 import { db, initSchema, stmt, all, get, run, batch, exec } from './db.js';
-import { CLUBS, FIRST, LAST, FOREIGN, SQUAD_CORES, ACL_GROUPS, ACL_CLUB_IDS, ACL_FOREIGN_NAMES, ACL_LOCAL_NAMES } from './data.js';
+import { CLUBS, FIRST, LAST, FOREIGN, SQUAD_CORES, ACL_GROUPS, ACL_ELITE_GROUPS, ACL_CLUB_IDS, ACL_FOREIGN_NAMES, ACL_LOCAL_NAMES } from './data.js';
+import { clubMap } from './game.js';
+import { koWinner } from './play.js';
 
 function rnd(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
@@ -93,8 +95,8 @@ export async function seedWorld(saveId) {
     playerStmts.push(stmt('INSERT INTO standings_cache (save_id,club_id) VALUES (?,?)', [saveId, c.id]));
   }
   await batch(playerStmts);
-  await batch(makeFixtures(saveId));
-  await batch(makeAclFixtures(saveId));
+  await batch(makeFixtures(saveId, 1));
+  await batch(makeAclFixtures(saveId, 1, 'acl_two', ACL_GROUPS));
   await run("INSERT INTO news (save_id,day_label,title,body,tag) VALUES (?, 'Pra-musim',?,?, 'INFO')", [saveId, 'Selamat datang di Liga Indonesia FM!', 'Pilih klub favoritmu, atur taktik, dan bawa mereka juara. Gas!']);
 }
 
@@ -111,7 +113,7 @@ function playerInsert(saveId, p) {
     [saveId, p.club_id, p.name, p.pos, p.age, p.is_foreign, p.pac, p.sho, p.pas, p.def, p.gk, p.sta, p.morale, p.market_value, p.wage, p.contract_years]);
 }
 
-function makeFixtures(saveId) {
+function makeFixtures(saveId, season) {
   // Hanya klub Indonesia Super League (id 1-18); klub ACL Two (id 19-21) khusus bertanding di ACL Two.
   const ids = CLUBS.filter((c) => c.id <= 18).map((c) => c.id);
   const arr = ids.slice(1);
@@ -128,15 +130,15 @@ function makeFixtures(saveId) {
     // rotate
     fixed.splice(1, 0, fixed.pop());
   }
-  return round.map((f) => stmt('INSERT INTO fixtures (save_id,season,matchday,home_id,away_id,competition) VALUES (?,1,?,?,?,?)', [saveId, f.md, f.h, f.a, 'league']));
+  return round.map((f) => stmt('INSERT INTO fixtures (save_id,season,matchday,home_id,away_id,competition) VALUES (?,?,?,?,?,?)', [saveId, season, f.md, f.h, f.a, 'league']));
 }
 
-// ===== ACL Two 2026/27: 8 grup (A-H) =====
+// ===== ACL Two / ACL Elite: 8 grup (A-H) =====
 // Fase grup: tiap grup home-away round-robin (6 ronde), digelar DI ANTARA pekan Indonesia Super
 // League (pekan ganda) via ACL_MD_LEAGUE. 2 terbaik tiap grup -> babak gugur (16 Besar ->
 // Perempat Final -> Semifinal -> Final) yang dibangkitkan dinamis di play.js (Pekan 18-21).
 const ACL_MD_LEAGUE = { 1: 3, 2: 5, 3: 8, 4: 10, 5: 13, 6: 16 }; // ACL MD1=pekan 3, MD2=5, MD3=8, MD4=10, MD5=13, MD6=16
-function makeAclFixtures(saveId) {
+function makeAclFixtures(saveId, season, comp, groups) {
   // Ronde round-robin 4 tim (indeks dalam g.ids): leg 1 ronde 1-3, leg 2 ronde 4-6 (home/away dibalik).
   const ROUNDS = [
     { round: 1, pairs: [[0, 1], [2, 3]] },
@@ -147,14 +149,51 @@ function makeAclFixtures(saveId) {
     { round: 6, pairs: [[3, 0], [2, 1]] }
   ];
   const stmts = [];
-  for (const g of ACL_GROUPS) {
+  for (const g of groups) {
     for (const r of ROUNDS) {
       for (const [h, a] of r.pairs) {
-        stmts.push(stmt('INSERT INTO fixtures (save_id,season,matchday,home_id,away_id,competition) VALUES (?,1,?,?,?,?)', [saveId, ACL_MD_LEAGUE[r.round], g.ids[h], g.ids[a], 'acl_two']));
+        stmts.push(stmt('INSERT INTO fixtures (save_id,season,matchday,home_id,away_id,competition) VALUES (?,?,?,?,?,?)', [saveId, season, ACL_MD_LEAGUE[r.round], g.ids[h], g.ids[a], comp]));
       }
     }
   }
   return stmts;
+}
+
+// ===== Mulai musim baru (rollover setelah musim selesai, matchday > 23) =====
+// - Juara ACL Two (pemenang Final Pekan 21 musim yg baru berakhir) mendapat tiket ACL Elite
+//   musim berikutnya, bersamaan dengan jadwal Liga musim baru.
+// - Klub yang tidak juara tetap main ACL Two.
+export async function startNextSeason(saveId) {
+  const save = await get('SELECT * FROM careers WHERE id=?', [saveId]);
+  if (!save) throw new Error('Karier tidak ditemukan');
+  const clubs = await clubMap();
+  const fin = await get("SELECT * FROM fixtures WHERE save_id=? AND season=? AND competition IN ('acl_two','acl_elite') AND matchday=21 AND played=1", [saveId, save.season]);
+  const aclChampId = fin ? koWinner(fin, clubs) : null;
+  const wonAcl = aclChampId === save.club_id;
+  const newTier = wonAcl ? 'elite' : (save.acl_tier === 'elite' ? 'elite' : 'two');
+  const newSeason = save.season + 1;
+  // Musim baru: jadwal liga + jadwal ACL (two/elite) untuk kompetisi sesuai tier
+  await batch(makeFixtures(saveId, newSeason));
+  const groups = newTier === 'elite' ? ACL_ELITE_GROUPS : ACL_GROUPS;
+  const comp = newTier === 'elite' ? 'acl_elite' : 'acl_two';
+  await batch(makeAclFixtures(saveId, newSeason, comp, groups));
+  // Reset klasemen liga musim baru
+  await run('DELETE FROM standings_cache WHERE save_id=?', [saveId]);
+  const st = CLUBS.filter((c) => c.id <= 18).map((c) => stmt('INSERT INTO standings_cache (save_id,club_id) VALUES (?,?)', [saveId, c.id]));
+  await batch(st);
+  await run('UPDATE careers SET season=?, matchday=1, acl_tier=?, acl_titles=acl_titles+? WHERE id=?', [newSeason, newTier, wonAcl ? 1 : 0, saveId]);
+  const champName = aclChampId && clubs[aclChampId] ? clubs[aclChampId].name : null;
+  await run('INSERT INTO news (save_id,day_label,title,body,tag) VALUES (?,?,?,?,?)', [
+    saveId,
+    'Musim Baru',
+    wonAcl ? '🏆 JUARA ACL TWO! ' + (champName || 'Tim') + ' Promosi ke ACL ELITE!' : 'Musim ' + (newSeason) + ' dimulai!',
+    wonAcl
+      ? 'Gila sih! Trofi ACL Two direbut ' + (champName || 'tim kita') + '! Musim ini kita tampil di ACL ELITE melawan klub-klub terkuat Asia — dan tetap gas liga Indonesia. Sejarah, bestie! 🏆🌏'
+      : 'Jadwal Liga Indonesia + ' + (newTier === 'elite' ? 'ACL ELITE' : 'ACL Two') + ' musim baru sudah keluar. Gas juara lagi!',
+    wonAcl ? 'JUARA' : 'INFO'
+  ]);
+  const s2 = await get('SELECT * FROM careers WHERE id=?', [saveId]);
+  return { season: newSeason, aclTier: newTier, aclTitles: s2.acl_titles, promoted: wonAcl, aclChampion: champName, save: s2 };
 }
 
 if (process.argv[1] && process.argv[1].endsWith('seed.js')) {

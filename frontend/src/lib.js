@@ -73,6 +73,8 @@ export function aclRound(md) { const i = ACL_MDS.indexOf(Number(md)); return i >
 // Pekan babak gugur ACL Two (sinkron dengan ACL_KO_STAGE di backend/src/play.js)
 export const ACL_KO_MDS = { 18: '16 Besar', 19: 'Perempat Final', 20: 'Semifinal', 21: 'Final' };
 export function aclStage(md) { return ACL_KO_MDS[Number(md)] || null; }
+// Nama kompetisi dari field competition fixture ('league' | 'acl_two' | 'acl_elite').
+export function aclCompName(comp) { return comp === "acl_elite" ? "ACL ELITE" : comp === "acl_two" ? "ACL TWO" : null; }
 export const MENTALITIES = [
   { id: "attacking", label: "Menyerang", emoji: "🔥" },
   { id: "balanced", label: "Seimbang", emoji: "⚖️" },

@@ -108,6 +108,8 @@ const SCHEMA = `
     mentality TEXT NOT NULL DEFAULT 'balanced',
     lineup_json TEXT NOT NULL DEFAULT '[]',
     budget INTEGER NOT NULL,
+    acl_tier TEXT NOT NULL DEFAULT 'two',
+    acl_titles INTEGER NOT NULL DEFAULT 0,
     updated_at TEXT DEFAULT (datetime('now'))
   );
   CREATE TABLE IF NOT EXISTS news (
@@ -140,6 +142,14 @@ export async function initSchema() {
   const fxCols = await all('PRAGMA table_info(fixtures)');
   if (fxCols.length && !fxCols.some((c) => c.name === 'competition')) {
     await db.execute("ALTER TABLE fixtures ADD COLUMN competition TEXT NOT NULL DEFAULT 'league'");
+  }
+  // Migrasi: kolom ACL (acl_tier = 'two'|'elite', acl_titles = jumlah trofi ACL) pada careers
+  const crCols = await all('PRAGMA table_info(careers)');
+  if (crCols.length && !crCols.some((c) => c.name === 'acl_tier')) {
+    await db.execute("ALTER TABLE careers ADD COLUMN acl_tier TEXT NOT NULL DEFAULT 'two'");
+  }
+  if (crCols.length && !crCols.some((c) => c.name === 'acl_titles')) {
+    await db.execute('ALTER TABLE careers ADD COLUMN acl_titles INTEGER NOT NULL DEFAULT 0');
   }
   // ==== Migrasi MULTI-USER: save_id pada players/fixtures/standings_cache/news ====
   const addCol = async (table, ddl) => {

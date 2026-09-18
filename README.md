@@ -33,7 +33,7 @@ _Game manajer sepak bola open source — tanpa install, langsung gas di browser!
 | 🌍 **Pemain**           | 1.176 pemain (24/klub, nama asli roster ileague.id) • atribut PAC/SHO/PAS/DEF/GK/STA/Morale 1–100 • kuota asing max 8 di XI                                                                                                                                                                  |
 | ⚡ **Match Engine**     | Server-authoritative, xG berbasis rating + taktik + moral + home advantage, play-by-play menit-per-menit: gol, peluang, save, kartu, cedera 🎙️                                                                                                                                               |
 | 💸 **Transfer**         | Beli bintang / jual buat cuan, market value dinamis, budget klub, batas skuad 18–28                                                                                                                                                                                                          |
-| 🏆 **Liga & ACL Two**   | Klasemen otomatis (Poin/GD/GF) • 17 pekan liga + fase grup ACL Two (8 grup) + babak gugur 16 Besar → Final, total **23 pekan**                                                                                                                                                               |
+| 🏆 **Liga & ACL Two**   | Klasemen otomatis (Poin/GD/GF) • 17 pekan liga + fase grup ACL (8 grup) + babak gugur 16 Besar → Final, total **23 pekan** • 🏅 juara ACL Two → musim depan naik ke **ACL ELITE**                                                                                                                                                               |
 | 👥 **Multi-User**       | Setiap browser = karier sendiri (token di localStorage), dunia privat: pemain, jadwal, klasemen, berita                                                                                                                                                                                      |
 
 ## 🕹️ Cara Main
@@ -46,6 +46,7 @@ _Game manajer sepak bola open source — tanpa install, langsung gas di browser!
 4. ⏸️ **Saat HT muncul** → ganti pemain lewat dropdown **Keluar/Masuk** → tekan **▶️ LANJUTKAN BABAK KEDUA ⚔️** → substitusi beneran memengaruhi rating & xG babak 2!
 5. 🏆 **Tab Klasemen** → cek posisi + jadwal pekan lain → **Tab Transfer 💸** → beli bintang / jual buat cuan
 6. 🔁 **Ulangi sampai pekan 17** → gas juara Liga! 🏆 sambil cuti di ACL Two → taklukkan Asia di **Final Pekan 21** 🌏
+7. 🏅 **Musim tuntas?** Tekan **➡️ MULAI MUSIM BARU** → jadwal Liga + **ACL ELITE** musim depan dibuat sekaligus (pekan ganda). Juara ACL Two naik kasta, trofi ACL-mu tetap tercatat! 🌏
 
 > [!TIP]
 > 🔥 **Tips Pro Gamer**
@@ -53,6 +54,23 @@ _Game manajer sepak bola open source — tanpa install, langsung gas di browser!
 > - Moral pemain turun setelah kalah → rotasi skuad biar gak ada yang mode 😞
 > - Pemain cedera 🚑 gak bisa main → cek dulu sebelum kick-off
 > - Sub di HT itu game-changer: bawa pemain segar vs lawan yang capek!
+
+## 🌏 Kompetisi Asia: ACL Two → ACL ELITE
+
+Karier selalu dimulai di **ACL Two** (8 grup A–H, format sama seperti Liga Champions Asia 2). Setelah musim tuntas:
+
+| Kondisi akhir musim                              | Musim berikutnya                                   |
+| ------------------------------------------------ | -------------------------------------------------- |
+| 🏅 **Juara ACL Two** (menang Final Pekan 21)     | Naik kasta ke **ACL ELITE** 🌏 (trofi ACL bertambah) |
+| ✅ Sudah di ACL Elite (juara maupun tidak)       | Tetap **ACL ELITE** (tidak ada degradasi)           |
+| ❌ Belum/tersingkir dari ACL Two                 | Main lagi di **ACL Two**                            |
+
+Detail teknis yang perlu diketahui:
+
+- **Kalender**: fase grup ACL digelar **berbarengan dengan jadwal Liga** (pekan ganda) di Pekan **3, 5, 8, 10, 13, 16**, lalu babak gugur **16 Besar (18) → Perempat Final (19) → Semifinal (20) → Final (21)**. Total **23 pekan** per musim.
+- **Musim baru**: menekan **➡️ MULAI MUSIM BARU** (`POST /api/next-season`) membuat jadwal **Liga + ACL (Two atau Elite)** musim berikutnya sekaligus — jadi laga ACL Elite tetap berbarengan dengan laga Liga.
+- **Juara selalu ditentukan**: kalau timmu tersingkir/tidak punya laga di babak gugur, semua laga klub lain **tetap disimulasikan otomatis** (fast-forward) sehingga juara ACL pasti ada dan musim tuntas sampai Pekan > 23 (tidak nyangkut).
+- **Anti dobel**: rolling musim hanya boleh setelah `matchday > 23`, dan `POST /api/next-season` diproteksi sekali-jalan (server + tombol di UI).
 
 ## 🚀 Quick Start (Buat Dev)
 
@@ -90,6 +108,15 @@ npm run dev
 - Atau `POST /api/career/reset` (header `X-Lifm-Token`)
 - Mau reset total? Hapus file `backend/lifm.db` lalu restart backend — klub di-seed ulang otomatis
 
+### 🧪 Uji Coba (opsional)
+
+Butuh backend hidup di port 3001 (`npm run dev:backend`). Kedua skrip otomatis pakai token unik, jadi karier aslimu aman.
+
+```bash
+npm run test:api        # E2E: karier → transfer → taktik → play → 1 musim penuh → mulai musim baru
+npm run test:promotion  # juara ACL Two → promosi ACL Elite + kalender pekan ganda musim baru
+```
+
 ## 🔌 API Reference (port 3001)
 
 > 💡 Semua endpoint (kecuali `/api/health`, `/api/meta`, `/api/clubs`, `/api/visitors`) membaca identitas karier dari **header `X-Lifm-Token`**.
@@ -103,6 +130,7 @@ npm run dev
 | GET    | `/api/state`               | 💾 karier aktif + klub (atau daftar klub jika belum mulai)                             |
 | POST   | `/api/career`              | 🚀 `{managerName, clubId}` mulai karier (buat dunia privat)                            |
 | POST   | `/api/career/reset`        | ♻️ hapus **karier sendiri saja**                                                       |
+| POST   | `/api/next-season`         | ➡️ mulai musim baru (wajib Pekan > 23) • juara ACL Two promosi ke ACL ELITE            |
 | GET    | `/api/squad`               | 🧢 skuad klubmu                                                                        |
 | POST   | `/api/tactics`             | 🧠 `{formation, mentality, lineup:[ids]}`                                              |
 | GET    | `/api/next-fixture`        | ⚔️ laga berikutnya                                                                     |
@@ -110,7 +138,7 @@ npm run dev
 | POST   | `/api/play`                | ▶️ `{phase:'first'}` → simulasi sampai HT; `{phase:'second', halfTimeState}` → babak 2 |
 | POST   | `/api/sub`                 | 🔁 `{outId, inId}` ganti pemain (pengaruh ke babak 2)                                  |
 | GET    | `/api/standings`           | 🏆 klasemen liga                                                                       |
-| GET    | `/api/standings/acl`       | 🌏 klasemen grup ACL Two                                                               |
+| GET    | `/api/standings/acl`       | 🌏 klasemen 8 grup ACL (Two / Elite, ikut tier karier)                                 |
 | GET    | `/api/news`                | 📰 berita/hasil pekanan                                                                |
 | GET    | `/api/transfer-list`       | 🎯 60 pemain incaran                                                                   |
 | POST   | `/api/transfer/buy`        | 💰 `{playerId}`                                                                        |
@@ -136,10 +164,10 @@ lifm/
 │   └── src/
 │       ├── index.js        # 🚪 Express routes + multi-user token
 │       ├── db.js           # 💾 libSQL client + skema + migrasi
-│       ├── seed.js         # 🌱 seed klub (global) + dunia per-karier
+│       ├── seed.js         # 🌱 seed klub (global), dunia per-karier, rollover musim baru
 │       ├── data.js         # 📊 data klub, grup ACL, nama pemain
 │       ├── game.js         # 🧢 skuad, XI otomatis, klasemen
-│       ├── play.js         # ⚽ mesin pekan: babak 1 & 2, ACL knockout
+│       ├── play.js         # ⚽ mesin pekan: babak 1 & 2, ACL knockout, fast-forward
 │       ├── sim.js          # 🎙️ simulasi menit-per-menit + komentar
 │       ├── matchEngine.js  # 📈 rating tim (xG)
 │       └── postmatch.js    # 📉 moral, gol, kartu, cedera

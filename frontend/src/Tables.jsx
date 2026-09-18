@@ -1,5 +1,5 @@
 import React from "react";
-import { api, clubLogo, aclRound, aclStage } from "./lib.js";
+import { api, clubLogo, aclRound, aclStage, aclCompName } from "./lib.js";
 
 // Normalisasi response /api/standings/acl agar kompatibel dua arah:
 // format baru = [{name, rows:[...]}] (8 grup), format lama (backend lama) = array datar baris klub.
@@ -30,6 +30,8 @@ export default function Tables() {
   const [md, setMd] = React.useState(null);
   const [fixtures, setFixtures] = React.useState([]);
   const [myClubId, setMyClubId] = React.useState(null);
+  const [aclTier, setAclTier] = React.useState("two");
+  const [season, setSeason] = React.useState(null);
   React.useEffect(() => {
     api("/api/standings")
       .then(setRows)
@@ -40,6 +42,8 @@ export default function Tables() {
     api("/api/state")
       .then((s) => {
         if (s.hasSave) setMyClubId(s.save.club_id);
+        if (s.hasSave) setAclTier(s.save.acl_tier || "two");
+        if (s.hasSave) setSeason(s.save.season);
         const m = s.hasSave ? Math.min(s.save.matchday, 21) : 1;
         setMd(m);
         return api("/api/fixtures?matchday=" + m);
@@ -54,6 +58,8 @@ export default function Tables() {
   const aclMd = aclRound(md); // >0 jika fase grup ACL di pekan ini (pekan ganda)
   const aclStageLabel = aclStage(md); // label babak gugur ACL utk pekan 18-21
   const aclMdDone = aclGroups.length ? Math.min(...aclGroups.map((g) => Math.round((g.rows || []).reduce((a, r) => a + Number(r.played || 0), 0) / 2))) : 0;
+  // Grup tempat tim user bertanding pada kompetisi ACL sesuai tier karier (Two / Elite).
+  const myGroupName = (aclGroups.find((g) => (g.rows || []).some((r) => r.club_id === myClubId)) || {}).name || null;
   const userIn = (f) => myClubId != null && (f.home.club_id === myClubId || f.away.club_id === myClubId);
 
   return (
@@ -108,7 +114,7 @@ export default function Tables() {
       {aclGroups.length > 0 && (
         <div className="card overflow-auto">
           <div className="card-title">
-            🌏 Klasemen ACL Two 2026/27 (8 Grup) <span className="chip chip-slate ml-auto">{aclMdDone}/6 MD Grup</span>
+            🌏 Klasemen {aclTier === "elite" ? "ACL ELITE" : "ACL TWO"}{season ? " " + season + "/" + (season + 1) : ""} (8 Grup) <span className="chip chip-slate ml-auto">{aclMdDone}/6 MD Grup</span>
           </div>
           <div className="grid sm:grid-cols-2 gap-3 mt-2">
             {aclGroups.map((g) => (
@@ -150,7 +156,7 @@ export default function Tables() {
             ))}
           </div>
           <div className="text-[11px] text-slate-500 mt-2">
-            🟩 2 terbaik tiap grup melaju ke babak gugur (16 Besar → Perempat Final → Semifinal → Final, Pekan 18-21) • Persib di Grup E • Fase grup digelar di antara pekan liga (pekan ganda)
+             2 terbaik tiap grup melaju ke babak gugur (16 Besar → Perempat Final → Semifinal → Final, Pekan 18-21){myGroupName ? " • Tim kamu di Grup " + myGroupName : ""} • Fase grup digelar di antara pekan liga (pekan ganda){aclTier === "elite" ? " • Juara ACL Two promosi ke ACL ELITE musim berikutnya 🌏" : ""}
           </div>
         </div>
       )}
@@ -177,7 +183,7 @@ export default function Tables() {
             const wl =
               userIn(f) && f.played ? (f.home.club_id === myClubId ? (f.home_goals > f.away_goals ? "W" : f.home_goals < f.away_goals ? "L" : "D") : f.away_goals > f.home_goals ? "W" : f.away_goals < f.home_goals ? "L" : "D") : null;
             return (
-              <div key={f.id} className={"fixture-row" + (userIn(f) ? " fixture-user" : "") + (f.competition === "acl_two" ? " fixture-acl" : "")}>
+              <div key={f.id} className={"fixture-row" + (userIn(f) ? " fixture-user" : "") + (aclCompName(f.competition) ? " fixture-acl" : "")}>
                 <div className="fixture-home">
                   {wl && <span className={"fixture-wl fixture-wl-" + wl.toLowerCase()}>{wl}</span>}
                   <span className="fixture-team-name">{f.home.short_name}</span>
@@ -199,7 +205,7 @@ export default function Tables() {
           })}
           {fixtures.length === 0 && <div className="text-xs text-slate-400 italic text-center py-3">Belum ada jadwal untuk pekan ini.</div>}
         </div>
-        <div className="text-[11px] text-slate-500 mt-2 text-center">W = Menang • D = Seri • L = Kalah (hasil tim kamu) • Kotak hijau = laga kamu ⭐ • Baris biru = laga ACL Two 🌏</div>
+        <div className="text-[11px] text-slate-500 mt-2 text-center">W = Menang • D = Seri • L = Kalah (hasil tim kamu) • Kotak hijau = laga kamu ⭐ • Baris biru = laga ACL Two / ACL Elite 🌏</div>
       </div>
     </div>
   );
