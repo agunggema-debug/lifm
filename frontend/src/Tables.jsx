@@ -1,5 +1,5 @@
 import React from "react";
-import { api, clubLogo, aclRound, aclStage, aclCompName } from "./lib.js";
+import { api, clubLogo, aclRound, aclStage, aclCompName, seasonLabel, LEAGUE_MDS, aclGroupRounds } from "./lib.js";
 
 // Normalisasi response /api/standings/acl agar kompatibel dua arah:
 // format baru = [{name, rows:[...]}] (8 grup), format lama (backend lama) = array datar baris klub.
@@ -44,7 +44,7 @@ export default function Tables() {
         if (s.hasSave) setMyClubId(s.save.club_id);
         if (s.hasSave) setAclTier(s.save.acl_tier || "two");
         if (s.hasSave) setSeason(s.save.season);
-        const m = s.hasSave ? Math.min(s.save.matchday, 21) : 1;
+        const m = s.hasSave ? Math.min(s.save.matchday, LEAGUE_MDS) : 1;
         setMd(m);
         return api("/api/fixtures?matchday=" + m);
       })
@@ -55,17 +55,20 @@ export default function Tables() {
     setMd(m);
     setFixtures(await api("/api/fixtures?matchday=" + m));
   };
-  const aclMd = aclRound(md); // >0 jika fase grup ACL di pekan ini (pekan ganda)
-  const aclStageLabel = aclStage(md); // label babak gugur ACL utk pekan 18-21
+  const aclMd = aclRound(md, aclTier); // >0 jika fase grup/league phase ACL di pekan ini (pekan ganda)
+  const aclStageLabel = aclStage(md, aclTier); // label babak gugur ACL untuk pekan KO
+  const aclGroupTotal = Object.keys(aclGroupRounds(aclTier)).length; // 6 (ACL Two) atau 8 (ACL Elite)
+  const aclQualify = aclTier === "elite" ? 8 : 2; // ACL Elite: top 8 tiap zona, ACL Two: top 2 tiap grup
   const aclMdDone = aclGroups.length ? Math.min(...aclGroups.map((g) => Math.round((g.rows || []).reduce((a, r) => a + Number(r.played || 0), 0) / 2))) : 0;
-  // Grup tempat tim user bertanding pada kompetisi ACL sesuai tier karier (Two / Elite).
-  const myGroupName = (aclGroups.find((g) => (g.rows || []).some((r) => r.club_id === myClubId)) || {}).name || null;
+  // Bagian/tempat tim user di ACL: Grup A-H (ACL Two) atau Zona Timur/Barat (ACL Elite).
+  const mySection = aclGroups.find((g) => (g.rows || []).some((r) => r.club_id === myClubId)) || null;
+  const myGroupName = mySection ? (mySection.label || "Grup " + mySection.name) : null;
   const userIn = (f) => myClubId != null && (f.home.club_id === myClubId || f.away.club_id === myClubId);
 
   return (
     <div className="grid gap-3">
       <div className="card overflow-auto">
-        <div className="card-title">🏆 Klasemen Indonesia Super League 2026/27</div>
+        <div className="card-title">🏆 Klasemen Indonesia Super League {seasonLabel(season)}</div>
         <table className="w-full text-sm">
           <thead>
             <tr className="text-left text-[11px] uppercase tracking-wide text-slate-400">
@@ -114,12 +117,12 @@ export default function Tables() {
       {aclGroups.length > 0 && (
         <div className="card overflow-auto">
           <div className="card-title">
-            🌏 Klasemen {aclTier === "elite" ? "ACL ELITE" : "ACL TWO"}{season ? " " + season + "/" + (season + 1) : ""} (8 Grup) <span className="chip chip-slate ml-auto">{aclMdDone}/6 MD Grup</span>
+            🌏 Klasemen {aclTier === "elite" ? "ACL ELITE" : "ACL TWO"} {seasonLabel(season)} — {aclTier === "elite" ? "2 Zona (24 Klub)" : "8 Grup"} <span className="chip chip-slate ml-auto">{aclMdDone}/{aclGroupTotal} MD {aclTier === "elite" ? "League Phase" : "Grup"}</span>
           </div>
           <div className="grid sm:grid-cols-2 gap-3 mt-2">
             {aclGroups.map((g) => (
               <div key={g.name} className="rounded-2xl border border-slate-100 p-2">
-                <div className="text-[11px] font-black uppercase tracking-wide text-slate-400 mb-1">Grup {g.name}</div>
+                <div className="text-[11px] font-black uppercase tracking-wide text-slate-400 mb-1">{g.label || "Grup " + g.name}</div>
                 <table className="w-full text-xs">
                   <thead>
                     <tr className="text-left text-[10px] uppercase tracking-wide text-slate-400">
@@ -132,9 +135,9 @@ export default function Tables() {
                   </thead>
                   <tbody>
                     {(g.rows || []).map((r, i) => (
-                      <tr key={r.club_id} className={"border-t border-slate-100 " + (i < 2 ? "bg-lime-50/70" : "") + (r.club_id === myClubId ? " ring-2 ring-lime-400" : "")}>
+                      <tr key={r.club_id} className={"border-t border-slate-100 " + (i < aclQualify ? "bg-lime-50/70" : "") + (r.club_id === myClubId ? " ring-2 ring-lime-400" : "")}>
                         <td className="py-1 font-black pr-1">
-                          <span className={"inline-grid place-items-center w-5 h-5 rounded-md text-[10px] " + (i < 2 ? "bg-lime-400 text-slate-950" : "bg-slate-100 text-slate-600")}>{i + 1}</span>
+                          <span className={"inline-grid place-items-center w-5 h-5 rounded-md text-[10px] " + (i < aclQualify ? "bg-lime-400 text-slate-950" : "bg-slate-100 text-slate-600")}>{i + 1}</span>
                         </td>
                         <td className="font-bold">
                           <span className="flex items-center gap-1.5">
@@ -156,7 +159,10 @@ export default function Tables() {
             ))}
           </div>
           <div className="text-[11px] text-slate-500 mt-2">
-             2 terbaik tiap grup melaju ke babak gugur (16 Besar → Perempat Final → Semifinal → Final, Pekan 18-21){myGroupName ? " • Tim kamu di Grup " + myGroupName : ""} • Fase grup digelar di antara pekan liga (pekan ganda){aclTier === "elite" ? " • Juara ACL Two promosi ke ACL ELITE musim berikutnya 🌏" : ""}
+             {aclTier === "elite"
+               ? "Top 8 tiap zona melaju ke babak gugur (16 Besar → Perempat Final → Semifinal → Final, 1 laga, Pekan 29-34)"
+               : "2 terbaik tiap grup melaju ke babak gugur (16 Besar → Perempat Final → Semifinal 2 leg + Final 1 laga, Pekan 26-34)"}
+             {myGroupName ? " • Tim kamu di " + myGroupName : ""} • Digelar di sela pekan Liga (pekan ganda){aclTier === "elite" ? " • Juara ACL Two promosi ke ACL ELITE musim berikutnya 🌏" : ""}
           </div>
         </div>
       )}
@@ -165,7 +171,7 @@ export default function Tables() {
         <div className="card-title">
           🗓️ Jadwal &amp; Hasil{" "}
           <span className="chip chip-slate ml-auto">
-            {aclStageLabel ? "ACL " + aclStageLabel : "Pekan " + (md ?? "-") + " / 17"}
+            {aclStageLabel ? "ACL " + aclStageLabel : "Pekan " + (md ?? "-") + " / " + LEAGUE_MDS}
             {aclMd ? " • ACL MD " + aclMd : ""}
           </span>
         </div>
@@ -174,7 +180,7 @@ export default function Tables() {
             ◀ Prev
           </button>
           <span className="font-black">{aclStageLabel ? "ACL " + aclStageLabel : "Pekan " + md + (aclMd ? " • ACL MD " + aclMd : "")}</span>
-          <button onClick={() => loadMd(Math.min(21, (md || 1) + 1))} disabled={(md || 1) >= 21} className="btn-ghost rounded-full px-4 py-1.5 disabled:opacity-30">
+          <button onClick={() => loadMd(Math.min(LEAGUE_MDS, (md || 1) + 1))} disabled={(md || 1) >= LEAGUE_MDS} className="btn-ghost rounded-full px-4 py-1.5 disabled:opacity-30">
             Next ▶
           </button>
         </div>
@@ -205,7 +211,7 @@ export default function Tables() {
           })}
           {fixtures.length === 0 && <div className="text-xs text-slate-400 italic text-center py-3">Belum ada jadwal untuk pekan ini.</div>}
         </div>
-        <div className="text-[11px] text-slate-500 mt-2 text-center">W = Menang • D = Seri • L = Kalah (hasil tim kamu) • Kotak hijau = laga kamu ⭐ • Baris biru = laga ACL Two / ACL Elite 🌏</div>
+        <div className="text-[11px] text-slate-500 mt-2 text-center">W = Menang • D = Seri • L = Kalah (hasil tim kamu) • Kotak hijau = laga kamu ⭐ • Baris biru = laga ACL Two / ACL Elite 🌏 • Liga 34 pekan (home & away)</div>
       </div>
     </div>
   );

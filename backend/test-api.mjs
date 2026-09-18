@@ -48,10 +48,12 @@ const f = await get2('/api/next-fixture');
 ok('next-fixture', f.finished ? 'season done' : `MD${f.matchday}: ${f.home.short_name} vs ${f.away.short_name}`);
 const fx = await get2('/api/fixtures?matchday=1');
 ok('fixtures', `${fx.length} laga MD1`);
+const fxLast = await get2('/api/fixtures?matchday=34');
+ok('fixtures-md34', `${fxLast.length} laga MD34 (9 Liga; KO ACL dibangkitkan dinamis saat pekan berjalan)`);
 const n = await get2('/api/news');
 ok('news', `top="${n[0].title}" (${n.length} item)`);
 
-// ==== SIMULASI MUSIM PENUH: liga 23 pekan + ACL Two (grup + gugur) ====
+// ==== SIMULASI MUSIM PENUH: liga 34 pekan (home & away) + ACL Two (grup + gugur) ====
 async function playWeek() {
   let last = null;
   for (let i = 0; i < 3; i++) {
@@ -67,12 +69,12 @@ async function playWeek() {
 }
 let guard = 0;
 let aclFinal = null;
-while (guard++ < 40) {
+while (guard++ < 50) {
   const nf = await get2('/api/next-fixture');
   if (nf.finished) break;
   const r = await playWeek();
   if (r && (r.finished || r.done)) break;
-  if (nf.matchday >= 18 && nf.matchday <= 21) {
+  if (nf.matchday >= 26 && nf.matchday <= 34) {
     const fx21 = await get2('/api/fixtures?matchday=' + nf.matchday);
     if (fx21.length && fx21.every((x) => x.played)) aclFinal = fx21.find((x) => x.competition.includes('acl'));
   }
@@ -81,7 +83,7 @@ const aclTbl = await get2('/api/standings/acl');
 ok('acl-groups', aclTbl.map((g) => g.name + ':' + (g.rows[0] ? g.rows[0].short_name + ' ' + g.rows[0].points + 'pts' : '-')).join(' | '));
 const endState = await get2('/api/state');
 ok('season-end', `md=${endState.save.matchday} season=${endState.save.season} tier=${endState.save.acl_tier}`);
-if (endState.save.matchday <= 23) throw new Error('Musim tidak tuntas: matchday=' + endState.save.matchday + ' (harus > 23)');
+if (endState.save.matchday <= 34) throw new Error('Musim tidak tuntas: matchday=' + endState.save.matchday + ' (harus > 34; 34 pekan Liga home & away)');
 const ns = await post2('/api/next-season', {});
 ok('next-season', `season=${ns.season} aclTier=${ns.aclTier} aclTitles=${ns.aclTitles} promoted=${ns.promoted} juaraACL=${ns.aclChampion}`);
 const nf2 = await get2('/api/next-fixture');

@@ -10,7 +10,8 @@
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
     "build": "npm --prefix frontend run build",
     "test:api": "cd backend && node test-api.mjs",
-    "test:promotion": "cd backend && node test-promotion.mjs"
+    "test:promotion": "cd backend && node test-promotion.mjs",
+    "test:calendar": "cd backend && node test-calendar.mjs"
   },
   "devDependencies": {
     "concurrently": "^10.0.5"

@@ -1,5 +1,5 @@
 import React from "react";
-import { api, clubLogo, aclRound, aclStage, aclCompName } from "./lib.js";
+import { api, clubLogo, aclRound, aclStage, aclCompName, seasonLabel } from "./lib.js";
 
 const SPEEDS = [
   { id: 0, label: "Santai 🐢", delay: 1400 },
@@ -319,7 +319,7 @@ export default function Match({ save, next, onPlayed }) {
   const fxCompName = fx && fx.fixture ? aclCompName(fx.fixture.competition) : null;
   const seasonDone = !!(fx && fx.finished && fx.seasonDone);
   const fxMd = fx && fx.matchday;
-  const aclLabel = fxMd >= 18 ? aclStage(fxMd) : fxIsAcl ? "ACL MD " + aclRound(fxMd) : null;
+  const aclLabel = aclStage(fxMd, save.acl_tier) || (fxIsAcl ? "ACL MD " + aclRound(fxMd, save.acl_tier) : null);
 
   return (
     <div className="grid gap-3">
@@ -327,7 +327,7 @@ export default function Match({ save, next, onPlayed }) {
         {showBoard ? (
           <>
             <div className="score-top">
-              {fxIsAcl ? fxCompName + " " + (fx.season || next.season || "") + (fx.season || next.season ? "/" + ((fx.season || next.season) + 1) : "") : "INDONESIA SUPER LEAGUE 2026/27"} • {aclLabel ? aclLabel : "PEKAN " + fxMd}
+              {fxIsAcl ? fxCompName + " " + seasonLabel(fx.season || (next && next.season) || save.season) : "INDONESIA SUPER LEAGUE " + seasonLabel(save.season)} • {aclLabel ? aclLabel : "PEKAN " + fxMd}
             </div>
             <div className="score-teams">
               <div className="score-side">

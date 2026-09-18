@@ -1,5 +1,5 @@
 import { db, initSchema, stmt, all, get, run, batch, exec } from './db.js';
-import { CLUBS, FIRST, LAST, FOREIGN, SQUAD_CORES, ACL_GROUPS, ACL_ELITE_GROUPS, ACL_CLUB_IDS, ACL_FOREIGN_NAMES, ACL_LOCAL_NAMES } from './data.js';
+import { CLUBS, FIRST, LAST, FOREIGN, SQUAD_CORES, ACL_GROUPS, ACL_CLUB_IDS, ACL_FOREIGN_NAMES, ACL_LOCAL_NAMES, ACL_TWO_GROUP_MD, ACL_ELITE_GROUP_MD, LEAGUE_ROUNDS, LEAGUE_MATCHDAYS, aclSections } from './data.js';
 import { clubMap } from './game.js';
 import { koWinner } from './play.js';
 
@@ -96,7 +96,7 @@ export async function seedWorld(saveId) {
   }
   await batch(playerStmts);
   await batch(makeFixtures(saveId, 1));
-  await batch(makeAclFixtures(saveId, 1, 'acl_two', ACL_GROUPS));
+  await batch(makeAclFixtures(saveId, 1, 'two'));
   await run("INSERT INTO news (save_id,day_label,title,body,tag) VALUES (?, 'Pra-musim',?,?, 'INFO')", [saveId, 'Selamat datang di Liga Indonesia FM!', 'Pilih klub favoritmu, atur taktik, dan bawa mereka juara. Gas!']);
 }
 
@@ -113,50 +113,86 @@ function playerInsert(saveId, p) {
     [saveId, p.club_id, p.name, p.pos, p.age, p.is_foreign, p.pac, p.sho, p.pas, p.def, p.gk, p.sta, p.morale, p.market_value, p.wage, p.contract_years]);
 }
 
+// Jadwal LIGA: 18 klub, home & away (double round-robin) = 34 pertandingan/klub, 306 laga.
+// Ronde 1-17 di-generate dengan circle method, lalu ronde 18-34 = leg kedua (home/away dibalik)
+// supaya tiap klub main 17 kali kandang & 17 kali tandang. Semua klub ACL (id 19+) hanya main di ACL.
 function makeFixtures(saveId, season) {
-  // Hanya klub Indonesia Super League (id 1-18); klub ACL Two (id 19-21) khusus bertanding di ACL Two.
   const ids = CLUBS.filter((c) => c.id <= 18).map((c) => c.id);
-  const arr = ids.slice(1);
-  let round = [];
-  const teams = [ids[0], ...arr];
-  // circle method single round robin 17 matchdays
-  const fixed = teams.slice();
-  for (let md = 1; md <= 17; md++) {
+  const fixed = ids.slice();
+  const stmts = [];
+  const ins = (md, home, away) => stmts.push(stmt('INSERT INTO fixtures (save_id,season,matchday,home_id,away_id,competition) VALUES (?,?,?,?,?,?)', [saveId, season, md, home, away, 'league']));
+  for (let md = 1; md <= LEAGUE_ROUNDS; md++) {
     for (let i = 0; i < 9; i++) {
       const a = fixed[i]; const b = fixed[17 - i];
       const flip = md % 2 === 0;
-      round.push({ md, h: flip ? b : a, a: flip ? a : b });
+      const h = flip ? b : a; const aw = flip ? a : b;
+      ins(md, h, aw);              // leg 1 (putaran pertama)
+      ins(md + LEAGUE_ROUNDS, aw, h); // leg 2 (putaran kedua, home & away dibalik)
     }
-    // rotate
-    fixed.splice(1, 0, fixed.pop());
+    fixed.splice(1, 0, fixed.pop()); // rotate
   }
-  return round.map((f) => stmt('INSERT INTO fixtures (save_id,season,matchday,home_id,away_id,competition) VALUES (?,?,?,?,?,?)', [saveId, season, f.md, f.h, f.a, 'league']));
+  return stmts;
 }
 
-// ===== ACL Two / ACL Elite: 8 grup (A-H) =====
-// Fase grup: tiap grup home-away round-robin (6 ronde), digelar DI ANTARA pekan Indonesia Super
-// League (pekan ganda) via ACL_MD_LEAGUE. 2 terbaik tiap grup -> babak gugur (16 Besar ->
-// Perempat Final -> Semifinal -> Final) yang dibangkitkan dinamis di play.js (Pekan 18-21).
-const ACL_MD_LEAGUE = { 1: 3, 2: 5, 3: 8, 4: 10, 5: 13, 6: 16 }; // ACL MD1=pekan 3, MD2=5, MD3=8, MD4=10, MD5=13, MD6=16
-function makeAclFixtures(saveId, season, comp, groups) {
-  // Ronde round-robin 4 tim (indeks dalam g.ids): leg 1 ronde 1-3, leg 2 ronde 4-6 (home/away dibalik).
-  const ROUNDS = [
-    { round: 1, pairs: [[0, 1], [2, 3]] },
-    { round: 2, pairs: [[0, 2], [1, 3]] },
-    { round: 3, pairs: [[0, 3], [1, 2]] },
-    { round: 4, pairs: [[1, 0], [3, 2]] },
-    { round: 5, pairs: [[2, 0], [3, 1]] },
-    { round: 6, pairs: [[3, 0], [2, 1]] }
-  ];
+// ===== ACL Two: 8 grup (A-H) x 4 tim, home & away (6 laga/klub) sesuai aturan AFC =====
+// Ronde 1-3 = leg pertama, ronde 4-6 = leg kedua (home/away dibalik). Digelar sebagai pekan
+// ganda bersama Liga pada ACL_TWO_GROUP_MD. 2 terbaik tiap grup -> babak gugur.
+const ACL_TWO_ROUNDS = [
+  { round: 1, pairs: [[0, 1], [2, 3]] },
+  { round: 2, pairs: [[0, 2], [1, 3]] },
+  { round: 3, pairs: [[0, 3], [1, 2]] },
+  { round: 4, pairs: [[1, 0], [3, 2]] },
+  { round: 5, pairs: [[2, 0], [3, 1]] },
+  { round: 6, pairs: [[3, 0], [2, 1]] }
+];
+function makeAclTwoFixtures(saveId, season) {
   const stmts = [];
-  for (const g of groups) {
-    for (const r of ROUNDS) {
+  for (const g of ACL_GROUPS) {
+    for (const r of ACL_TWO_ROUNDS) {
       for (const [h, a] of r.pairs) {
-        stmts.push(stmt('INSERT INTO fixtures (save_id,season,matchday,home_id,away_id,competition) VALUES (?,?,?,?,?,?)', [saveId, season, ACL_MD_LEAGUE[r.round], g.ids[h], g.ids[a], comp]));
+        stmts.push(stmt('INSERT INTO fixtures (save_id,season,matchday,home_id,away_id,competition) VALUES (?,?,?,?,?,?)', [saveId, season, ACL_TWO_GROUP_MD[r.round], g.ids[h], g.ids[a], 'acl_two']));
       }
     }
   }
   return stmts;
+}
+
+// ===== ACL Elite: league phase 8 laga/klub (4 home, 4 away) sesuai aturan AFC =====
+// 12 tim/zona dibagi 2 pot (6+6). Ronde 1-6: semua 6 tim pot sebelah (ronde 1-3 kandang Pot 1,
+// ronde 4-6 kandang Pot 2) -> 3 home + 3 away. Ronde 7-8: 2 tim sepot (1 home, 1 away).
+// Jadi tiap klub tepat 8 laga: 4 kandang & 4 tandang.
+const ACL_SAME_POT = {
+  7: [[0, 5], [1, 4], [2, 3]], // tuan rumah = tim pertama
+  8: [[3, 0], [4, 2], [5, 1]]  // tuan rumah = tim pertama (menyeimbangkan home & away)
+};
+function aclEliteRoundPairs(ids, round) {
+  const out = [];
+  if (round <= 6) {
+    const i = round - 1;
+    for (let j = 0; j < 6; j++) {
+      const other = (j + i) % 6;
+      if (i < 3) out.push([ids[j], ids[6 + other]]); else out.push([ids[6 + other], ids[j]]);
+    }
+  } else {
+    for (const [h, a] of ACL_SAME_POT[round]) { out.push([ids[h], ids[a]]); out.push([ids[6 + h], ids[6 + a]]); }
+  }
+  return out;
+}
+function makeAclEliteFixtures(saveId, season) {
+  const stmts = [];
+  for (const section of aclSections('elite')) {
+    for (let round = 1; round <= 8; round++) {
+      for (const [h, a] of aclEliteRoundPairs(section.ids, round)) {
+        stmts.push(stmt('INSERT INTO fixtures (save_id,season,matchday,home_id,away_id,competition) VALUES (?,?,?,?,?,?)', [saveId, season, ACL_ELITE_GROUP_MD[round], h, a, 'acl_elite']));
+      }
+    }
+  }
+  return stmts;
+}
+
+// Jadwal ACL sesuai tier karier: ACL Two (grup) atau ACL Elite (league phase).
+function makeAclFixtures(saveId, season, tier) {
+  return tier === 'elite' ? makeAclEliteFixtures(saveId, season) : makeAclTwoFixtures(saveId, season);
 }
 
 // ===== Mulai musim baru (rollover setelah musim selesai, matchday > 23) =====
@@ -167,16 +203,14 @@ export async function startNextSeason(saveId) {
   const save = await get('SELECT * FROM careers WHERE id=?', [saveId]);
   if (!save) throw new Error('Karier tidak ditemukan');
   const clubs = await clubMap();
-  const fin = await get("SELECT * FROM fixtures WHERE save_id=? AND season=? AND competition IN ('acl_two','acl_elite') AND matchday=21 AND played=1", [saveId, save.season]);
+  const fin = await get("SELECT * FROM fixtures WHERE save_id=? AND season=? AND competition IN ('acl_two','acl_elite') AND matchday=? AND played=1", [saveId, save.season, LEAGUE_MATCHDAYS]);
   const aclChampId = fin ? koWinner(fin, clubs) : null;
   const wonAcl = aclChampId === save.club_id;
   const newTier = wonAcl ? 'elite' : (save.acl_tier === 'elite' ? 'elite' : 'two');
   const newSeason = save.season + 1;
-  // Musim baru: jadwal liga + jadwal ACL (two/elite) untuk kompetisi sesuai tier
+  // Musim baru: jadwal Liga (34 pekan, home & away) + jadwal ACL (Two/Elite) dibuat bersamaan.
   await batch(makeFixtures(saveId, newSeason));
-  const groups = newTier === 'elite' ? ACL_ELITE_GROUPS : ACL_GROUPS;
-  const comp = newTier === 'elite' ? 'acl_elite' : 'acl_two';
-  await batch(makeAclFixtures(saveId, newSeason, comp, groups));
+  await batch(makeAclFixtures(saveId, newSeason, newTier));
   // Reset klasemen liga musim baru
   await run('DELETE FROM standings_cache WHERE save_id=?', [saveId]);
   const st = CLUBS.filter((c) => c.id <= 18).map((c) => stmt('INSERT INTO standings_cache (save_id,club_id) VALUES (?,?)', [saveId, c.id]));
@@ -197,5 +231,5 @@ export async function startNextSeason(saveId) {
 }
 
 if (process.argv[1] && process.argv[1].endsWith('seed.js')) {
-  seedAll().then(() => console.log('Seed OK: 49 clubs (18 liga + 31 ACL Two, 8 grup), 1176 players, 249 fixtures (153 liga + 96 ACL grup; 15 babak gugur dibangkitkan dinamis)')).catch((e) => { console.error(e); process.exit(1); });
+  seedAll().then(() => console.log('Seed OK: 49 clubs (18 liga + 31 ACL), 1176 players, 402 fixtures (306 liga 34 pekan home & away + 96 ACL fase grup; babak gugur dibangkitkan dinamis)')).catch((e) => { console.error(e); process.exit(1); });
 }

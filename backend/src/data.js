@@ -61,33 +61,83 @@ export const CLUBS = [
   { id: 49, name: 'Phnom Penh Crown FC', short_name: 'PPCROWN', city: 'Phnom Penh', logo: 'phnom_penh.png', color_primary: '#0A3D91', color_secondary: '#E31B23', strength: 77, budget: 22000000, reputation: 68 }
 ];
 
-// ===== ACL Two 2026/27: 8 grup (A-H), masing-masing 4 tim. Persib (id 2) di Grup E. =====
-// 2 terbaik tiap grup melaju ke babak gugur: 16 Besar -> Perempat Final -> Semifinal -> Final.
+// ===== Pool ACL (32 klub): 16 Zona Timur (AFC East) + 16 Zona Barat (AFC West) =====
+// ACL Two: 8 grup (A-H) x 4 tim, home & away = 6 laga/klub (aturan AFC).
+// Zona dipakai untuk undian babak gugur: tim Zona Timur vs Timur (dan Barat vs Barat)
+// sampai Semifinal, baru bertemu lawan zona lain di Final -- persis format AFC.
+//   Timur : grup A, B, C, E (+ Persib id 2).  Barat: grup D, F, G, H.
 export const ACL_GROUPS = [
-  { name: 'A', ids: [22, 23, 24, 25] },
-  { name: 'B', ids: [26, 27, 28, 29] },
-  { name: 'C', ids: [30, 31, 32, 33] },
-  { name: 'D', ids: [34, 35, 36, 37] },
-  { name: 'E', ids: [2, 19, 20, 21] },
-  { name: 'F', ids: [38, 39, 40, 41] },
-  { name: 'G', ids: [42, 43, 44, 45] },
-  { name: 'H', ids: [46, 47, 48, 49] }
+  { name: 'A', zone: 'east', ids: [22, 23, 24, 25] },
+  { name: 'B', zone: 'east', ids: [26, 27, 28, 29] },
+  { name: 'C', zone: 'east', ids: [30, 31, 32, 33] },
+  { name: 'D', zone: 'west', ids: [34, 35, 36, 37] },
+  { name: 'E', zone: 'east', ids: [2, 19, 20, 21] },
+  { name: 'F', zone: 'west', ids: [38, 39, 40, 41] },
+  { name: 'G', zone: 'west', ids: [42, 43, 44, 45] },
+  { name: 'H', zone: 'west', ids: [46, 47, 48, 49] }
 ];
 
-// ===== ACL ELITE (musim setelah juara ACL Two): 8 grup (A-H) dari pool klub Asia terkuat. =====
-// Persib (id 2) promosi ke ACL Elite dan mendapat grup tersulit (A) bersama klub strength 83-84.
-// Format & kalender sama persis dengan ACL Two: 6 ronde fase grup (pekan ganda liga) + babak
-// gugur 16 Besar -> Perempat Final -> Semifinal -> Final (Pekan 18-21).
-export const ACL_ELITE_GROUPS = [
-  { name: 'A', ids: [2, 35, 24, 22] },   // Persib + Al-Wahda(84) + Shanghai Shenhua(84) + Gangwon(83)
-  { name: 'B', ids: [38, 19, 36, 48] },  // Al-Shorta(84) + FC Seoul(85) + Al-Rayyan(83) + Gol Gohar(82)
-  { name: 'C', ids: [34, 26, 32, 41] },  // Al-Jazira(83) + Adelaide(82) + Lion City(81) + Al-Khaldiya(81)
-  { name: 'D', ids: [37, 23, 42, 45] },  // Al-Taawoun(82) + Machida(82) + Al-Muharraq(82) + Al-Seeb(81)
-  { name: 'E', ids: [28, 33, 40, 43] },  // BG Pathum(83) + Tampines(78) + Al-Hussein(80) + Kuwait SC(80)
-  { name: 'F', ids: [44, 25, 30, 47] },  // Al-Nahda(79) + Kitchee(80) + East Bengal(79) + Nasaf(80)
-  { name: 'G', ids: [46, 21, 27, 31] },  // Arkadag(79) + Viettel(80) + Tai Po(78) + Kuching City(77)
-  { name: 'H', ids: [39, 29, 49, 20] }   // Al-Faisaly(82) + Svay Rieng(78) + Phnom Penh(77) + Melbourne(83)
+// ===== ACL ELITE (aturan AFC 2024/25+): 24 klub = 12 Zona Timur + 12 Zona Barat =====
+// League phase 8 laga/klub (4 home, 4 away): semua 6 tim pot sebelah + 2 tim sepot.
+// Top 8 tiap zona -> 16 Besar (1 leg, intra-zona) -> Perempat Final -> Semifinal -> Final.
+// Juara ACL Two musim sebelumnya (Persib) selalu dapat tiket ACL Elite.
+export const ACL_ELITE_FORCED = 2;
+export const ACL_ELITE_PER_ZONE = 12;
+
+// Susun 24 tim ACL Elite: 12 terkuat tiap zona (juara ACL Two dipaksa masuk).
+// Deterministik (dari kekuatan klub di CLUBS) supaya jadwal & klasemen selalu konsisten.
+export function aclEliteZones() {
+  const byZone = { east: [], west: [] };
+  for (const g of ACL_GROUPS) for (const id of g.ids) byZone[g.zone].push(id);
+  const str = (id) => { const c = CLUBS.find((x) => x.id === id); return c ? c.strength : 0; };
+  return ['east', 'west'].map((zone) => {
+    const pool = byZone[zone].slice().sort((a, b) => str(b) - str(a) || a - b);
+    const forced = zone === 'east' && pool.includes(ACL_ELITE_FORCED) ? [ACL_ELITE_FORCED] : [];
+    const ids = forced.concat(pool.filter((id) => forced.indexOf(id) === -1)).slice(0, ACL_ELITE_PER_ZONE);
+    return { name: zone === 'east' ? 'EAST' : 'WEST', label: zone === 'east' ? 'Zona Timur' : 'Zona Barat', zone, ids };
+  });
+}
+
+// Bagian klasemen ACL sesuai tier karier: 8 grup (ACL Two) atau 2 zona (ACL Elite).
+export function aclSections(tier) {
+  if (tier === 'elite') return aclEliteZones();
+  return ACL_GROUPS.map((g) => ({ name: g.name, label: 'Grup ' + g.name, zone: g.zone, ids: g.ids }));
+}
+
+// ===== Kalender musim (mengikuti aturan AFC) =====
+// Liga Indonesia: 18 klub home & away -> 34 pertandingan/klub (306 laga) = 34 pekan.
+export const LEAGUE_MATCHDAYS = 34;
+export const LEAGUE_ROUNDS = 17; // 17 ronde x 2 leg (home & away)
+// ACL Two: fase grup 6 laga (pekan 4,8,12,16,20,24) + KO 2 leg (Pekan 26-32) + Final Pekan 34.
+export const ACL_TWO_GROUP_MD = { 1: 4, 2: 8, 3: 12, 4: 16, 5: 20, 6: 24 };
+export const ACL_TWO_KO = [
+  { md: 26, stage: 'r16', leg: 1 }, { md: 28, stage: 'r16', leg: 2 },
+  { md: 29, stage: 'qf', leg: 1 }, { md: 30, stage: 'qf', leg: 2 },
+  { md: 31, stage: 'sf', leg: 1 }, { md: 32, stage: 'sf', leg: 2 },
+  { md: 34, stage: 'final', leg: 1 }
 ];
+// ACL Elite: league phase 8 laga (pekan 4,8,12,16,20,24,26,28) + KO 1 leg (Pekan 29,31,32,34).
+export const ACL_ELITE_GROUP_MD = { 1: 4, 2: 8, 3: 12, 4: 16, 5: 20, 6: 24, 7: 26, 8: 28 };
+export const ACL_ELITE_KO = [
+  { md: 29, stage: 'r16', leg: 1 },
+  { md: 31, stage: 'qf', leg: 1 },
+  { md: 32, stage: 'sf', leg: 1 },
+  { md: 34, stage: 'final', leg: 1 }
+];
+export function aclTierKey(save) { return save && save.acl_tier === 'elite' ? 'elite' : 'two'; }
+export function aclGroupMdOf(tier) { return tier === 'elite' ? ACL_ELITE_GROUP_MD : ACL_TWO_GROUP_MD; }
+export function aclKoListOf(tier) { return tier === 'elite' ? ACL_ELITE_KO : ACL_TWO_KO; }
+// Pekan fase grup/league phase (dipakai untuk hitung klasemen ACL & label UI).
+export function aclGroupMdsOf(tier) { return Object.values(aclGroupMdOf(tier)); }
+// Konfigurasi babak gugur untuk pekan tertentu (null jika bukan pekan KO).
+export function aclKoStageOf(tier, md) { const c = aclKoListOf(tier).find((x) => x.md === Number(md)); return c || null; }
+// Nama babak untuk UI/log.
+export function aclStageLabel(tier, md) {
+  const c = aclKoStageOf(tier, md);
+  if (!c) return null;
+  const base = c.stage === 'r16' ? '16 Besar' : c.stage === 'qf' ? 'Perempat Final' : c.stage === 'sf' ? 'Semifinal' : 'Final';
+  return c.leg > 1 ? base + ' • Leg ' + c.leg : base;
+}
 
 export function logoMissing() {
   const dir = path.join(__dirname, 'public', 'img', 'clubs');

@@ -1,83 +1,168 @@
-import { all, get, run } from './db.js';
+import { all, get, run, stmt, batch } from './db.js';
 import { simulateHalf, simulateMatch } from './sim.js';
 import { clubMap, squad, autoXI, bumpStanding } from './game.js';
 import { applyPostMatch as pm2 } from './postmatch.js';
-import { ACL_GROUPS, ACL_ELITE_GROUPS } from './data.js';
+import { LEAGUE_MATCHDAYS, aclTierKey, aclKoListOf, aclGroupMdsOf, aclKoStageOf, aclStageLabel, aclSections } from './data.js';
 
-// ===== Babak gugur ACL Two / ACL Elite (dinamis) =====
-// 16 Besar = Pekan 18, Perempat Final = 19, Semifinal = 20, Final = 21.
-const ACL_KO_STAGE = { 18: '16 Besar', 19: 'Perempat Final', 20: 'Semifinal', 21: 'Final' };
+// ===== Babak gugur ACL Two / ACL Elite (dinamis, aturan AFC) =====
+// ACL Two   : 16 Besar / Perempat Final / Semifinal 2 LEG + Final 1 laga  = 13 laga sampai juara.
+// ACL Elite : 16 Besar / Perempat Final / Semifinal / Final 1 laga        = 12 laga sampai juara.
+// Zona AFC  : ACL Two memisahkan Zona Timur & Barat sampai Semifinal (baru bertemu di Final),
+//             ACL Elite mempertemukan Timur vs Barat sejak Perempat Final.
+// Pekan KO & pekan fase grup ada di data.js (ACL_TWO_KO / ACL_ELITE_KO) - semuanya pekan ganda
+// bersama Liga Indonesia supaya musim tetap 34 pekan.
+const NEXT_STAGE = { qf: 'r16', sf: 'qf', final: 'sf' };
 
-// Pemenang laga gugur; jika imbang -> "adu penalti" acak berbobot kekuatan klub.
+// Kompetisi ACL sesuai tier karier ('acl_two' / 'acl_elite').
+export function aclCompOf(save) { return aclTierKey(save) === 'elite' ? 'acl_elite' : 'acl_two'; }
+
+// Pemenang 1 laga; jika imbang -> "adu penalti" acak berbobot kekuatan klub.
+export function penaltyWinner(a, b, clubs) {
+  const sa = (clubs[a] && clubs[a].strength) || 80;
+  const sb = (clubs[b] && clubs[b].strength) || 80;
+  return Math.random() < sa / (sa + sb) ? a : b;
+}
 export function koWinner(f, clubs) {
   if (f.home_goals > f.away_goals) return f.home_id;
   if (f.away_goals > f.home_goals) return f.away_id;
-  const sh = (clubs[f.home_id] && clubs[f.home_id].strength) || 80;
-  const sa = (clubs[f.away_id] && clubs[f.away_id].strength) || 80;
-  return Math.random() < sh / (sh + sa) ? f.home_id : f.away_id;
+  return penaltyWinner(f.home_id, f.away_id, clubs);
+}
+// Pemenang tie 2 leg (aturan AFC): agregat 2 laga; jika agregat imbang -> adu penalti berbobot.
+export function tieWinner(legs, clubs) {
+  const home = legs[0].home_id; const away = legs[0].away_id;
+  let hg = 0; let ag = 0;
+  for (const l of legs) {
+    if (!l) continue;
+    if (l.home_id === home) { hg += l.home_goals; ag += l.away_goals; } else { hg += l.away_goals; ag += l.home_goals; }
+  }
+  if (hg > ag) return home;
+  if (ag > hg) return away;
+  return penaltyWinner(home, away, clubs);
 }
 
-// Klasemen internal tiap grup dari fixture fase grup (matchday <= 17, sudah dimainkan).
-// Kompetisi ACL mengikuti tier karier: 'acl_two' atau 'acl_elite' (setelah juara ACL Two).
-export function aclCompOf(save) { return save.acl_tier === 'elite' ? 'acl_elite' : 'acl_two'; }
-export function aclGroupsOf(save) { return save.acl_tier === 'elite' ? ACL_ELITE_GROUPS : ACL_GROUPS; }
-
-async function aclGroupTables(save) {
-  const rows = await all("SELECT * FROM fixtures WHERE save_id=? AND season=? AND competition IN ('acl_two','acl_elite') AND matchday <= 17 AND played=1", [save.id, save.season]);
-  const groupOf = {};
-  for (const g of aclGroupsOf(save)) for (const id of g.ids) groupOf[id] = g.name;
+// Klasemen internal tiap grup/zona dari fixture fase grup (pekan fase grup, sudah dimainkan).
+// ACL Two = 8 grup, ACL Elite = 2 zona. Klasemen ini dipakai untuk undian 16 Besar & UI.
+export async function aclStandings(save) {
+  const tier = aclTierKey(save);
+  const sections = aclSections(tier);
+  const mds = aclGroupMdsOf(tier);
+  const clubs = await clubMap();
+  const rows = await all(
+    'SELECT * FROM fixtures WHERE save_id=? AND season=? AND competition=? AND matchday IN (' + mds.map(() => '?').join(',') + ')',
+    [save.id, save.season, aclCompOf(save), ...mds]
+  );
   const tables = {};
-  for (const g of aclGroupsOf(save)) tables[g.name] = {};
-  for (const f of rows) {
-    for (const [id, gf, ga] of [[f.home_id, f.home_goals, f.away_goals], [f.away_id, f.away_goals, f.home_goals]]) {
-      if (!tables[groupOf[id]]) continue;
-      if (!tables[groupOf[id]][id]) tables[groupOf[id]][id] = { pl: 0, gf: 0, ga: 0, pts: 0 };
-      const t = tables[groupOf[id]][id];
-      t.pl++; t.gf += gf; t.ga += ga;
-      if (gf > ga) t.pts += 3; else if (gf === ga) t.pts += 1;
+  for (const s of sections) {
+    tables[s.name] = {};
+    for (const id of s.ids) {
+      const c = clubs[id];
+      tables[s.name][id] = { club_id: id, name: c ? c.name : 'Klub ' + id, short_name: c ? c.short_name : '?', logo: c ? c.logo : '', played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, gd: 0, points: 0 };
     }
   }
-  const rank = (t) => Object.entries(t).map(([id, v]) => ({ id: Number(id), ...v })).sort((a, b) => b.pts - a.pts || (b.gf - b.ga) - (a.gf - a.ga) || b.gf - a.gf);
-  return Object.fromEntries(Object.entries(tables).map(([g, t]) => [g, rank(t)]));
+  for (const f of rows) {
+    if (!f.played) continue;
+    for (const [id, gf, ga] of [[f.home_id, f.home_goals, f.away_goals], [f.away_id, f.away_goals, f.home_goals]]) {
+      let t = null;
+      for (const s of sections) if (tables[s.name][id]) t = tables[s.name][id];
+      if (!t) continue;
+      t.played++; t.gf += gf; t.ga += ga; t.gd += gf - ga;
+      if (gf > ga) { t.won++; t.points += 3; } else if (gf === ga) { t.drawn++; t.points += 1; } else t.lost++;
+    }
+  }
+  const sortRows = (a, b) => b.points - a.points || b.gd - a.gd || b.gf - a.gf || a.short_name.localeCompare(b.short_name);
+  return sections.map((s) => ({ name: s.name, label: s.label, zone: s.zone, rows: Object.values(tables[s.name]).sort(sortRows) }));
 }
 
-// Bangkitkan fixture babak gugur utk save.matchday (18-21) jika belum ada.
-export async function ensureAclKnockout(save) {
-  const stage = ACL_KO_STAGE[save.matchday];
-  if (!stage) return;
-  const existing = await all('SELECT * FROM fixtures WHERE save_id=? AND season=? AND matchday=?', [save.id, save.season, save.matchday]);
-  if (existing.length) return;
+// Undian 16 Besar sesuai aturan AFC:
+// - ACL Two  : juara grup vs runner-up grup sekawan zona (juara grup jadi tuan rumah leg 1).
+// - ACL Elite: 1v8, 4v5, 2v7, 3v6 dari klasemen zona (tuan rumah = seed lebih tinggi).
+async function aclR16Pairs(save) {
+  const tier = aclTierKey(save);
+  const tables = await aclStandings(save);
+  const by = {};
+  for (const s of tables) by[s.name] = s.rows;
+  const pairs = [];
+  if (tier === 'elite') {
+    for (const s of tables) {
+      const t = s.rows;
+      if (t.length < 8) return [];
+      pairs.push([t[0].club_id, t[7].club_id], [t[3].club_id, t[4].club_id], [t[1].club_id, t[6].club_id], [t[2].club_id, t[5].club_id]);
+    }
+    return pairs;
+  }
+  const order = [['A', 'B'], ['B', 'A'], ['C', 'E'], ['E', 'C'], ['D', 'F'], ['F', 'D'], ['G', 'H'], ['H', 'G']];
+  for (const [w, r] of order) {
+    if (!by[w] || !by[r] || !by[w].length || by[r].length < 2) return [];
+    pairs.push([by[w][0].club_id, by[r][1].club_id]);
+  }
+  return pairs;
+}
+
+// Fixture tiap leg pada satu babak (2 leg untuk ACL Two sampai Semifinal, 1 leg untuk Final/Elite).
+// WAJIB filter competition: pekan KO (26-34) juga berisi laga Liga (pekan ganda).
+async function stageFixtures(save, stage) {
+  const mds = aclKoListOf(aclTierKey(save)).filter((x) => x.stage === stage).map((x) => x.md);
+  const legs = [];
+  for (const md of mds) legs.push(await all('SELECT * FROM fixtures WHERE save_id=? AND season=? AND matchday=? AND competition=? ORDER BY id', [save.id, save.season, md, aclCompOf(save)]));
+  return legs;
+}
+
+// Pemenang tiap tie pada satu babak (2 leg -> agregat, 1 leg -> pemenang laga).
+async function stageWinners(save, stage) {
   const clubs = await clubMap();
-  let pairs = [];
-  if (save.matchday === 18) {
-    // 16 besar: juara grup vs runner-up grup bersebelahan (juara jadi tuan rumah).
-    const tables = await aclGroupTables(save);
-    const W = {}, R = {};
-    for (const g of Object.keys(tables)) { W[g] = tables[g][0].id; R[g] = tables[g][1].id; }
-    pairs = [['A', 'B'], ['C', 'D'], ['E', 'F'], ['G', 'H'], ['B', 'A'], ['D', 'C'], ['F', 'E'], ['H', 'G']].map(([w, r]) => [W[w], R[r]]);
-  } else {
-    const prev = await all('SELECT * FROM fixtures WHERE save_id=? AND season=? AND matchday=? AND played=1 ORDER BY id', [save.id, save.season, save.matchday - 1]);
-    const winners = prev.map((f) => koWinner(f, clubs));
-    if (save.matchday === 19) pairs = [[0, 1], [2, 3], [4, 5], [6, 7]];
-    else if (save.matchday === 20) pairs = [[0, 1], [2, 3]];
-    else pairs = [[0, 1]];
-    pairs = pairs.map(([a, b]) => [winners[a], winners[b]]);
-  }
+  const legs = await stageFixtures(save, stage);
+  if (legs.length === 1) return (legs[0] || []).map((f) => koWinner(f, clubs));
+  const l1 = legs[0] || []; const l2 = legs[1] || [];
+  const winners = [];
+  for (let i = 0; i < l1.length; i++) winners.push(tieWinner([l1[i], l2[i]], clubs));
+  return winners;
+}
+
+// Undian babak berikutnya (tuan rumah = pemenang tie ber-indeks lebih kecil).
+function bracketPairs(stage, winners, tier) {
+  const idx = stage === 'qf'
+    ? (tier === 'elite' ? [[0, 7], [1, 6], [2, 5], [3, 4]] : [[0, 1], [2, 3], [4, 5], [6, 7]])
+    : stage === 'sf' ? [[0, 1], [2, 3]] : [[0, 1]];
+  return idx.map(([a, b]) => [winners[a], winners[b]]);
+}
+
+// Bangkitkan fixture babak gugur ACL untuk pekan ini (hanya jika pekan ini pekan KO & belum ada).
+// ACL Two: 16 Besar/Perempat/Semifinal 2 leg (kandang dibalik di leg 2) + Final 1 laga.
+// ACL Elite: semua babak 1 laga. Pemenang tie 2 leg dihitung agregat (+ penalti bila imbang).
+export async function ensureAclKnockout(save) {
+  const tier = aclTierKey(save);
+  const cfg = aclKoStageOf(tier, save.matchday);
+  if (!cfg) return;
   const comp = aclCompOf(save);
-  for (const [h, a] of pairs) {
-    await run('INSERT INTO fixtures (save_id,season,matchday,home_id,away_id,competition) VALUES (?,?,?,?,?,?)', [save.id, save.season, save.matchday, h, a, comp]);
+  // PENTING: filter per kompetisi — pekan KO (26-34) juga berisi laga Liga (pekan ganda),
+  // jadi "belum ada" harus dihitung dari fixture ACL saja.
+  const existing = await all('SELECT id FROM fixtures WHERE save_id=? AND season=? AND matchday=? AND competition=?', [save.id, save.season, save.matchday, comp]);
+  if (existing.length) return;
+  let pairs = [];
+  if (cfg.stage === 'r16') {
+    if (cfg.leg === 1) pairs = await aclR16Pairs(save);
+    else {
+      const legs = await stageFixtures(save, 'r16');
+      pairs = (legs[0] || []).map((f) => [f.away_id, f.home_id]); // leg 2: kandang dibalik
+    }
+  } else {
+    const winners = await stageWinners(save, NEXT_STAGE[cfg.stage]);
+    pairs = bracketPairs(cfg.stage, winners, tier);
   }
+  pairs = pairs.filter(([h, a]) => h && a);
+  if (!pairs.length) return; // klasemen fase grup belum lengkap (mis. karier format lama) -> lewati
+  await batch(pairs.map(([h, a]) => stmt('INSERT INTO fixtures (save_id,season,matchday,home_id,away_id,competition) VALUES (?,?,?,?,?,?)', [save.id, save.season, save.matchday, h, a, comp])));
 }
 
 // ===== Fast-forward pekan tanpa laga user =====
-// Dipakai saat user tersingkir dari babak gugur ACL (tidak punya laga lagi di pekan
-// 19-21) atau saat pekan kosong (22-23). Semua laga klub lain (termasuk KO ACL)
-// tetap disimulasikan sehingga juara ACL selalu ditentukan, lalu matchday dimajukan
-// sampai user punya laga lagi atau musim tuntas (matchday > 23). Tanpa ini karier
-// bisa "nyangkut" selamanya: next-fixture = finished, tapi next-season menuntut Pekan > 23.
+// Jaring pengaman: kalau user tidak punya laga belum dimainkan di pekan ini (mis. karier
+// format lama / pekan KO yang tidak diikuti), semua laga klub lain (termasuk KO ACL) tetap
+// disimulasikan sehingga juara ACL selalu ditentukan, lalu matchday dimajukan sampai user
+// punya laga lagi atau musim tuntas (matchday > 34). Tanpa ini karier bisa "nyangkut"
+// selamanya: next-fixture = finished, tapi next-season menuntut Pekan > 34.
 export async function fastForwardSeason(save) {
   const clubs = await clubMap();
-  for (let guard = 0; guard < 40 && save.matchday <= 23; guard++) {
+  for (let guard = 0; guard < 40 && save.matchday <= LEAGUE_MATCHDAYS; guard++) {
     const mine = await get('SELECT id FROM fixtures WHERE save_id=? AND season=? AND matchday=? AND played=0 AND (home_id=? OR away_id=?) LIMIT 1', [save.id, save.season, save.matchday, save.club_id, save.club_id]);
     if (mine) break; // user punya laga belum dimainkan di pekan ini -> lanjut normal
     await ensureAclKnockout(save); // bangkitkan KO ACL utk pekan ini bila perlu
@@ -97,11 +182,11 @@ export async function fastForwardSeason(save) {
     }
     await run('UPDATE players SET injured_weeks = injured_weeks - 1 WHERE injured_weeks > 0 AND save_id = ?', [save.id]);
     if (scores.length) {
-      const stage = ACL_KO_STAGE[save.matchday];
+      const stage = aclStageLabel(aclTierKey(save), save.matchday);
       await run('INSERT INTO news (save_id,day_label,title,body,tag) VALUES (?,?,?,?,?)', [
         save.id,
         'MD' + save.matchday,
-        stage ? (stage + ' ACL Two/Elite (fast-forward)') : ('Pekan ' + save.matchday + ' selesai'),
+        stage ? (stage + ' ACL (fast-forward)') : ('Pekan ' + save.matchday + ' selesai'),
         scores.join(' • '),
         'HASIL'
       ]);
@@ -145,12 +230,12 @@ async function oppAutoSub(saveId, oppXI, oppId, oppSide, oppShort, minute) {
 }
 
 export async function playMatchdayFirstHalf(save) {
-  await ensureAclKnockout(save); // babak gugur ACL dibangkitkan otomatis saat Pekan 18-21
-  // User tidak punya laga belum dimainkan di pekan ini (tersingkir dari babak gugur ACL,
-  // atau pekan kosong 22-23)? Fast-forward pekan-pekan AI dulu supaya turnamen tetap
-  // berjalan dan musim benar-benar tuntas (matchday > 23), bukan nyangkut selamanya.
+  await ensureAclKnockout(save); // babak gugur ACL dibangkitkan otomatis di pekan KO (data.js)
+  // User tidak punya laga belum dimainkan di pekan ini? Fast-forward pekan-pekan AI dulu
+  // supaya turnamen tetap berjalan dan musim benar-benar tuntas (matchday > 34), bukan
+  // nyangkut selamanya.
   const mineNow = await get('SELECT id FROM fixtures WHERE save_id=? AND season=? AND matchday=? AND played=0 AND (home_id=? OR away_id=?) LIMIT 1', [save.id, save.season, save.matchday, save.club_id, save.club_id]);
-  if (!mineNow && save.matchday <= 23) {
+  if (!mineNow && save.matchday <= LEAGUE_MATCHDAYS) {
     save = await fastForwardSeason(save);
     await ensureAclKnockout(save);
   }
@@ -161,7 +246,7 @@ export async function playMatchdayFirstHalf(save) {
   if (!fixtures.length) {
     const champ = await get('SELECT c.* FROM standings_cache s JOIN clubs c ON c.id=s.club_id WHERE s.save_id=? ORDER BY s.points DESC, s.gd DESC, s.gf DESC', [save.id]);
     // Juara ACL Two: pemenang Final (Pekan 21)
-    const fin = await get("SELECT * FROM fixtures WHERE save_id=? AND competition IN ('acl_two','acl_elite') AND matchday=21 AND played=1", [save.id]);
+    const fin = await get("SELECT * FROM fixtures WHERE save_id=? AND season=? AND competition IN ('acl_two','acl_elite') AND matchday=? AND played=1", [save.id, save.season, LEAGUE_MATCHDAYS]);
     const aclChampion = fin ? clubs[koWinner(fin, clubs)] || null : null;
     return { done: true, champion: champ, aclChampion, aclStage: 'Selesai' };
   }
@@ -279,7 +364,7 @@ export async function playMatchdaySecondHalf(save, body) {
     // Kembalikan state terkini agar client bisa lanjut normal.
     const cur = await get('SELECT * FROM careers WHERE id=?', [save.id]);
     const md = cur ? cur.matchday : save.matchday;
-    return { userResult: null, others: [], nextMatchday: md, pendingUserFixture: false, finished: md > 23, duplicate: true };
+    return { userResult: null, others: [], nextMatchday: md, pendingUserFixture: false, finished: md > LEAGUE_MATCHDAYS, duplicate: true };
   }
   await run('UPDATE players SET injured_weeks = injured_weeks - 1 WHERE injured_weeks > 0 AND save_id = ?', [save.id]);
   await run('INSERT INTO news (save_id,day_label,title,body,tag) VALUES (?,?,?,?,?)', [
@@ -295,5 +380,5 @@ export async function playMatchdaySecondHalf(save, body) {
   const hasPendingUserFixture = rem && Number(rem.c) > 0;
   const next = hasPendingUserFixture ? save.matchday : save.matchday + 1;
   await run("UPDATE careers SET matchday=?, updated_at=datetime('now') WHERE id=?", [next, save.id]);
-  return { userResult: userResult, others: others, nextMatchday: next, pendingUserFixture: hasPendingUserFixture, finished: next > 23 };
+  return { userResult: userResult, others: others, nextMatchday: next, pendingUserFixture: hasPendingUserFixture, finished: next > LEAGUE_MATCHDAYS };
 }

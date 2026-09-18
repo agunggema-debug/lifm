@@ -33,7 +33,7 @@ _Game manajer sepak bola open source — tanpa install, langsung gas di browser!
 | 🌍 **Pemain**           | 1.176 pemain (24/klub, nama asli roster ileague.id) • atribut PAC/SHO/PAS/DEF/GK/STA/Morale 1–100 • kuota asing max 8 di XI                                                                                                                                                                  |
 | ⚡ **Match Engine**     | Server-authoritative, xG berbasis rating + taktik + moral + home advantage, play-by-play menit-per-menit: gol, peluang, save, kartu, cedera 🎙️                                                                                                                                               |
 | 💸 **Transfer**         | Beli bintang / jual buat cuan, market value dinamis, budget klub, batas skuad 18–28                                                                                                                                                                                                          |
-| 🏆 **Liga & ACL Two**   | Klasemen otomatis (Poin/GD/GF) • 17 pekan liga + fase grup ACL (8 grup) + babak gugur 16 Besar → Final, total **23 pekan** • 🏅 juara ACL Two → musim depan naik ke **ACL ELITE**                                                                                                                                                               |
+| 🏆 **Liga & ACL**       | Liga **34 pekan** (18 klub home & away = 34 laga/klub) + ACL Two/Elite **berbarengan jadwal Liga** (pekan ganda) •  juara ACL Two → musim depan naik ke **ACL ELITE**                                              |
 | 👥 **Multi-User**       | Setiap browser = karier sendiri (token di localStorage), dunia privat: pemain, jadwal, klasemen, berita                                                                                                                                                                                      |
 
 ## 🕹️ Cara Main
@@ -45,7 +45,7 @@ _Game manajer sepak bola open source — tanpa install, langsung gas di browser!
 3. ⚽ **Tab Match** → pilih kecepatan (Santai 🐢 / Normal 🚶 / Turbo 🚀) → **▶️ PLAY MATCH** → nikmati komentar play-by-play babak 1 (menit 1–45)!
 4. ⏸️ **Saat HT muncul** → ganti pemain lewat dropdown **Keluar/Masuk** → tekan **▶️ LANJUTKAN BABAK KEDUA ⚔️** → substitusi beneran memengaruhi rating & xG babak 2!
 5. 🏆 **Tab Klasemen** → cek posisi + jadwal pekan lain → **Tab Transfer 💸** → beli bintang / jual buat cuan
-6. 🔁 **Ulangi sampai pekan 17** → gas juara Liga! 🏆 sambil cuti di ACL Two → taklukkan Asia di **Final Pekan 21** 🌏
+6. 🔁 **Ulangi sampai pekan 34** → Liga Indonesia format **home & away (34 pertandingan/klub)**, tiap pekan ada laga Liga 🏆 + laga ACL di pekan ganda 🌏
 7. 🏅 **Musim tuntas?** Tekan **➡️ MULAI MUSIM BARU** → jadwal Liga + **ACL ELITE** musim depan dibuat sekaligus (pekan ganda). Juara ACL Two naik kasta, trofi ACL-mu tetap tercatat! 🌏
 
 > [!TIP]
@@ -67,10 +67,16 @@ Karier selalu dimulai di **ACL Two** (8 grup A–H, format sama seperti Liga Cha
 
 Detail teknis yang perlu diketahui:
 
-- **Kalender**: fase grup ACL digelar **berbarengan dengan jadwal Liga** (pekan ganda) di Pekan **3, 5, 8, 10, 13, 16**, lalu babak gugur **16 Besar (18) → Perempat Final (19) → Semifinal (20) → Final (21)**. Total **23 pekan** per musim.
+- **Kalender**: musim = **34 pekan**. Liga Indonesia **home & away** (34 laga/klub, 306 laga total). Laga ACL digelar **berbarengan jadwal Liga** (pekan ganda):
+  - **ACL Two** — fase grup 6 laga (pekan **4, 8, 12, 16, 20, 24**) → **16 Besar (26 & 28), Perempat Final (29 & 30), Semifinal (31 & 32) 2 LEG**, **Final (34) 1 laga** = **13 laga** sampai juara.
+  - **ACL Elite** — *league phase* **8 laga**/klub, 4 kandang & 4 tandang (pekan **4, 8, 12, 16, 20, 24, 26, 28**) → **16 Besar (29), Perempat Final (31), Semifinal (32), Final (34) 1 laga** = **12 laga** sampai juara.
+- **Format ACL Elite (aturan AFC)**: 24 klub = **12 Zona Timur + 12 Zona Barat**, dibagi 2 pot. Tiap klub main 8 laga: semua 6 tim pot sebelah + 2 tim sepot → tepat 4 kandang & 4 tandang. **Top 8 tiap zona** lolos; 16 Besar masih sesama zona, **Timur vs Barat baru bertemu sejak Perempat Final**. (8 klub terlemah tidak ikut ACL Elite musim itu.)
+- **Format ACL Two (aturan AFC)**: 8 grup (A,B,C,E = Zona Timur; D,F,G,H = Zona Barat), home & away 6 laga. **2 terbaik tiap grup** lolos; 16 Besar juara grup vs runner-up grup **sekawan zona**, dan zona Timur/Barat baru bertemu di **Final**.
+- **Pemenang tie 2 leg** dihitung **agregat** 2 laga; jika agregat imbang → **adu penalti** (berbobot kekuatan klub). Pemenang laga 1 leg yang imbang juga diputuskan adu penalti.
 - **Musim baru**: menekan **➡️ MULAI MUSIM BARU** (`POST /api/next-season`) membuat jadwal **Liga + ACL (Two atau Elite)** musim berikutnya sekaligus — jadi laga ACL Elite tetap berbarengan dengan laga Liga.
-- **Juara selalu ditentukan**: kalau timmu tersingkir/tidak punya laga di babak gugur, semua laga klub lain **tetap disimulasikan otomatis** (fast-forward) sehingga juara ACL pasti ada dan musim tuntas sampai Pekan > 23 (tidak nyangkut).
-- **Anti dobel**: rolling musim hanya boleh setelah `matchday > 23`, dan `POST /api/next-season` diproteksi sekali-jalan (server + tombol di UI).
+- **Juara selalu ditentukan**: kalau timmu tersingkir/tidak punya laga di babak gugur, semua laga klub lain **tetap disimulasikan otomatis** (fast-forward) sehingga juara ACL pasti ada dan musim tuntas sampai Pekan > 34 (tidak nyangkut).
+- **Anti dobel**: rolling musim hanya boleh setelah `matchday > 34`, dan `POST /api/next-season` diproteksi sekali-jalan (server + tombol di UI).
+- **Karier lama**: kalender berubah total (17 → 34 pekan), jadi karier yang dibuat sebelum update sebaiknya di-**Reset** di header game supaya jadwal barunya lengkap.
 
 ## 🚀 Quick Start (Buat Dev)
 
@@ -110,10 +116,11 @@ npm run dev
 
 ### 🧪 Uji Coba (opsional)
 
-Butuh backend hidup di port 3001 (`npm run dev:backend`). Kedua skrip otomatis pakai token unik, jadi karier aslimu aman.
+Butuh backend hidup di port 3001 (`npm run dev:backend`). Semua skrip otomatis pakai token/DB unik, jadi karier aslimu aman.
 
 ```bash
-npm run test:api        # E2E: karier → transfer → taktik → play → 1 musim penuh → mulai musim baru
+npm run test:calendar   # kalender AFC: 34 laga/klub, 6 laga grup ACL Two, 8 laga league phase Elite, KO 2 leg / 1 leg
+npm run test:api        # E2E: karier → transfer → taktik → play → 1 musim penuh (34 pekan) → mulai musim baru
 npm run test:promotion  # juara ACL Two → promosi ACL Elite + kalender pekan ganda musim baru
 ```
 

@@ -6,8 +6,8 @@ import { fileURLToPath } from 'node:url';
 import { initSchema, all, get, run } from './db.js';
 import { seedClubs, seedWorld, startNextSeason } from './seed.js';
 import { getSaveByToken, clubMap, squad, autoXI, overall } from './game.js';
-import { playMatchdayFirstHalf, playMatchdaySecondHalf, ensureAclKnockout, fastForwardSeason } from './play.js';
-import { ACL_GROUPS, ACL_ELITE_GROUPS } from './data.js';
+import { playMatchdayFirstHalf, playMatchdaySecondHalf, ensureAclKnockout, fastForwardSeason, aclStandings } from './play.js';
+import { LEAGUE_MATCHDAYS, aclSections } from './data.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -121,8 +121,8 @@ app.post('/api/career/reset', h(async (req, res) => {
 app.post('/api/next-season', h(async (req, res) => {
   const s = await saveOf(req);
   if (!s) return res.status(400).json({ error: 'Belum ada karier' });
-  // Musim baru hanya boleh dimulai setelah musim selesai (Pekan 23 habis)
-  if (s.matchday <= 23) return res.status(400).json({ error: 'Musim belum selesai! Selesaikan dulu sampai Pekan 23.' });
+  // Musim baru hanya boleh dimulai setelah musim selesai (Pekan 34 habis)
+  if (s.matchday <= LEAGUE_MATCHDAYS) return res.status(400).json({ error: 'Musim belum selesai! Selesaikan dulu sampai Pekan ' + LEAGUE_MATCHDAYS + '.' });
   const r = await startNextSeason(s.id);
   res.json({ ok: true, ...r, save: await saveView(r.save) });
 }));
@@ -138,7 +138,7 @@ app.get('/api/next-fixture', h(async (req, res) => {
   const clubs = await clubMap();
   const withLogo = (c) => (c ? { ...c, logo_url: c.logo ? '/img/clubs/' + c.logo : '' } : c);
   const f = await get('SELECT * FROM fixtures WHERE save_id=? AND season=? AND matchday=? AND (home_id=? OR away_id=?) ORDER BY played ASC, id ASC', [s.id, s.season, s.matchday, s.club_id, s.club_id]);
-  if (!f && s.matchday <= 23) {
+  if (!f && s.matchday <= LEAGUE_MATCHDAYS) {
     // User tersingkir dari babak gugur ACL / pekan kosong: fast-forward simulasi klub lain
     // (juara ACL tetap ditentukan) sampai user punya laga lagi atau musim tuntas.
     s = await fastForwardSeason(s);
@@ -146,7 +146,7 @@ app.get('/api/next-fixture', h(async (req, res) => {
     const f2 = await get('SELECT * FROM fixtures WHERE save_id=? AND season=? AND matchday=? AND (home_id=? OR away_id=?) ORDER BY played ASC, id ASC', [s.id, s.season, s.matchday, s.club_id, s.club_id]);
     if (f2) return res.json({ matchday: s.matchday, season: s.season, home: withLogo(clubs[f2.home_id]), away: withLogo(clubs[f2.away_id]), userHome: f2.home_id === s.club_id, fixture: f2 });
   }
-  if (!f) return res.json({ finished: true, seasonDone: s.matchday > 23, aclTier: s.acl_tier, aclTitles: s.acl_titles, season: s.season });
+  if (!f) return res.json({ finished: true, seasonDone: s.matchday > LEAGUE_MATCHDAYS, aclTier: s.acl_tier, aclTitles: s.acl_titles, season: s.season });
   res.json({ matchday: s.matchday, season: s.season, home: withLogo(clubs[f.home_id]), away: withLogo(clubs[f.away_id]), userHome: f.home_id === s.club_id, fixture: f });
 }));
 app.get('/api/fixtures', h(async (req, res) => {
@@ -182,7 +182,7 @@ app.post('/api/tactics', h(async (req, res) => {
 app.post('/api/play', h(async (req, res) => {
   const s = await saveOf(req);
   if (!s) return res.status(400).json({ error: 'Belum ada karier' });
-  if (s.matchday > 23) return res.json({ finished: true, seasonDone: true, aclTier: s.acl_tier, aclTitles: s.acl_titles });
+  if (s.matchday > LEAGUE_MATCHDAYS) return res.json({ finished: true, seasonDone: true, aclTier: s.acl_tier, aclTitles: s.acl_titles });
   const t0 = Date.now();
   const phase = (req.body || {}).phase || 'first';
   let out;
@@ -199,30 +199,15 @@ app.post('/api/play', h(async (req, res) => {
   res.json(out);
 }));
 app.get('/api/standings/acl', h(async (req, res) => {
-  // ACL Two / ACL Elite: klasemen per grup (A-H) dihitung dari fixtures fase grup (md <= 17)
-  // sesuai tier karier saat ini.
+  // ACL Two: 8 grup (A-H) | ACL Elite: 2 zona (Timur/Barat) — mengikuti tier karier.
+  // Klasemen dihitung dari fixture pekan fase grup sesuai aturan AFC.
   const s = await saveOf(req);
-  const groups = s && s.acl_tier === 'elite' ? ACL_ELITE_GROUPS : ACL_GROUPS;
-  if (!s) return res.json(groups.map((g) => ({ name: g.name, rows: [] })));
-  const clubs = await clubMap();
-  const rows = await all("SELECT * FROM fixtures WHERE save_id=? AND season=? AND competition IN ('acl_two','acl_elite') AND matchday <= 17", [s.id, s.season]);
-  const out = groups.map((g) => {
-    const table = {};
-    for (const id of g.ids) {
-      const c = clubs[id];
-      table[id] = { club_id: id, name: c ? c.name : 'Klub ' + id, short_name: c ? c.short_name : '?', logo: c ? c.logo : '', played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, gd: 0, points: 0 };
-    }
-    for (const f of rows) {
-      if (!f.played || table[f.home_id] == null || table[f.away_id] == null) continue;
-      for (const [id, gf, ga] of [[f.home_id, f.home_goals, f.away_goals], [f.away_id, f.away_goals, f.home_goals]]) {
-        const t = table[id];
-        t.played++; t.gf += gf; t.ga += ga; t.gd += gf - ga;
-        if (gf > ga) { t.won++; t.points += 3; } else if (gf === ga) { t.drawn++; t.points += 1; } else t.lost++;
-      }
-    }
-    return { name: g.name, rows: g.ids.map((id) => table[id]).sort((a, b) => b.points - a.points || b.gd - a.gd || b.gf - a.gf).map((r) => ({ ...r, logo_url: r.logo ? '/img/clubs/' + r.logo : '' })) };
-  });
-  res.json(out);
+  if (!s) {
+    const sections = aclSections('two');
+    return res.json(sections.map((g) => ({ name: g.name, label: g.label, zone: g.zone, rows: [] })));
+  }
+  const out = await aclStandings(s);
+  res.json(out.map((g) => ({ ...g, rows: g.rows.map((r) => ({ ...r, logo_url: r.logo ? '/img/clubs/' + r.logo : '' })) })));
 }));
 app.get('/api/standings', h(async (req, res) => {
   const s = await saveOf(req);
