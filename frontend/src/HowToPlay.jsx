@@ -52,7 +52,7 @@ export default function HowToPlay() {
               </li>
               <li className="flex gap-3">
                 <span className="chip chip-lime shrink-0">6</span>
-                <span>🔁 Ulangi tiap pekan (total <strong>34 pekan</strong> — tiap klub main 34 pertandingan home &amp; away) → gas juara liga 🏆 sambil taklukkan <strong>ACL Two</strong> dari fase grup sampai Final! 🌏</span>
+                <span>🔁 Ulangi tiap pekan (total <strong>34 pekan</strong> — tiap klub main 34 pertandingan home &amp; away) → gas juara liga 🏆 sambil taklukkan <strong>ACL Two</strong> (fase grup → Final) atau <strong>ACL Elite</strong> (league phase 8 laga → babak gugur) melawan klub-klub terkuat Asia! 🌏</span>
               </li>
             </ol>
             <div className="mt-4 rounded-2xl bg-white/5 border border-white/10 p-3">

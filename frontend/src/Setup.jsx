@@ -126,7 +126,7 @@ export default function Setup({ clubs = [], onDone }) {
             <ul className="mt-3 text-sm text-slate-300 space-y-1 list-disc list-inside">
               <li>Frontend: React + Vite ⚡</li>
               <li>Backend: Express + libSQL/SQLite (server-authoritative match engine)</li>
-              <li>18 klub Indonesia Super League 2026/27 + kompetisi ACL Two</li>
+              <li>18 klub Indonesia Super League 2026/27 + 32 klub ACL Two &amp; 32 klub ACL Elite (peserta resmi AFC, lengkap dengan logo)</li>
               <li>Multi-user: setiap pengunjung punya karier sendiri</li>
             </ul>
             <p className="mt-3 text-xs text-slate-400 text-center">Kode source bebas dipakai, dipelajari, dan dikembangkan sesuai lisensi MIT.</p>

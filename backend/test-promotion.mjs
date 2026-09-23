@@ -34,14 +34,14 @@ must('promosi', ns.promoted === true && ns.aclTier === 'elite' && ns.aclTitles =
 const fx = await all('SELECT competition, COUNT(*) c FROM fixtures WHERE save_id=? AND season=2 GROUP BY competition', [saveId]);
 const cnt = {};
 for (const r of fx) cnt[r.competition] = Number(r.c);
-must('jadwal-musim-2', cnt.league === 306 && cnt.acl_elite === 96 && !cnt.acl_two,
-  `league=${cnt.league || 0} (harus 306) acl_elite=${cnt.acl_elite || 0} acl_two=${cnt.acl_two || 0}`);
+must('jadwal-musim-2', cnt.league === 306 && cnt.acl_elite === 128 && !cnt.acl_two,
+  `league=${cnt.league || 0} (harus 306) acl_elite=${cnt.acl_elite || 0} (harus 128) acl_two=${cnt.acl_two || 0}`);
 
 // 4. Pekan ganda: Pekan 4 musim 2 berisi laga Liga + laga ACL Elite
 const md3 = await all('SELECT competition, COUNT(*) c FROM fixtures WHERE save_id=? AND season=2 AND matchday=4 GROUP BY competition', [saveId]);
 const c3 = {};
 for (const r of md3) c3[r.competition] = Number(r.c);
-must('pekan-ganda-md4', c3.league === 9 && c3.acl_elite === 12, `league=${c3.league || 0} (9) acl_elite=${c3.acl_elite || 0} (12 = 2 zona x 6 laga)`);
+must('pekan-ganda-md4', c3.league === 9 && c3.acl_elite === 16, `league=${c3.league || 0} (9) acl_elite=${c3.acl_elite || 0} (16 = 2 zona x 8 laga)`);
 
 // 5. Persib masuk Zona Timur ACL Elite dan main 8 laga (aturan AFC league phase)
 const zones = aclEliteZones();
@@ -49,11 +49,11 @@ const eastZone = zones.find((z) => z.ids.includes(2));
 const mine = await all("SELECT matchday,competition FROM fixtures WHERE save_id=? AND season=2 AND competition='acl_elite' AND (home_id=2 OR away_id=2) ORDER BY matchday", [saveId]);
 must('persib-di-elite', eastZone && eastZone.ids.includes(2) && mine.length === 8, `zona=${eastZone ? eastZone.label : '-'} lagaPersib=${mine.length} md=[${mine.map((m) => m.matchday).join(',')}]`);
 
-// 6. API klasemen ACL ikut tier karier (Elite = 2 zona, 12 klub/zona)
+// 6. API klasemen ACL ikut tier karier (Elite = 2 zona, 16 klub/zona sesuai undian AFC 2026/27)
 const tbl = await httpGet('/api/standings/acl');
 const east = tbl.find((g) => g.name === 'EAST');
-must('api-klasemen-elite', tbl.length === 2 && east && east.rows.length === 12 && east.rows.some((r) => r.club_id === 2) && east.label === 'Zona Timur',
-  `zona=${tbl.map((g) => g.name + ':' + g.rows.length).join(' ')} label=${east ? east.label : '-'} (harus 2 zona x 12 klub)`);
+must('api-klasemen-elite', tbl.length === 2 && east && east.rows.length === 16 && east.rows.some((r) => r.club_id === 2) && east.label === 'Zona Timur',
+  `zona=${tbl.map((g) => g.name + ':' + g.rows.length).join(' ')} label=${east ? east.label : '-'} (harus 2 zona x 16 klub)`);
 
 // 7. SIMULASI MUSIM PENUH DI ACL ELITE lewat API: league phase (pekan ganda) +
 //    babak gugur 16 Besar -> Final. Verifikasi musim benar-benar tuntas (md > 34)
@@ -106,8 +106,8 @@ must('tetap-elite-musim-3', ns2.aclTier === 'elite' && ns2.season === 3 && ns2.a
 const fx3 = await all('SELECT competition, COUNT(*) c FROM fixtures WHERE save_id=? AND season=3 GROUP BY competition', [saveId]);
 const cnt3 = {};
 for (const r of fx3) cnt3[r.competition] = Number(r.c);
-must('musim-3-tetap-elite', cnt3.acl_elite === 96 && !cnt3.acl_two && cnt3.league === 306,
-  `league=${cnt3.league || 0} (harus 306) acl_elite=${cnt3.acl_elite || 0} acl_two=${cnt3.acl_two || 0}`);
+must('musim-3-tetap-elite', cnt3.acl_elite === 128 && !cnt3.acl_two && cnt3.league === 306,
+  `league=${cnt3.league || 0} (harus 306) acl_elite=${cnt3.acl_elite || 0} (harus 128) acl_two=${cnt3.acl_two || 0}`);
 const mine3 = await all("SELECT matchday FROM fixtures WHERE save_id=? AND season=3 AND competition='acl_elite' AND (home_id=2 OR away_id=2) ORDER BY matchday", [saveId]);
 must('kalender-elite-persib', mine3.map((m) => m.matchday).join(',') === '4,8,12,16,20,24,26,28', `md=[${mine3.map((m) => m.matchday).join(',')}] (8 laga league phase)`);
 

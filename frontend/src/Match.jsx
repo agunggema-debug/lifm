@@ -48,11 +48,7 @@ function SeasonDoneBoard({ seasonDone, next, onSeasonStarted }) {
         {next && next.aclTitles ? "🏆 " + next.aclTitles + "x Juara ACL • " : ""}
         Tier ACL musim depan: {next && next.aclTier === "elite" ? "ACL ELITE 🌏" : "ACL TWO 🌏"}
       </div>
-      <button
-        onClick={startNextSeason}
-        disabled={starting}
-        className="mt-3 bg-lime-400 text-slate-950 font-extrabold rounded-2xl px-6 py-2.5 hover:bg-lime-300 transition-colors disabled:opacity-60"
-      >
+      <button onClick={startNextSeason} disabled={starting} className="mt-3 bg-lime-400 text-slate-950 font-extrabold rounded-2xl px-6 py-2.5 hover:bg-lime-300 transition-colors disabled:opacity-60">
         {starting ? "Menyiapkan musim baru…" : "➡️ Mulai Musim Baru"}
       </button>
     </div>
@@ -357,9 +353,6 @@ export default function Match({ save, next, onPlayed }) {
         ) : (
           <SeasonDoneBoard seasonDone={seasonDone} next={next} onSeasonStarted={onPlayed} />
         )}
-        <div className="score-sub">
-          Skor urutan HOME - AWAY (tidak dibolak-balik). Dari sisimu: <b>{scoreLine}</b>
-        </div>
         {result && (
           <div className="score-xg">
             xG {result.userResult.xg.home}-{result.userResult.xg.away} • sim {result.ms}ms ⚡
@@ -382,11 +375,7 @@ export default function Match({ save, next, onPlayed }) {
         </div>
         <div className="text-[11px] opacity-70 mt-1">Santai ~1,4 dtk/event • Normal ~0,65 dtk/event</div>
         {!playing && !halfTime ? (
-          <button
-            disabled={seasonDone}
-            onClick={playFirstHalf}
-            className="mt-3 bg-lime-400 disabled:opacity-40 text-slate-950 font-black rounded-2xl px-8 py-3 text-lg"
-          >
+          <button disabled={seasonDone} onClick={playFirstHalf} className="mt-3 bg-lime-400 disabled:opacity-40 text-slate-950 font-black rounded-2xl px-8 py-3 text-lg">
             ▶️ PLAY MATCH
           </button>
         ) : (
@@ -395,7 +384,9 @@ export default function Match({ save, next, onPlayed }) {
           </button>
         )}
         {result && next && !next.finished && next.matchday === (result.userResult && result.userResult.fixture ? result.userResult.fixture.matchday : null) && (
-          <div className="text-[11px] opacity-80 mt-1">🌏 Laga berikutnya di pekan yang sama: {next.home.short_name} vs {next.away.short_name} — tekan PLAY MATCH lagi!</div>
+          <div className="text-[11px] opacity-80 mt-1">
+            🌏 Laga berikutnya di pekan yang sama: {next.home.short_name} vs {next.away.short_name} — tekan PLAY MATCH lagi!
+          </div>
         )}
       </div>
 
@@ -435,7 +426,12 @@ export default function Match({ save, next, onPlayed }) {
           ) : subStatus === "fail" ? (
             <div className="text-[11px] font-bold text-red-600 mt-2">⚠️ Sub gagal tersimpan — coba lagi sebelum lanjut babak 2.</div>
           ) : null}
-          <button onClick={playSecondHalf} disabled={!halfTimeState || subBusy} title={subBusy ? "Tunggu substitusi tersimpan dulu…" : undefined} className="mt-3 w-full bg-slate-950 text-white font-black rounded-xl py-3 text-sm disabled:opacity-40">
+          <button
+            onClick={playSecondHalf}
+            disabled={!halfTimeState || subBusy}
+            title={subBusy ? "Tunggu substitusi tersimpan dulu…" : undefined}
+            className="mt-3 w-full bg-slate-950 text-white font-black rounded-xl py-3 text-sm disabled:opacity-40"
+          >
             ▶️ LANJUT BABAK KEDUA ⚔️
           </button>
         </div>

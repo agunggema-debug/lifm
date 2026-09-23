@@ -1,5 +1,5 @@
-import { db, initSchema, stmt, all, get, run, batch, exec } from './db.js';
-import { CLUBS, FIRST, LAST, FOREIGN, SQUAD_CORES, ACL_GROUPS, ACL_CLUB_IDS, ACL_FOREIGN_NAMES, ACL_LOCAL_NAMES, ACL_TWO_GROUP_MD, ACL_ELITE_GROUP_MD, LEAGUE_ROUNDS, LEAGUE_MATCHDAYS, aclSections } from './data.js';
+import { db, initSchema, stmt, all, get, run, batch } from './db.js';
+import { CLUBS, FIRST, LAST, FOREIGN, SQUAD_CORES, ACL_GROUPS, ACL_CLUB_IDS, aclNamePool, aclNameOrder, aclNameParts, ACL_ELITE_FIXTURES, ACL_TWO_GROUP_MD, ACL_ELITE_GROUP_MD, LEAGUE_ROUNDS, LEAGUE_MATCHDAYS } from './data.js';
 import { clubMap } from './game.js';
 import { koWinner } from './play.js';
 
@@ -14,14 +14,26 @@ function overall(p) {
   return Math.round(p.sho * 0.5 + p.pac * 0.25 + p.pas * 0.15 + p.sta * 0.1);
 }
 
-// Generate nama pemain untuk klub ACL Two (Korea/Australia/Vietnam)
-function aclPlayerName(clubId) {
-  const fn = ACL_FOREIGN_NAMES[clubId] || [];
-  const ln = ACL_LOCAL_NAMES[clubId] || [];
-  if (fn.length === 0) return pick(FIRST) + ' ' + pick(LAST);
-  if (Math.random() < 0.6) return pick(fn);
-  if (ln.length >= 2) return pick(fn) + ' ' + pick(ln);
-  return pick(FIRST) + ' ' + pick(LAST);
+// Generate nama pemain untuk klub ACL sesuai negara klubnya (pool di data.js).
+// Tahap 1: pakai nama asli dari pool. Tahap 2 (kalau sudah terpakai di dunia karier):
+// kombinasikan nama depan & nama keluarga dari pool negara yang sama (tetap otentik + unik).
+// Klub ACL yang negaranya belum punya pool -> nama Indonesia (perilaku lama).
+function aclPlayerName(clubId, used) {
+  const pool = aclNamePool(clubId);
+  if (!pool || pool.length === 0) return pick(FIRST) + ' ' + pick(LAST);
+  const order = aclNameOrder(clubId);
+  for (let i = 0; i < 8; i++) {
+    const n = pick(pool);
+    if (!used.has(n)) return n;
+  }
+  const parts = pool.map((n) => aclNameParts(n, order)).filter(Boolean);
+  for (let i = 0; i < 80 && parts.length; i++) {
+    const a = pick(parts);
+    const b = pick(parts);
+    const n = order === 'lf' ? a.last + ' ' + b.first : b.first + ' ' + a.last;
+    if (!used.has(n)) return n;
+  }
+  return pick(pool);
 }
 
 function mkPlayer(clubId, pos, base, foreign, over) {
@@ -50,12 +62,27 @@ function mkPlayer(clubId, pos, base, foreign, over) {
 export async function seedClubs() {
   await initSchema();
   const cnt = await get('SELECT COUNT(*) v FROM clubs');
-  if (cnt && cnt.v >= 49) return; // sudah ter-seed
-  const marker = await get("SELECT id FROM clubs WHERE name='Gangwon FC'");
+  if (cnt && cnt.v >= CLUBS.length) return; // sudah ter-seed
+  // Marker klub ACL Elite 2026/27: kalau belum ada, DB masih seed lama -> sinkronkan daftar klub.
+  const marker = await get("SELECT id FROM clubs WHERE name='Kashima Antlers'");
   if (marker) return;
-  await exec('DELETE FROM clubs;');
-  const clubStmts = CLUBS.map((c) => stmt('INSERT INTO clubs (id,name,short_name,city,logo,color_primary,color_secondary,strength,budget,reputation) VALUES (?,?,?,?,?,?,?,?,?,?)', [c.id, c.name, c.short_name, c.city, c.logo, c.color_primary, c.color_secondary, c.strength, c.budget, c.reputation]));
+  // UPSERT (bukan DELETE): DB lama sudah punya players/fixtures/careers yang mereferensikan
+  // id klub 1-49, jadi menghapus baris akan ditolak FOREIGN KEY. Data karier user tetap utuh.
+  const clubStmts = CLUBS.map((c) => stmt(
+    'INSERT INTO clubs (id,name,short_name,city,logo,color_primary,color_secondary,strength,budget,reputation) VALUES (?,?,?,?,?,?,?,?,?,?) '
+    + 'ON CONFLICT(id) DO UPDATE SET name=excluded.name, short_name=excluded.short_name, city=excluded.city, logo=excluded.logo, '
+    + 'color_primary=excluded.color_primary, color_secondary=excluded.color_secondary, strength=excluded.strength, '
+    + 'budget=excluded.budget, reputation=excluded.reputation',
+    [c.id, c.name, c.short_name, c.city, c.logo, c.color_primary, c.color_secondary, c.strength, c.budget, c.reputation]
+  ));
   await batch(clubStmts);
+  // Klub yang sudah tidak ada di daftar terbaru dibuang — tapi hanya kalau belum dipakai data karier.
+  const keep = CLUBS.map((c) => c.id).join(',');
+  await run('DELETE FROM clubs WHERE id NOT IN (' + keep + ')'
+    + ' AND id NOT IN (SELECT DISTINCT club_id FROM players)'
+    + ' AND id NOT IN (SELECT DISTINCT home_id FROM fixtures)'
+    + ' AND id NOT IN (SELECT DISTINCT away_id FROM fixtures)'
+    + ' AND id NOT IN (SELECT DISTINCT club_id FROM careers)');
 }
 
 // Membuat DUNIA PRIBADI untuk satu karier (pemain, jadwal, klasemen, berita).
@@ -81,13 +108,13 @@ export async function seedWorld(saveId) {
       const coreF = list.filter((x) => x.f).length;
       let gi = 0;
       for (let i = 0; i < need; i++) {
-        // Klub ACL Two: semua pemain dianggap asing (f=1) dan pakai nama ACL
+        // Klub ACL (Two/Elite): semua pemain dianggap asing (f=1) dan pakai nama sesuai negara klub
         const foreign = isAcl ? true : gi < Math.max(0, FQUOTA[pos] - coreF);
         gi++;
-        const nameOverride = isAcl ? { name: aclPlayerName(c.id) } : {};
+        const nameOverride = isAcl ? { name: aclPlayerName(c.id, used) } : {};
         let pl = mkPlayer(c.id, pos, c.strength, foreign, nameOverride);
         let guard = 0;
-        while (used.has(pl.name) && guard++ < 10) pl = mkPlayer(c.id, pos, c.strength, foreign, isAcl ? { name: aclPlayerName(c.id) } : {});
+        while (used.has(pl.name) && guard++ < 10) pl = mkPlayer(c.id, pos, c.strength, foreign, isAcl ? { name: aclPlayerName(c.id, used) } : {});
         used.add(pl.name);
         playerStmts.push(playerInsert(saveId, pl));
       }
@@ -157,32 +184,15 @@ function makeAclTwoFixtures(saveId, season) {
   return stmts;
 }
 
-// ===== ACL Elite: league phase 8 laga/klub (4 home, 4 away) sesuai aturan AFC =====
-// 12 tim/zona dibagi 2 pot (6+6). Ronde 1-6: semua 6 tim pot sebelah (ronde 1-3 kandang Pot 1,
-// ronde 4-6 kandang Pot 2) -> 3 home + 3 away. Ronde 7-8: 2 tim sepot (1 home, 1 away).
-// Jadi tiap klub tepat 8 laga: 4 kandang & 4 tandang.
-const ACL_SAME_POT = {
-  7: [[0, 5], [1, 4], [2, 3]], // tuan rumah = tim pertama
-  8: [[3, 0], [4, 2], [5, 1]]  // tuan rumah = tim pertama (menyeimbangkan home & away)
-};
-function aclEliteRoundPairs(ids, round) {
-  const out = [];
-  if (round <= 6) {
-    const i = round - 1;
-    for (let j = 0; j < 6; j++) {
-      const other = (j + i) % 6;
-      if (i < 3) out.push([ids[j], ids[6 + other]]); else out.push([ids[6 + other], ids[j]]);
-    }
-  } else {
-    for (const [h, a] of ACL_SAME_POT[round]) { out.push([ids[h], ids[a]]); out.push([ids[6 + h], ids[6 + a]]); }
-  }
-  return out;
-}
+// ===== ACL Elite: league phase 8 laga/klub (4 kandang, 4 tandang) =====
+// Jadwal ASLI undian AFC 2026/27 per zona & ronde (128 laga) ada di data.js
+// (ACL_ELITE_FIXTURES dari backend/src/acl_elite.json): 16 klub/zona dibagi 4 pot x 4,
+// tiap klub main 2 laga vs tiap pot -> 8 lawan berbeda. Ronde 1-8 = pekan ganda 4,8,12,16,20,24,26,28.
 function makeAclEliteFixtures(saveId, season) {
   const stmts = [];
-  for (const section of aclSections('elite')) {
-    for (let round = 1; round <= 8; round++) {
-      for (const [h, a] of aclEliteRoundPairs(section.ids, round)) {
+  for (const zone of Object.keys(ACL_ELITE_FIXTURES)) {
+    for (const round of Object.keys(ACL_ELITE_FIXTURES[zone])) {
+      for (const [h, a] of ACL_ELITE_FIXTURES[zone][round]) {
         stmts.push(stmt('INSERT INTO fixtures (save_id,season,matchday,home_id,away_id,competition) VALUES (?,?,?,?,?,?)', [saveId, season, ACL_ELITE_GROUP_MD[round], h, a, 'acl_elite']));
       }
     }
@@ -231,5 +241,5 @@ export async function startNextSeason(saveId) {
 }
 
 if (process.argv[1] && process.argv[1].endsWith('seed.js')) {
-  seedAll().then(() => console.log('Seed OK: 49 clubs (18 liga + 31 ACL), 1176 players, 402 fixtures (306 liga 34 pekan home & away + 96 ACL fase grup; babak gugur dibangkitkan dinamis)')).catch((e) => { console.error(e); process.exit(1); });
+  seedAll().then(() => console.log('Seed OK: 80 clubs (18 liga + 31 ACL Two + 31 ACL Elite), ' + CLUBS.length * 24 + ' players, 434 fixtures (306 liga 34 pekan home & away + 96 ACL Two fase grup + 128 ACL Elite league phase; babak gugur dibangkitkan dinamis)')).catch((e) => { console.error(e); process.exit(1); });
 }

@@ -117,7 +117,7 @@ export default function Tables() {
       {aclGroups.length > 0 && (
         <div className="card overflow-auto">
           <div className="card-title">
-            🌏 Klasemen {aclTier === "elite" ? "ACL ELITE" : "ACL TWO"} {seasonLabel(season)} — {aclTier === "elite" ? "2 Zona (24 Klub)" : "8 Grup"} <span className="chip chip-slate ml-auto">{aclMdDone}/{aclGroupTotal} MD {aclTier === "elite" ? "League Phase" : "Grup"}</span>
+            🌏 Klasemen {aclTier === "elite" ? "ACL ELITE" : "ACL TWO"} {seasonLabel(season)} — {aclTier === "elite" ? "2 Zona (32 Klub)" : "8 Grup"} <span className="chip chip-slate ml-auto">{aclMdDone}/{aclGroupTotal} MD {aclTier === "elite" ? "League Phase" : "Grup"}</span>
           </div>
           <div className="grid sm:grid-cols-2 gap-3 mt-2">
             {aclGroups.map((g) => (

@@ -71,6 +71,8 @@ export const FORMATIONS = ["4-4-2", "4-3-3", "3-5-2", "4-2-3-1", "5-3-2", "4-5-1
 export const LEAGUE_MDS = 34;
 // Pekan fase grup / league phase ACL per tier (pekan ganda: Liga + ACL di pekan yang sama).
 // ACL Two: 6 laga grup (pekan 4,8,12,16,20,24). ACL Elite: 8 laga league phase (pekan 4-28).
+// ACL Elite 2026/27 = 32 klub (16/zona, 4 pot x 4) dengan jadwal lawan ASLI undian AFC
+// (lihat backend/src/acl_elite.json) — 8 laga/klub, top 8 tiap zona ke babak gugur.
 export const ACL_TWO_GROUP_MD = { 1: 4, 2: 8, 3: 12, 4: 16, 5: 20, 6: 24 };
 export const ACL_ELITE_GROUP_MD = { 1: 4, 2: 8, 3: 12, 4: 16, 5: 20, 6: 24, 7: 26, 8: 28 };
 export function aclGroupRounds(tier) { return tier === "elite" ? ACL_ELITE_GROUP_MD : ACL_TWO_GROUP_MD; }

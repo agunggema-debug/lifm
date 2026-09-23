@@ -58,7 +58,44 @@ export const CLUBS = [
   { id: 46, name: 'Arkadag FK', short_name: 'ARKADAG', city: 'Arkadag', logo: 'arkadag.png', color_primary: '#0EA5E9', color_secondary: '#111111', strength: 79, budget: 26000000, reputation: 71 },
   { id: 47, name: 'Nasaf Qarshi FC', short_name: 'NASAF', city: 'Qarshi', logo: 'nasaf-qarshi.png', color_primary: '#F7C600', color_secondary: '#0B3B8C', strength: 80, budget: 30000000, reputation: 74 },
   { id: 48, name: 'Gol Gohar Sirjan FC', short_name: 'GOLGOHAR', city: 'Sirjan', logo: 'golgohar_sirjan_logo.png', color_primary: '#B01E23', color_secondary: '#F5C518', strength: 82, budget: 36000000, reputation: 76 },
-  { id: 49, name: 'Phnom Penh Crown FC', short_name: 'PPCROWN', city: 'Phnom Penh', logo: 'phnom_penh.png', color_primary: '#0A3D91', color_secondary: '#E31B23', strength: 77, budget: 22000000, reputation: 68 }
+  { id: 49, name: 'Phnom Penh Crown FC', short_name: 'PPCROWN', city: 'Phnom Penh', logo: 'phnom_penh.png', color_primary: '#0A3D91', color_secondary: '#E31B23', strength: 77, budget: 22000000, reputation: 68 },
+  // ===== 31 klub ACL Elite 2026/27 (id 50-80) =====
+  // Peserta league phase ACL Elite 2026/27 (16 Zona Barat + 16 Zona Timur) sesuai undian AFC —
+  // detail & jadwalnya di backend/src/acl_elite.json (dibuat oleh fetch_acl_elite.mjs).
+  // Slot rute juara ACL Two Zona Timur dipegang Persib (id 2) — menggantikan Gamba Osaka.
+  // ---- Zona Barat (16) ----
+  { id: 50, name: 'Al-Ahli Saudi FC', short_name: 'AL-AHLI', city: 'Jeddah', logo: 'al_ahli.png', color_primary: '#0B6B3A', color_secondary: '#FFFFFF', strength: 88, budget: 80000000, reputation: 90 },
+  { id: 51, name: 'Al-Nassr FC', short_name: 'AL-NASSR', city: 'Riyadh', logo: 'al_nassr.png', color_primary: '#F5C518', color_secondary: '#1B3BB3', strength: 89, budget: 85000000, reputation: 92 },
+  { id: 52, name: 'Al-Hilal SFC', short_name: 'AL-HILAL', city: 'Riyadh', logo: 'al_hilal.png', color_primary: '#1B3BB3', color_secondary: '#FFFFFF', strength: 92, budget: 95000000, reputation: 95 },
+  { id: 53, name: 'Al-Qadsiah FC', short_name: 'AL-QADSIAH', city: 'Khobar', logo: 'al_qadsiah.png', color_primary: '#E4002B', color_secondary: '#111111', strength: 82, budget: 60000000, reputation: 82 },
+  { id: 54, name: 'Al Ain FC', short_name: 'AL-AIN', city: 'Al Ain', logo: 'al_ain.png', color_primary: '#6C2EB5', color_secondary: '#FFFFFF', strength: 85, budget: 55000000, reputation: 86 },
+  { id: 55, name: 'Shabab Al Ahli Club', short_name: 'SHABAB', city: 'Dubai', logo: 'shabab_al_ahli.png', color_primary: '#C8102E', color_secondary: '#FFFFFF', strength: 83, budget: 45000000, reputation: 82 },
+  { id: 56, name: 'Al Wasl FC', short_name: 'AL-WASL', city: 'Dubai', logo: 'al_wasl.png', color_primary: '#F5C518', color_secondary: '#111111', strength: 82, budget: 42000000, reputation: 80 },
+  { id: 57, name: 'Al Sadd SC', short_name: 'AL-SADD', city: 'Doha', logo: 'al_sadd.png', color_primary: '#111111', color_secondary: '#FFFFFF', strength: 84, budget: 50000000, reputation: 85 },
+  { id: 58, name: 'Al-Gharafa SC', short_name: 'AL-GHARAFA', city: 'Doha', logo: 'al_gharafa.png', color_primary: '#0A3D91', color_secondary: '#F5C518', strength: 82, budget: 44000000, reputation: 81 },
+  { id: 59, name: 'Al-Shamal SC', short_name: 'AL-SHAMAL', city: 'Madinat ash Shamal', logo: 'al_shamal.png', color_primary: '#0EA5E9', color_secondary: '#FFFFFF', strength: 78, budget: 30000000, reputation: 74 },
+  { id: 60, name: 'Esteghlal FC', short_name: 'ESTEGHLAL', city: 'Tehran', logo: 'esteghlal.png', color_primary: '#1B3BB3', color_secondary: '#FFFFFF', strength: 82, budget: 35000000, reputation: 84 },
+  { id: 61, name: 'Tractor SC', short_name: 'TRACTOR', city: 'Tabriz', logo: 'tractor.png', color_primary: '#E4002B', color_secondary: '#FFFFFF', strength: 81, budget: 34000000, reputation: 82 },
+  { id: 62, name: 'FC Neftchi Fergana', short_name: 'NEFtCHI', city: 'Fergana', logo: 'neftchi_fergana.png', color_primary: '#0B6B3A', color_secondary: '#FFFFFF', strength: 78, budget: 28000000, reputation: 76 },
+  { id: 63, name: 'Al-Quwa Al-Jawiya', short_name: 'QUWA', city: 'Baghdad', logo: 'al_quwa_al_jawiya.png', color_primary: '#0A3D91', color_secondary: '#FFFFFF', strength: 80, budget: 30000000, reputation: 79 },
+  { id: 64, name: 'Pakhtakor FC', short_name: 'PAKHTAKOR', city: 'Tashkent', logo: 'pakhtakor.png', color_primary: '#1B3BB3', color_secondary: '#FFFFFF', strength: 80, budget: 32000000, reputation: 80 },
+  { id: 65, name: 'Al-Ittihad Club', short_name: 'AL-ITTIHAD', city: 'Jeddah', logo: 'al_ittihad.png', color_primary: '#F5C518', color_secondary: '#111111', strength: 87, budget: 75000000, reputation: 89 },
+  // ---- Zona Timur (15 klub nyata + Persib id 2) ----
+  { id: 66, name: 'Kashima Antlers', short_name: 'KASHIMA', city: 'Kashima', logo: 'kashima_antlers.png', color_primary: '#8B1A1A', color_secondary: '#FFFFFF', strength: 85, budget: 50000000, reputation: 86 },
+  { id: 67, name: 'Vissel Kobe', short_name: 'VISSEL', city: 'Kobe', logo: 'vissel_kobe.png', color_primary: '#E4002B', color_secondary: '#111111', strength: 85, budget: 52000000, reputation: 85 },
+  { id: 68, name: 'Kashiwa Reysol', short_name: 'REYSOL', city: 'Kashiwa', logo: 'kashiwa_reysol.png', color_primary: '#F5C518', color_secondary: '#111111', strength: 83, budget: 42000000, reputation: 81 },
+  { id: 69, name: 'Kyoto Sanga FC', short_name: 'KYOTO', city: 'Kyoto', logo: 'kyoto_sanga.png', color_primary: '#6C2EB5', color_secondary: '#FFFFFF', strength: 80, budget: 35000000, reputation: 77 },
+  { id: 70, name: 'Jeonbuk Hyundai Motors', short_name: 'JEONBUK', city: 'Jeonju', logo: 'jeonbuk.png', color_primary: '#0B6B3A', color_secondary: '#FFFFFF', strength: 85, budget: 48000000, reputation: 86 },
+  { id: 71, name: 'Daejeon Hana Citizen', short_name: 'DAEJEON', city: 'Daejeon', logo: 'daejeon_hana.png', color_primary: '#6C2EB5', color_secondary: '#FFFFFF', strength: 82, budget: 40000000, reputation: 80 },
+  { id: 72, name: 'Pohang Steelers', short_name: 'POHANG', city: 'Pohang', logo: 'pohang_steelers.png', color_primary: '#C8102E', color_secondary: '#111111', strength: 83, budget: 42000000, reputation: 82 },
+  { id: 73, name: 'Buriram United FC', short_name: 'BURIRAM', city: 'Buriram', logo: 'buriram_united.png', color_primary: '#0A3D91', color_secondary: '#F5C518', strength: 83, budget: 45000000, reputation: 84 },
+  { id: 74, name: 'Port FC', short_name: 'PORT', city: 'Bangkok', logo: 'port_fc.png', color_primary: '#0A3D91', color_secondary: '#F58220', strength: 80, budget: 32000000, reputation: 78 },
+  { id: 75, name: 'Ratchaburi FC', short_name: 'RATCHABURI', city: 'Ratchaburi', logo: 'ratchaburi.png', color_primary: '#E4002B', color_secondary: '#FFFFFF', strength: 78, budget: 26000000, reputation: 74 },
+  { id: 76, name: 'Shanghai Port FC', short_name: 'SHANGHAI', city: 'Shanghai', logo: 'shanghai_port.png', color_primary: '#C8102E', color_secondary: '#FFFFFF', strength: 84, budget: 55000000, reputation: 85 },
+  { id: 77, name: 'Beijing Guoan FC', short_name: 'GUOAN', city: 'Beijing', logo: 'beijing_guoan.png', color_primary: '#0B6B3A', color_secondary: '#FFFFFF', strength: 83, budget: 50000000, reputation: 84 },
+  { id: 78, name: 'Newcastle Jets FC', short_name: 'NEWCASTLE', city: 'Newcastle', logo: 'newcastle_jets.png', color_primary: '#C89B3C', color_secondary: '#0A2240', strength: 78, budget: 24000000, reputation: 76 },
+  { id: 79, name: "Johor Darul Ta'zim FC", short_name: 'JDT', city: 'Johor Bahru', logo: 'johor_darul_tazim.png', color_primary: '#0A3D91', color_secondary: '#E4002B', strength: 82, budget: 45000000, reputation: 84 },
+  { id: 80, name: 'Công An Hà Nội FC', short_name: 'CAHN', city: 'Hanoi', logo: 'cong_an_hanoi.png', color_primary: '#C8102E', color_secondary: '#0A3D91', strength: 79, budget: 28000000, reputation: 76 }
 ];
 
 // ===== Pool ACL (32 klub): 16 Zona Timur (AFC East) + 16 Zona Barat (AFC West) =====
@@ -77,25 +114,27 @@ export const ACL_GROUPS = [
   { name: 'H', zone: 'west', ids: [46, 47, 48, 49] }
 ];
 
-// ===== ACL ELITE (aturan AFC 2024/25+): 24 klub = 12 Zona Timur + 12 Zona Barat =====
-// League phase 8 laga/klub (4 home, 4 away): semua 6 tim pot sebelah + 2 tim sepot.
-// Top 8 tiap zona -> 16 Besar (1 leg, intra-zona) -> Perempat Final -> Semifinal -> Final.
-// Juara ACL Two musim sebelumnya (Persib) selalu dapat tiket ACL Elite.
-export const ACL_ELITE_FORCED = 2;
-export const ACL_ELITE_PER_ZONE = 12;
+// ===== ACL ELITE 2026/27 (aturan AFC): 32 klub = 16 Zona Timur + 16 Zona Barat =====
+// League phase 8 laga/klub (4 kandang, 4 tandang) memakai undian & jadwal ASLI AFC 2026/27:
+// 16 klub/zona dibagi 4 pot x 4, tiap klub main 2 laga vs tiap pot => 8 laga, 8 lawan berbeda.
+// Top 8 tiap zona -> 16 Besar (1 leg, intra-zona) -> Perempat Final (Timur vs Barat) -> SF -> Final.
+// Slot "juara ACL Two" Zona Timur dipakai Persib (id 2) — di dunia nyata slot itu milik Gamba Osaka.
+// Sumber: backend/src/acl_elite.json (dibuat oleh fetch_acl_elite.mjs dari undian resmi AFC).
+export const ACL_ELITE = JSON.parse(fs.readFileSync(path.join(__dirname, 'acl_elite.json'), 'utf8'));
+// Urutan tampilan klasemen: Zona Timur dulu (ada Persib) baru Zona Barat.
+export const ACL_ELITE_ZONES = ['east', 'west'].map((key) => ({
+  name: ACL_ELITE.zones[key].name,
+  label: ACL_ELITE.zones[key].label,
+  zone: key,
+  ids: ACL_ELITE.zones[key].ids
+}));
+export const ACL_ELITE_CLUB_IDS = ACL_ELITE_ZONES.reduce((a, z) => a.concat(z.ids), []);
+// Jadwal league phase per zona & ronde: { east: { '1': [[home,away], ...], ... }, west: {...} }
+export const ACL_ELITE_FIXTURES = ACL_ELITE.fixtures;
 
-// Susun 24 tim ACL Elite: 12 terkuat tiap zona (juara ACL Two dipaksa masuk).
-// Deterministik (dari kekuatan klub di CLUBS) supaya jadwal & klasemen selalu konsisten.
+// 2 zona ACL Elite (Timur & Barat) untuk klasemen & undian babak gugur.
 export function aclEliteZones() {
-  const byZone = { east: [], west: [] };
-  for (const g of ACL_GROUPS) for (const id of g.ids) byZone[g.zone].push(id);
-  const str = (id) => { const c = CLUBS.find((x) => x.id === id); return c ? c.strength : 0; };
-  return ['east', 'west'].map((zone) => {
-    const pool = byZone[zone].slice().sort((a, b) => str(b) - str(a) || a - b);
-    const forced = zone === 'east' && pool.includes(ACL_ELITE_FORCED) ? [ACL_ELITE_FORCED] : [];
-    const ids = forced.concat(pool.filter((id) => forced.indexOf(id) === -1)).slice(0, ACL_ELITE_PER_ZONE);
-    return { name: zone === 'east' ? 'EAST' : 'WEST', label: zone === 'east' ? 'Zona Timur' : 'Zona Barat', zone, ids };
-  });
+  return ACL_ELITE_ZONES;
 }
 
 // Bagian klasemen ACL sesuai tier karier: 8 grup (ACL Two) atau 2 zona (ACL Elite).
@@ -117,6 +156,8 @@ export const ACL_TWO_KO = [
   { md: 34, stage: 'final', leg: 1 }
 ];
 // ACL Elite: league phase 8 laga (pekan 4,8,12,16,20,24,26,28) + KO 1 leg (Pekan 29,31,32,34).
+// Catatan: di ACL Elite 2026/27 asli, 16 Besar Zona Timur dimainkan 2 leg (Zona Barat 1 leg);
+// LIFM menyederhanakannya jadi 1 leg untuk semua babak (konsisten dengan format game).
 export const ACL_ELITE_GROUP_MD = { 1: 4, 2: 8, 3: 12, 4: 16, 5: 20, 6: 24, 7: 26, 8: 28 };
 export const ACL_ELITE_KO = [
   { md: 29, stage: 'r16', leg: 1 },
@@ -286,24 +327,75 @@ const SQUAD_CORES_LEGACY = { // (tidak dipakai — digantikan roster asli ileagu
 // GK2/DF8/MF8/FW6 dan flag asing memakai heuristik pola nama.
 export const SQUAD_CORES = JSON.parse(fs.readFileSync(path.join(__dirname, 'rosters.json'), 'utf8'));
 
-// ===== ACL Two 2026/27 Grup E =====
-// Grup E (East Region) — 4 tim: Persib, FC Seoul, Melbourne Victory, Thé Công–Viettel
-// Setiap tim bertanding 6 kali (3 lawan x home+away) = 12 fixture total.
-// Matchday liga: 1-17. Matchday ACL Two: 18-23 (2 laga per pekan).
-export const ACL_CLUB_IDS = [2, 19, 20, 21];
+// ===== Klub peserta ACL (non-liga) =====
+// ACL Two  : 32 klub (grup A-H, id 2 + 19-49) — fase grup 6 laga/klub (home & away).
+// ACL Elite: 32 klub (2 zona, id 50-80) — league phase 8 laga/klub (ACL_ELITE_CLUB_IDS).
+// Semua hanya bertanding di ACL, tidak masuk klasemen Liga Indonesia.
+export const ACL_CLUB_IDS = Array.from(new Set([
+  ...ACL_GROUPS.reduce((a, g) => a.concat(g.ids), []),
+  ...ACL_ELITE_CLUB_IDS
+]));
 export const ACL_CLUB_IDS_SET = new Set(ACL_CLUB_IDS);
-export const ACL_TOTAL_MATCHDAYS = 6;
+export const ACL_TOTAL_MATCHDAYS = 6; // ACL Two: 6 pekan fase grup
 
-// Nama pemain asing (digenerate secara acak untuk klub ACL Two)
-export const ACL_FOREIGN_NAMES = {
-  19: ['Son Heung-min','Hwang Inbeom','Cho Sumin','Jung Woo-chan','Kim Min-jae','Lee Kang-in','Kim Young-gwon','Gu Sung-yun','Jung Tae-woong','Kim Hyun-jun','Oh Hyeon-gyu','Lee Keun-ho','Lee Yong','Joo Su-hun','Yoon Jong-gyu','Park Sung-ho','Kim Hyun','Choi Minhwan','Lee Geun-ho','Park Joo-ho'],
-    20: ['Bruno Fornaroli','Luca Simeone','Riley McGough','Mitch Nichols','Andrew Redmayne','Scott Gallow','James Donachie','Benny Ibini','Cameron Devlin','Nathaniel Atkinson','Milan Šimčák','Daniel Pinicio','Alessandro Lazov','Valère Germain','Socceroos'],
-  21: ['Nguyễn Quang Hải','Đoàn Văn Đức','Phạm Huy Phong','Lê Công Vinh','Nguyễn Hồng Sơn','Trần Văn Đạt','Phùng Sài','Lương Chữ','Nguyễn Công Phượng','Vũ Văn Hoành','Trần Bảo Vĩnh','Lê Huỳnh Đức','Nguyễn Bảo Nam','Phạm Văn Tài','Đỗ Duy Cường','Nguyễn Hữu Thắng']
+// ===== Nama pemain klub ACL =====
+// Pemain klub ACL diberi nama sesuai negara klubnya supaya skuad Al-Hilal/JDT/Johor dll. tidak
+// ber-nama Indonesia. Klub ACL Elite (id 50-80) ambil negara dari acl_elite.json, ACL Two manual.
+// Semua negara peserta ACL (Two + Elite) sudah punya pool nama (lihat ACL_NAME_POOLS di bawah).
+export const CLUB_COUNTRY = Object.assign(
+  Object.fromEntries((ACL_ELITE.clubs || []).map((c) => [c.id, c.country])),
+  {
+    19: 'KOR', 20: 'AUS', 21: 'VIE', 22: 'KOR', 23: 'JPN', 24: 'CHN', 25: 'HKG', 26: 'AUS',
+    27: 'HKG', 28: 'THA', 29: 'CAM', 30: 'IND', 31: 'MAS', 32: 'SIN', 33: 'SIN', 34: 'UAE',
+    35: 'UAE', 36: 'QAT', 37: 'KSA', 38: 'IRQ', 39: 'JOR', 40: 'JOR', 41: 'BHR', 42: 'BHR',
+    43: 'KUW', 44: 'OMA', 45: 'OMA', 46: 'TKM', 47: 'UZB', 48: 'IRN', 49: 'CAM'
+  }
+);
+
+export const ACL_NAME_POOLS = {
+  KOR: ['Son Heung-min','Kim Min-jae','Lee Kang-in','Hwang In-beom','Cho Gue-sung','Jung Woo-young','Kim Young-gwon','Oh Hyeon-gyu','Park Yong-woo','Joo Min-kyu','Yoon Jong-gyu','Kang Sang-woo','Lee Seung-woo','Kim Jin-su','Hong Hyun-seok','Seo Min-woo'],
+  JPN: ['Takefusa Kubo','Kaoru Mitoma','Wataru Endo','Daichi Kamada','Ritsu Doan','Yuto Nagatomo','Takumi Minamino','Ayase Ueda','Ko Itakura','Junya Ito','Kyogo Furuhashi','Hidemasa Morita','Shogo Taniguchi','Gaku Shibasaki','Keito Nakamura','Zion Suzuki'],
+  THA: ['Chanathip Songkrasin','Theerathon Bunmathan','Teerasil Dangda','Supachai Chaided','Ekanit Panya','Bordin Phala','Pathompol Charoenrattanapirom','Anon Amornlerdsak','Kritsada Kaman','Sarach Yooyen','Adisak Kraisorn','Weerathep Pomphan','Sittichok Kannoo','Suphanat Mueanta','Narubadin Weerawatnodom','Chatchai Budprom'],
+  CHN: ['Wu Lei','Zhang Yuning','Wei Shihao','Yan Dinghao','Xu Xin','Zhu Chenjie','Jiang Guangtai','Liu Yang','Wang Shangyuan','Gao Zhunyi','Xie Pengfei','Chen Pu','Liu Binbin','Yang Liyu','Wang Ziming','Li Lei'],
+  AUS: ['Mathew Ryan','Harry Souttar','Awer Mabil','Mitchell Duke','Jackson Irvine','Riley McGree','Connor Metcalfe','Craig Goodwin','Bruno Fornaroli','Andrew Redmayne','Cameron Devlin','Nathaniel Atkinson','Jamie Maclaren','Marco Tilio','Kusini Yengi','Alessandro Circati'],
+  MAS: ['Safiq Rahim','Arif Aiman','Faisal Halim','Dion Cools','Endrick dos Santos','Brendan Gan','Akhyar Rashid','Stuart Wilkin','Matthew Davies','Paulo Josué','Dominic Tan','Syafiq Ahmad','Zhafri Yahya','Feroz Baharudin','Sergio Agüero Jr','Ruventhiran Vengadesan'],
+  VIE: ['Nguyễn Quang Hải','Đoàn Văn Đức','Nguyễn Tiến Linh','Nguyễn Công Phượng','Lê Công Vinh','Nguyễn Hồng Sơn','Trần Văn Đạt','Phạm Văn Tài','Đỗ Duy Cường','Nguyễn Hữu Thắng','Vũ Văn Hoành','Trần Bảo Vĩnh','Lê Huỳnh Đức','Nguyễn Bảo Nam','Phùng Sài','Lương Chữ'],
+  KSA: ['Salem Al-Dawsari','Saleh Al-Shehri','Firas Al-Buraikan','Mohammed Kanno','Ali Al-Bulaihi','Sultan Al-Ghannam','Yasser Al-Shahrani','Abdullah Otayf','Nawaf Al-Abed','Abdulrahman Ghareeb','Mohammed Al-Owais','Ali Al-Hassan','Hattan Bahebri','Ayman Yahya','Saud Abdulhamid','Hassan Al-Tambakti'],
+  UAE: ['Ali Mabkhout','Caio Canedo','Fábio Lima','Sultan Adil','Yahya Al-Ghassani','Khalifa Al-Hammadi','Harib Abdalla','Abdalla Ramadan','Majed Hassan','Walid Abbas','Bandar Al-Ahbabi','Ali Saleh','Mohamed Al-Attas','Abdullah Al-Naqbi','Zayed Al-Hammadi','Suhail Al-Mansoori'],
+  QAT: ['Akram Afif','Almoez Ali','Hassan Al-Haydos','Karim Boudiaf','Boualem Khoukhi','Yusuf Abdurisag','Ahmed Alaaeldin','Ismail Mohammad','Tarek Salman','Homam Ahmed','Mostafa Tarek','Khalid Muneer','Jassem Gaber','Ahmed Fadli','Mohammed Waad','Hashim Ali'],
+  IRN: ['Mehdi Taremi','Sardar Azmoun','Alireza Jahanbakhsh','Saman Ghoddos','Ali Gholizadeh','Saeid Ezatolahi','Mohammad Mohebi','Hossein Kanani','Milad Mohammadi','Mehdi Ghayedi','Omid Noorafkan','Reza Asadi','Shahriyar Moghanlou','Amir Abedzadeh','Saeid Sadeghi','Ali Karimi'],
+  UZB: ['Eldor Shomurodov','Abbosbek Fayzullaev','Jaloliddin Masharipov','Odiljon Hamrobekov','Otabek Shukurov','Rustam Ashurmatov','Igor Sergeev','Azizbek Turgunboev','Khojiakbar Alijonov','Abdukodir Khusanov','Farrukh Sayfiev','Dostonbek Khamdamov','Jasurbek Yakhshiboev','Sardor Rashidov','Javokhir Sidikov','Islom Kobilov'],
+  IRQ: ['Aymen Hussein','Ali Al-Hamadi','Zidane Iqbal','Ibrahim Bayesh','Amir Al-Ammari','Rebin Sulaka','Mohanad Ali','Hussein Ali','Bashar Resan','Sherko Kareem','Merchas Doski','Osama Rashid','Ali Jasim','Yaser Kasim','Amjed Attwan','Hasan Abdulkareem'],
+  HKG: ['Chan Siu-ki','Wong Wai','Sun Ming Him','Tan Chun Lok','Ngan Cheuk Pan','Yu Wai Lim','Tsui Wang Kit','Law Tsz Chun','Leung Nok Hang','Ho Chun Ting','Fung Hoi Man','Cheng Chin Lung','Lai Kai Cheuk','Yeung Tsz Long','Cheung Kin Fung','Kwok Hoi Chun'],
+  CAM: ['Chan Vathanaka','Keo Sokpheng','Soeuy Visal','Reung Bunheing','Sieng Chanthea','Orn Chanpolin','Sos Suhana','Tes Sambath','Lim Pisoth','Yue Safy','Sath Rosib','Kouch Sokumpheak','Choun Chanchav','Hoy Phallin','Nhean Sosidan','Brak Thiva'],
+  IND: ['Sunil Chhetri','Manvir Singh','Anirudh Thapa','Brandon Fernandes','Liston Colaco','Sandesh Jhingan','Gurpreet Sandhu','Rahul Bheke','Sahal Samad','Ashique Kuruniyan','Mahesh Singh','Subhasish Bose','Lallianzuala Chhangte','Suresh Wangjam','Jeakson Singh','Pritam Kotal'],
+  SIN: ['Hariss Harun','Safuwan Baharudin','Faris Ramli','Iqbal Hussain','Gabriel Quak','Shahdan Sulaiman','Hafiz Nor','Zulfahmi Arifin','Adam Swandi','Song Ui-young','Irfan Fandi','Jacob Mahler','Amy Recha','Hami Syahin','Naufal Azman','Afiq Yunos'],
+  JOR: ['Musa Al-Taamari','Yazan Al-Naimat','Ali Olwan','Nour Al-Rawabdeh','Ehsan Haddad','Bara Marei','Abdallah Nasib','Salem Al-Ajalin','Rajaei Ayed','Yazeed Abu Laila','Mahmoud Al-Mardi','Mohannad Abu Taha','Feras Shelbaieh','Ahmad Samir','Mohammad Abu Zrayq','Saleh Ratib'],
+  BHR: ['Abdulla Yusuf','Ali Madan','Kamil Al-Aswad','Mohamed Marhoon','Sayed Dhiya','Waleed Al-Hayam','Jassim Al-Shaikh','Ahmed Bughammar','Mahdi Humaidan','Sayyed Jafer','Rashed Al-Hooti','Hussain Al-Eker','Ahmed Nabeel','Ebrahim Khalil','Ali Hassan','Komail Al-Aswad'],
+  KUW: ['Yousef Nasser','Fahad Al-Rashidi','Bader Al-Mutawa','Ahmad Zanki','Faisal Zayed','Eid Al-Rashidi','Sami Al-Sanea','Khaled Ebrahim','Abdullah Al-Fadhel','Sultan Al-Enezi','Mohsen Al-Ghareeb','Redha Hani','Ali Al-Kandari','Nasser Al-Dhafiri','Saud Al-Mejmed','Mishari Al-Enezi'],
+  OMA: ['Muhsen Al-Ghassani','Zahir Al-Aghbari','Abdulaziz Al-Muqbali','Harib Al-Saadi','Ahmed Al-Khamisi','Salaah Al-Yahyaei','Amjad Al-Harthi','Ahmed Al-Matrooshi','Jameel Al-Yahmadi','Issam Al-Sabhi','Khalid Al-Buraiki','Rabia Al-Alawi','Mohammed Al-Ghafri','Nasser Al-Rawahi','Faisal Al-Balushi','Yousuf Al-Mukhaini'],
+  TKM: ['Myrat Annayev','Arslanmyrat Amanow','Altymyrat Annadurdyyew','Ruslan Mingazow','Wahyt Orazsahedow','Elman Tagayew','Serdar Geldiyew','Mekan Ashyrow','Bagtyyar Durdyyew','Begench Akmammedow','Didar Durdyyew','Merdan Atayew','Azat Orazow','Nurmyrat Bayramow','Hojamberdi Aliyew','Yusup Rahmanow']
 };
 
-// Daftar nama lokal untuk generasi acak pemain klub ACL Two
-export const ACL_LOCAL_NAMES = {
-  19: ['Kim','Lee','Park','Choi','Jung','Hwang','Son','Gu','Oh','Yoon','Joo','Na','Kang','Min','Woo','Chan'],
-  20: ['Alessandro','Bruno','Mitch','Scott','Andrew','James','Benny','Cameron','Nathaniel','Milan','Daniel','Valère','Luca','Riley'],
-    21: ['Nguyễn','Trần','Phạm','Lê','Phùng','Lương','Đoàn','Vũ','Đỗ','Bảo','Huỳnh','Hải','Đức','Sơn','Phong','Tài','Cường','Nam','Hoành','Vĩnh','Sài','Chữ','Khang','Long']
+// Pool nama untuk satu klub ACL (null = pakai generator nama Indonesia seperti klub liga).
+export function aclNamePool(clubId) {
+  return ACL_NAME_POOLS[CLUB_COUNTRY[clubId]] || null;
+}
+
+// Urutan nama per negara: 'lf' = keluarga dulu (Korea/Jepang/China/Hong Kong/Kamboja/Vietnam),
+// 'fl' = nama depan dulu (Asia Barat/Tengah, Australia, ASEAN sisanya).
+export const ACL_NAME_ORDER = {
+  KOR: 'lf', JPN: 'lf', CHN: 'lf', VIE: 'lf', HKG: 'lf', CAM: 'lf',
+  THA: 'fl', MAS: 'fl', AUS: 'fl', IND: 'fl', SIN: 'fl', KSA: 'fl', UAE: 'fl', QAT: 'fl',
+  IRN: 'fl', UZB: 'fl', IRQ: 'fl', JOR: 'fl', BHR: 'fl', KUW: 'fl', OMA: 'fl', TKM: 'fl'
 };
+export function aclNameOrder(clubId) {
+  return ACL_NAME_ORDER[CLUB_COUNTRY[clubId]] || 'fl';
+}
+// Pisah nama asli jadi nama depan & nama keluarga (dipakai seed.js untuk variasi nama
+// saat nama bintang di pool sudah terpakai di dunia karier).
+export function aclNameParts(name, order) {
+  const t = String(name).split(' ').filter(Boolean);
+  if (t.length < 2) return null;
+  return order === 'lf' ? { first: t.slice(1).join(' '), last: t[0] } : { first: t[0], last: t.slice(1).join(' ') };
+}

@@ -29,11 +29,11 @@ _Game manajer sepak bola open source — tanpa install, langsung gas di browser!
 | Fitur                   | Deskripsi                                                                                                                                                                                                                                                                                    |
 | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 🧠 **Taktik & Formasi** | 6 formasi (4-4-2, 4-3-3, 3-5-2, 4-2-3-1, 5-3-2, 4-5-1), starting XI klik-pilih, mentalitas **Menyerang ⚔️ / Seimbang ⚖️ / Bertahan 🧱**                                                                                                                                                      |
-| 🏟️ **Database Klub**    | 18 klub Indonesia Super League sesuai [ileague.id](https://ileague.id/clubs/index/BRI_SUPER_LEAGUE_2026-27) — Persija, Persib, Persebaya, Arema, Bali Utd, Borneo, PSM, Dewa Utd, Madura Utd, Persita, PSS, Persik, Bhayangkara Presisi, Persijap, PSIM, Isenmulang Kalteng, Garudayaksa, Java Utd |
-| 🌍 **Pemain**           | 1.176 pemain (24/klub, nama asli roster ileague.id) • atribut PAC/SHO/PAS/DEF/GK/STA/Morale 1–100 • kuota asing max 8 di XI                                                                                                                                                                  |
+| 🏟️ **Database Klub**    | 18 klub Indonesia Super League sesuai [ileague.id](https://ileague.id/clubs/index/BRI_SUPER_LEAGUE_2026-27) — Persija, Persib, Persebaya, Arema, Bali Utd, Borneo, PSM, Dewa Utd, Madura Utd, Persita, PSS, Persik, Bhayangkara Presisi, Persijap, PSIM, Isenmulang Kalteng, Garudayaksa, Java Utd • + **32 klub ACL Two & 32 klub ACL Elite 2026/27** (peserta resmi AFC, lengkap dengan logo klub) |
+| 🌍 **Pemain**           | 1.920 pemain (24/klub) • 18 klub liga pakai nama asli roster ileague.id, klub ACL pakai nama sesuai negaranya • atribut PAC/SHO/PAS/DEF/GK/STA/Morale 1–100 • kuota asing max 8 di XI                                                                                                                                                                  |
 | ⚡ **Match Engine**     | Server-authoritative, xG berbasis rating + taktik + moral + home advantage, play-by-play menit-per-menit: gol, peluang, save, kartu, cedera 🎙️                                                                                                                                               |
 | 💸 **Transfer**         | Beli bintang / jual buat cuan, market value dinamis, budget klub, batas skuad 18–28                                                                                                                                                                                                          |
-| 🏆 **Liga & ACL**       | Liga **34 pekan** (18 klub home & away = 34 laga/klub) + ACL Two/Elite **berbarengan jadwal Liga** (pekan ganda) •  juara ACL Two → musim depan naik ke **ACL ELITE**                                              |
+| 🏆 **Liga & ACL**       | Liga **34 pekan** (18 klub home & away = 34 laga/klub) + ACL Two/Elite **berbarengan jadwal Liga** (pekan ganda) • jadwal ACL Elite = **undian asli AFC 2026/27** (32 klub) • juara ACL Two → musim depan naik ke **ACL ELITE**                                              |
 | 👥 **Multi-User**       | Setiap browser = karier sendiri (token di localStorage), dunia privat: pemain, jadwal, klasemen, berita                                                                                                                                                                                      |
 
 ## 🕹️ Cara Main
@@ -70,7 +70,8 @@ Detail teknis yang perlu diketahui:
 - **Kalender**: musim = **34 pekan**. Liga Indonesia **home & away** (34 laga/klub, 306 laga total). Laga ACL digelar **berbarengan jadwal Liga** (pekan ganda):
   - **ACL Two** — fase grup 6 laga (pekan **4, 8, 12, 16, 20, 24**) → **16 Besar (26 & 28), Perempat Final (29 & 30), Semifinal (31 & 32) 2 LEG**, **Final (34) 1 laga** = **13 laga** sampai juara.
   - **ACL Elite** — *league phase* **8 laga**/klub, 4 kandang & 4 tandang (pekan **4, 8, 12, 16, 20, 24, 26, 28**) → **16 Besar (29), Perempat Final (31), Semifinal (32), Final (34) 1 laga** = **12 laga** sampai juara.
-- **Format ACL Elite (aturan AFC)**: 24 klub = **12 Zona Timur + 12 Zona Barat**, dibagi 2 pot. Tiap klub main 8 laga: semua 6 tim pot sebelah + 2 tim sepot → tepat 4 kandang & 4 tandang. **Top 8 tiap zona** lolos; 16 Besar masih sesama zona, **Timur vs Barat baru bertemu sejak Perempat Final**. (8 klub terlemah tidak ikut ACL Elite musim itu.)
+- **Format ACL Elite (aturan AFC 2026/27, 32 klub)**: **16 Zona Timur + 16 Zona Barat** sesuai undian resmi AFC (data & jadwalnya di `backend/src/acl_elite.json`). Tiap zona dibagi **4 pot × 4 klub**; tiap klub main **8 laga** (2 laga vs tiap pot) = 4 kandang & 4 tandang, 64 laga/zona (128 laga total). **Top 8 tiap zona** lolos; 16 Besar masih sesama zona, **Timur vs Barat baru bertemu sejak Perempat Final**.
+- **Peta klub ACL Elite di LIFM**: peserta nyata 2026/27 (Al-Hilal, Al-Nassr, Al-Ittihad, Al-Ahli, Al-Ain, Al-Sadd, Esteghlal, Pakhtakor, Kashima Antlers, Jeonbuk, Buriram United, Johor Darul Ta'zim, dll.) dengan logo klub. Slot rute **juara ACL Two** Zona Timur dipegang **Persib** (di dunia nyata slot itu milik Gamba Osaka) supaya jalur promosi ACL Two → ACL Elite tetap jalan.
 - **Format ACL Two (aturan AFC)**: 8 grup (A,B,C,E = Zona Timur; D,F,G,H = Zona Barat), home & away 6 laga. **2 terbaik tiap grup** lolos; 16 Besar juara grup vs runner-up grup **sekawan zona**, dan zona Timur/Barat baru bertemu di **Final**.
 - **Pemenang tie 2 leg** dihitung **agregat** 2 laga; jika agregat imbang → **adu penalti** (berbobot kekuatan klub). Pemenang laga 1 leg yang imbang juga diputuskan adu penalti.
 - **Musim baru**: menekan **➡️ MULAI MUSIM BARU** (`POST /api/next-season`) membuat jadwal **Liga + ACL (Two atau Elite)** musim berikutnya sekaligus — jadi laga ACL Elite tetap berbarengan dengan laga Liga.
@@ -119,7 +120,7 @@ npm run dev
 Butuh backend hidup di port 3001 (`npm run dev:backend`). Semua skrip otomatis pakai token/DB unik, jadi karier aslimu aman.
 
 ```bash
-npm run test:calendar   # kalender AFC: 34 laga/klub, 6 laga grup ACL Two, 8 laga league phase Elite, KO 2 leg / 1 leg
+npm run test:calendar   # kalender AFC: 34 laga/klub, 6 laga grup ACL Two, 8 laga league phase Elite (32 klub), KO 2 leg / 1 leg
 npm run test:api        # E2E: karier → transfer → taktik → play → 1 musim penuh (34 pekan) → mulai musim baru
 npm run test:promotion  # juara ACL Two → promosi ACL Elite + kalender pekan ganda musim baru
 ```
@@ -145,7 +146,7 @@ npm run test:promotion  # juara ACL Two → promosi ACL Elite + kalender pekan g
 | POST   | `/api/play`                | ▶️ `{phase:'first'}` → simulasi sampai HT; `{phase:'second', halfTimeState}` → babak 2 |
 | POST   | `/api/sub`                 | 🔁 `{outId, inId}` ganti pemain (pengaruh ke babak 2)                                  |
 | GET    | `/api/standings`           | 🏆 klasemen liga                                                                       |
-| GET    | `/api/standings/acl`       | 🌏 klasemen 8 grup ACL (Two / Elite, ikut tier karier)                                 |
+| GET    | `/api/standings/acl`       | 🌏 klasemen ACL sesuai tier karier (ACL Two: 8 grup • ACL Elite: 2 zona × 16 klub)     |
 | GET    | `/api/news`                | 📰 berita/hasil pekanan                                                                |
 | GET    | `/api/transfer-list`       | 🎯 60 pemain incaran                                                                   |
 | POST   | `/api/transfer/buy`        | 💰 `{playerId}`                                                                        |
@@ -172,7 +173,9 @@ lifm/
 │       ├── index.js        # 🚪 Express routes + multi-user token
 │       ├── db.js           # 💾 libSQL client + skema + migrasi
 │       ├── seed.js         # 🌱 seed klub (global), dunia per-karier, rollover musim baru
-│       ├── data.js         # 📊 data klub, grup ACL, nama pemain
+│       ├── data.js         # 📊 data klub, grup ACL, jadwal ACL Elite, nama pemain
+│       ├── acl_elite.json  # 🏆 peserta + 128 laga league phase ACL Elite (undian AFC 2026/27)
+│       ├── rosters.json    # 🧑 roster asli 18 klub liga (ileague.id)
 │       ├── game.js         # 🧢 skuad, XI otomatis, klasemen
 │       ├── play.js         # ⚽ mesin pekan: babak 1 & 2, ACL knockout, fast-forward
 │       ├── sim.js          # 🎙️ simulasi menit-per-menit + komentar
@@ -189,6 +192,7 @@ lifm/
 │       ├── Tables.jsx      # 🏆 klasemen + jadwal + berita
 │       ├── Transfers.jsx   # 💸 bursa transfer
 │       └── lib.js          # 🔑 token pengunjung + API client
+├── fetch_acl_elite.mjs     # 🔄 update klub + logo + jadwal ACL Elite dari sumber AFC
 └── README.md
 ```
 
