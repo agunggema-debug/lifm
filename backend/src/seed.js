@@ -205,14 +205,19 @@ function makeAclFixtures(saveId, season, tier) {
   return tier === 'elite' ? makeAclEliteFixtures(saveId, season) : makeAclTwoFixtures(saveId, season);
 }
 
-// ===== Mulai musim baru (rollover setelah musim selesai, matchday > 23) =====
-// - Juara ACL Two (pemenang Final Pekan 21 musim yg baru berakhir) mendapat tiket ACL Elite
-//   musim berikutnya, bersamaan dengan jadwal Liga musim baru.
-// - Klub yang tidak juara tetap main ACL Two.
+// ===== Mulai musim baru (rollover setelah musim selesai, matchday > 34) =====
+// - Juara Liga Indonesia (puncak klasemen musim yang baru berakhir) menambah gelar `league_titles`.
+// - Juara ACL Two (pemenang Final Pekan 34) mendapat tiket ACL Elite musim berikutnya,
+//   bersamaan dengan jadwal Liga musim baru.
+// - Klub yang tidak juara tetap main ACL Two (atau tetap Elite kalau sudah di Elite).
 export async function startNextSeason(saveId) {
   const save = await get('SELECT * FROM careers WHERE id=?', [saveId]);
   if (!save) throw new Error('Karier tidak ditemukan');
   const clubs = await clubMap();
+  // Juara Liga dibaca SEBELUM standings_cache di-reset untuk musim baru.
+  const finalTable = await all('SELECT club_id, points, gd, gf FROM standings_cache WHERE save_id=? ORDER BY points DESC, gd DESC, gf DESC, club_id', [saveId]);
+  const leagueChampId = finalTable.length ? finalTable[0].club_id : null;
+  const wonLeague = leagueChampId === save.club_id;
   const fin = await get("SELECT * FROM fixtures WHERE save_id=? AND season=? AND competition IN ('acl_two','acl_elite') AND matchday=? AND played=1", [saveId, save.season, LEAGUE_MATCHDAYS]);
   const aclChampId = fin ? koWinner(fin, clubs) : null;
   const wonAcl = aclChampId === save.club_id;
@@ -225,19 +230,24 @@ export async function startNextSeason(saveId) {
   await run('DELETE FROM standings_cache WHERE save_id=?', [saveId]);
   const st = CLUBS.filter((c) => c.id <= 18).map((c) => stmt('INSERT INTO standings_cache (save_id,club_id) VALUES (?,?)', [saveId, c.id]));
   await batch(st);
-  await run('UPDATE careers SET season=?, matchday=1, acl_tier=?, acl_titles=acl_titles+? WHERE id=?', [newSeason, newTier, wonAcl ? 1 : 0, saveId]);
+  await run('UPDATE careers SET season=?, matchday=1, acl_tier=?, acl_titles=acl_titles+?, league_titles=league_titles+? WHERE id=?',
+    [newSeason, newTier, wonAcl ? 1 : 0, wonLeague ? 1 : 0, saveId]);
   const champName = aclChampId && clubs[aclChampId] ? clubs[aclChampId].name : null;
-  await run('INSERT INTO news (save_id,day_label,title,body,tag) VALUES (?,?,?,?,?)', [
-    saveId,
-    'Musim Baru',
-    wonAcl ? '🏆 JUARA ACL TWO! ' + (champName || 'Tim') + ' Promosi ke ACL ELITE!' : 'Musim ' + (newSeason) + ' dimulai!',
-    wonAcl
+  const leagueChampName = leagueChampId && clubs[leagueChampId] ? clubs[leagueChampId].name : null;
+  const headline = wonLeague
+    ? '🏆 JUARA LIGA INDONESIA! ' + (leagueChampName || 'Tim kita') + ' angkat trofi!'
+    : (wonAcl ? '🏆 JUARA ACL TWO! ' + (champName || 'Tim') + ' Promosi ke ACL ELITE!' : 'Musim ' + (newSeason) + ' dimulai!');
+  const body = wonLeague
+    ? 'Juara Liga Indonesia musim lalu: ' + (leagueChampName || 'tim kita') + '! 🏆 Papan Global Leaderboard ikut naik. ' + (wonAcl ? 'Trofi ACL Two juga digondol — musim ini main di ACL ELITE! 🌏' : 'Musim ' + newSeason + ' gas lagi!')
+    : (wonAcl
       ? 'Gila sih! Trofi ACL Two direbut ' + (champName || 'tim kita') + '! Musim ini kita tampil di ACL ELITE melawan klub-klub terkuat Asia — dan tetap gas liga Indonesia. Sejarah, bestie! 🏆🌏'
-      : 'Jadwal Liga Indonesia + ' + (newTier === 'elite' ? 'ACL ELITE' : 'ACL Two') + ' musim baru sudah keluar. Gas juara lagi!',
-    wonAcl ? 'JUARA' : 'INFO'
-  ]);
+      : 'Jadwal Liga Indonesia + ' + (newTier === 'elite' ? 'ACL ELITE' : 'ACL Two') + ' musim baru sudah keluar. Gas juara lagi!');
+  await run('INSERT INTO news (save_id,day_label,title,body,tag) VALUES (?,?,?,?,?)', [saveId, 'Musim Baru', headline, body, wonLeague || wonAcl ? 'JUARA' : 'INFO']);
   const s2 = await get('SELECT * FROM careers WHERE id=?', [saveId]);
-  return { season: newSeason, aclTier: newTier, aclTitles: s2.acl_titles, promoted: wonAcl, aclChampion: champName, save: s2 };
+  return {
+    season: newSeason, aclTier: newTier, aclTitles: s2.acl_titles, leagueTitles: s2.league_titles,
+    promoted: wonAcl, aclChampion: champName, leagueChampion: leagueChampName, wonLeague, save: s2
+  };
 }
 
 if (process.argv[1] && process.argv[1].endsWith('seed.js')) {

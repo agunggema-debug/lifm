@@ -45,6 +45,7 @@ _Game manajer sepak bola open source — tanpa install, langsung gas di browser!
 3. ⚽ **Tab Match** → pilih kecepatan (Santai 🐢 / Normal 🚶 / Turbo 🚀) → **▶️ PLAY MATCH** → nikmati komentar play-by-play babak 1 (menit 1–45)!
 4. ⏸️ **Saat HT muncul** → ganti pemain lewat dropdown **Keluar/Masuk** → tekan **▶️ LANJUTKAN BABAK KEDUA ⚔️** → substitusi beneran memengaruhi rating & xG babak 2!
 5. 🏆 **Tab Klasemen** → cek posisi + jadwal pekan lain → **Tab Transfer 💸** → beli bintang / jual buat cuan
+6. 📺 **Tab Live** → pantau skor real-time laga kamu (segera muncul saat laga berjalan) + top skor, form 5 laga & klasemen. 🏅 **Tab Ranking** → lihat peringkat GLOBAL seluruh manajer LIFM di server!
 6. 🔁 **Ulangi sampai pekan 34** → Liga Indonesia format **home & away (34 pertandingan/klub)**, tiap pekan ada laga Liga 🏆 + laga ACL di pekan ganda 🌏
 7. 🏅 **Musim tuntas?** Tekan **➡️ MULAI MUSIM BARU** → jadwal Liga + **ACL ELITE** musim depan dibuat sekaligus (pekan ganda). Juara ACL Two naik kasta, trofi ACL-mu tetap tercatat! 🌏
 
@@ -147,6 +148,8 @@ npm run test:promotion  # juara ACL Two → promosi ACL Elite + kalender pekan g
 | POST   | `/api/sub`                 | 🔁 `{outId, inId}` ganti pemain (pengaruh ke babak 2)                                  |
 | GET    | `/api/standings`           | 🏆 klasemen liga                                                                       |
 | GET    | `/api/standings/acl`       | 🌏 klasemen ACL sesuai tier karier (ACL Two: 8 grup • ACL Elite: 2 zona × 16 klub)     |
+| GET    | `/api/leaderboard`         | 🏅 peringkat GLOBAL seluruh manajer di server (limit, bonus gelar & musim)           |
+| GET    | `/api/live`                | 📺 skor & statistik pekan berjalan (jadwal, top skor, form 5 laga, posisi liga kita)   |
 | GET    | `/api/news`                | 📰 berita/hasil pekanan                                                                |
 | GET    | `/api/transfer-list`       | 🎯 60 pemain incaran                                                                   |
 | POST   | `/api/transfer/buy`        | 💰 `{playerId}`                                                                        |
@@ -190,6 +193,8 @@ lifm/
 │       ├── Squad.jsx       # 🧢 taktik + lapangan interaktif
 │       ├── Match.jsx       # ⚽ live match + HT subs
 │       ├── Tables.jsx      # 🏆 klasemen + jadwal + berita
+│       ├── Live.jsx        # 📺 live-score pekan + statistik (skor live dari tab Match)
+│       ├── Leaderboard.jsx # 🏅 peringkat global seluruh manajer
 │       ├── Transfers.jsx   # 💸 bursa transfer
 │       └── lib.js          # 🔑 token pengunjung + API client
 ├── fetch_acl_elite.mjs     # 🔄 update klub + logo + jadwal ACL Elite dari sumber AFC

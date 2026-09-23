@@ -77,6 +77,56 @@ app.get('/api/visitors', h(async (req, res) => {
 }));
 
 app.get('/api/health', (req, res) => res.json({ ok: true, game: 'LIFM' }));
+
+// ==== 🏅 GLOBAL LEADERBOARD ====
+// Peringkat seluruh manajer (semua karier di DB — di produksi Turso = semua pemain LIFM).
+// Poin Manajer = poin liga musim ini + (gelar Liga + gelar ACL) x 100 + (musim selesai) x 25.
+// PRIVASI: token karier tidak pernah dikirim ke client — hanya nama manajer + statistik publik.
+const LB_TITLE_BONUS = 100;
+const LB_SEASON_BONUS = 25;
+function managerPoints(r) {
+  return Number(r.league_points || 0)
+    + (Number(r.league_titles || 0) + Number(r.acl_titles || 0)) * LB_TITLE_BONUS
+    + Math.max(0, Number(r.season || 1) - 1) * LB_SEASON_BONUS;
+}
+app.get('/api/leaderboard', h(async (req, res) => {
+  const limit = Math.min(100, Math.max(5, Number(req.query.limit) || 50));
+  const rows = await all(
+    'SELECT c.id, c.manager_name, c.season, c.matchday, c.acl_tier, c.acl_titles, c.league_titles, c.club_id, c.updated_at,'
+    + ' cl.name AS club_name, cl.short_name, cl.logo,'
+    + ' COALESCE(s.points, 0) AS league_points, COALESCE(s.played, 0) AS league_played,'
+    + ' (SELECT CAST(AVG(v) AS INTEGER) FROM (SELECT (p.sho + p.pas + p.pac + p.def + p.gk + p.sta) AS v'
+    + ' FROM players p WHERE p.save_id = c.id AND p.club_id = c.club_id ORDER BY v DESC LIMIT 11)) AS xi_sum'
+    + ' FROM careers c'
+    + ' LEFT JOIN clubs cl ON cl.id = c.club_id'
+    + ' LEFT JOIN standings_cache s ON s.save_id = c.id AND s.club_id = c.club_id'
+  );
+  const list = rows.map((r) => ({
+    id: r.id,
+    manager: r.manager_name,
+    club: { id: r.club_id, name: r.club_name, short_name: r.short_name, logo_url: r.logo ? '/img/clubs/' + r.logo : '' },
+    season: Number(r.season || 1),
+    matchday: Number(r.matchday || 1),
+    acl_tier: r.acl_tier || 'two',
+    league_titles: Number(r.league_titles || 0),
+    acl_titles: Number(r.acl_titles || 0),
+    league_points: Number(r.league_points || 0),
+    league_played: Number(r.league_played || 0),
+    xi_ovr: r.xi_sum ? Math.round(Number(r.xi_sum) / 6) : 0,
+    updated_at: r.updated_at
+  })).map((r) => ({ ...r, points: managerPoints(r) }))
+    .sort((a, b) => b.points - a.points || b.xi_ovr - a.xi_ovr || b.league_points - a.league_points || String(a.manager).localeCompare(String(b.manager)));
+  list.forEach((r, i) => { r.rank = i + 1; });
+  const s = await saveOf(req);
+  const me = s ? list.find((r) => r.id === s.id) || null : null;
+  res.json({
+    total: list.length,
+    bonus: { title: LB_TITLE_BONUS, season: LB_SEASON_BONUS },
+    rows: list.slice(0, limit).map((r) => ({ ...r, isMe: !!me && me.id === r.id })),
+    me: me ? { ...me, isMe: true } : null
+  });
+}));
+
 app.get('/api/meta', (req, res) => res.json({ season: '2026/27', league: 'Indonesia Super League', background: '/img/background.jpg' }));
 app.get('/api/clubs', h(async (req, res) => {
   const rows = await all('SELECT * FROM clubs ORDER BY reputation DESC');
@@ -209,6 +259,62 @@ app.get('/api/standings/acl', h(async (req, res) => {
   const out = await aclStandings(s);
   res.json(out.map((g) => ({ ...g, rows: g.rows.map((r) => ({ ...r, logo_url: r.logo ? '/img/clubs/' + r.logo : '' })) })));
 }));
+// ==== 📺 LIVE SCORE & STAT (pekan berjalan) ====
+// Menyajikan keadaan pekan ini: laga mana sudah FT (skor), mana belum kick-off, plus statistik
+// musim (top skor/assist, 5 laga terakhir, posisi liga). Skor laga user yang SEDANG berjalan
+// dikirim client (snapshot dari tab Match) supaya panel Live tetap sinkron tanpa ubah alur server.
+app.get('/api/live', h(async (req, res) => {
+  const s = await saveOf(req);
+  if (!s) return res.json({ hasSave: false });
+  const clubs = await clubMap();
+  const md = Math.min(LEAGUE_MATCHDAYS, Math.max(1, Number(req.query.md) || Number(s.matchday) || 1));
+  const side = (id) => {
+    const c = clubs[id] || {};
+    return { club_id: id, name: c.name, short_name: c.short_name, logo_url: c.logo ? '/img/clubs/' + c.logo : '' };
+  };
+  const fx = await all('SELECT * FROM fixtures WHERE save_id=? AND season=? AND matchday=? ORDER BY id', [s.id, s.season, md]);
+  const matches = fx.map((f) => ({
+    id: f.id,
+    competition: f.competition,
+    played: !!f.played,
+    home_goals: f.played ? Number(f.home_goals) : null,
+    away_goals: f.played ? Number(f.away_goals) : null,
+    home: side(f.home_id),
+    away: side(f.away_id),
+    mine: f.home_id === s.club_id || f.away_id === s.club_id
+  }));
+  const playedCount = matches.filter((m) => m.played).length;
+  const recentRows = await all(
+    'SELECT matchday, competition, home_id, away_id, home_goals, away_goals FROM fixtures WHERE save_id=? AND played=1 AND (home_id=? OR away_id=?) ORDER BY matchday DESC, id DESC LIMIT 6',
+    [s.id, s.club_id, s.club_id]
+  );
+  const recentForm = recentRows.map((f) => {
+    const isHome = f.home_id === s.club_id;
+    const gf = isHome ? Number(f.home_goals) : Number(f.away_goals);
+    const ga = isHome ? Number(f.away_goals) : Number(f.home_goals);
+    return { matchday: Number(f.matchday), competition: f.competition, opponent: side(isHome ? f.away_id : f.home_id), gf, ga, result: gf > ga ? 'W' : gf < ga ? 'L' : 'D' };
+  });
+  const stat = (rows) => rows.map((r) => ({ ...r, goals: Number(r.goals || 0), assists: Number(r.assists || 0), logo_url: r.logo ? '/img/clubs/' + r.logo : '' }));
+  const scorers = stat(await all('SELECT p.name, p.pos, p.goals, p.assists, p.club_id, c.short_name, c.logo FROM players p JOIN clubs c ON c.id=p.club_id WHERE p.save_id=? AND p.goals > 0 ORDER BY p.goals DESC, p.assists DESC LIMIT 8', [s.id]));
+  const assists = stat(await all('SELECT p.name, p.pos, p.goals, p.assists, p.club_id, c.short_name, c.logo FROM players p JOIN clubs c ON c.id=p.club_id WHERE p.save_id=? AND p.assists > 0 ORDER BY p.assists DESC, p.goals DESC LIMIT 5', [s.id]));
+  const table = await all('SELECT st.points, st.played, st.gd, st.gf, st.ga, c.id AS club_id, c.short_name FROM standings_cache st JOIN clubs c ON c.id=st.club_id WHERE st.save_id=? AND st.club_id <= 18 ORDER BY st.points DESC, st.gd DESC, st.gf DESC, c.name', [s.id]);
+  const myIdx = table.findIndex((r) => r.club_id === s.club_id);
+  res.json({
+    hasSave: true,
+    season: s.season,
+    matchday: md,
+    isCurrentMatchday: md === Number(s.matchday),
+    progress: { played: playedCount, total: matches.length },
+    goals: matches.reduce((a, m) => a + (m.played ? Number(m.home_goals) + Number(m.away_goals) : 0), 0),
+    matches,
+    recentForm,
+    scorers,
+    assists,
+    myLeague: myIdx >= 0 ? { rank: myIdx + 1, of: table.length, points: Number(table[myIdx].points), played: Number(table[myIdx].played), gd: Number(table[myIdx].gd), gf: Number(table[myIdx].gf), ga: Number(table[myIdx].ga) } : null,
+    leagueLeader: table[0] ? { club_id: table[0].club_id, short_name: table[0].short_name, points: Number(table[0].points) } : null
+  });
+}));
+
 app.get('/api/standings', h(async (req, res) => {
   const s = await saveOf(req);
   if (!s) return res.json([]);

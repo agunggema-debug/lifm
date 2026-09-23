@@ -110,6 +110,7 @@ const SCHEMA = `
     budget INTEGER NOT NULL,
     acl_tier TEXT NOT NULL DEFAULT 'two',
     acl_titles INTEGER NOT NULL DEFAULT 0,
+    league_titles INTEGER NOT NULL DEFAULT 0,
     updated_at TEXT DEFAULT (datetime('now'))
   );
   CREATE TABLE IF NOT EXISTS news (
@@ -150,6 +151,10 @@ export async function initSchema() {
   }
   if (crCols.length && !crCols.some((c) => c.name === 'acl_titles')) {
     await db.execute('ALTER TABLE careers ADD COLUMN acl_titles INTEGER NOT NULL DEFAULT 0');
+  }
+  // Migrasi: league_titles = jumlah gelar Liga Indonesia (dipakai Global Leaderboard)
+  if (crCols.length && !crCols.some((c) => c.name === 'league_titles')) {
+    await db.execute('ALTER TABLE careers ADD COLUMN league_titles INTEGER NOT NULL DEFAULT 0');
   }
   // ==== Migrasi MULTI-USER: save_id pada players/fixtures/standings_cache/news ====
   const addCol = async (table, ddl) => {

@@ -54,7 +54,11 @@ export function formationNeeds(f) {
 // Hanya panggilan /api yang diarahkan ke backend via API_BASE.
 export function clubLogo(c) {
   if (!c) return "";
-  if (c.logo) return "/img/clubs/" + c.logo;
+  if (typeof c === "string") return "/img/clubs/" + c;
+  if (typeof c === "object") {
+    if (c.logo_url) return c.logo_url; // dari API (Live / Leaderboard / standings)
+    if (c.logo) return "/img/clubs/" + c.logo; // dari CLUBS game-data
+  }
   return "";
 }
 // Warna moral: >=80 hijau, 60-79 kuning, <60 merah.

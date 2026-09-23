@@ -2,6 +2,8 @@ import React from "react";
 import { api, clubLogo, LEAGUE_MDS, aclRound, aclStage, aclCompName, seasonLabel } from "./lib.js";
 import Squad from "./Squad.jsx";
 import Match from "./Match.jsx";
+import Live from "./Live.jsx";
+import Leaderboard from "./Leaderboard.jsx";
 import Tables from "./Tables.jsx";
 import Transfers from "./Transfers.jsx";
 import HowToPlay from "./HowToPlay.jsx";
@@ -10,6 +12,8 @@ const TABS = [
   { id: "home", label: "Home", emoji: "🏠" },
   { id: "squad", label: "Skuad", emoji: "🧢" },
   { id: "match", label: "Match", emoji: "⚽" },
+  { id: "live", label: "Live", emoji: "📺" },
+  { id: "rank", label: "Ranking", emoji: "🏅" },
   { id: "table", label: "Klasemen", emoji: "🏆" },
   { id: "transfer", label: "Transfer", emoji: "💸" },
 ];
@@ -21,12 +25,16 @@ export default function Dash({ save0, reload }) {
   const [news, setNews] = React.useState([]);
   const [last, setLast] = React.useState(null);
   const [visitors, setVisitors] = React.useState(null);
+  const [live, setLive] = React.useState(null);   // snapshot live skor dari tab Match
+  const [rank, setRank] = React.useState(null);   // peringkat global ringkasan (untuk header home)
   const refresh = React.useCallback(async () => {
     const st = await api("/api/state");
     setSave(st.save);
     setNext(await api("/api/next-fixture").catch(() => null));
     setNews(await api("/api/news").catch(() => []));
     setVisitors(await api("/api/visitors").catch(() => null));
+    const lb = await api("/api/leaderboard?limit=1").catch(() => null);
+    setRank(lb && lb.me ? { rank: lb.me.rank, total: lb.total, points: lb.me.points } : null);
   }, []);
   React.useEffect(() => {
     refresh();
@@ -52,6 +60,7 @@ export default function Dash({ save0, reload }) {
               <div className="text-xs opacity-80">
                 Coach {save.manager_name} •  {seasonLabel(save.season)} • Pekan {Math.min(save.matchday, LEAGUE_MDS)}/{LEAGUE_MDS}{aclRound(save.matchday, save.acl_tier) ? ' • ACL MD ' + aclRound(save.matchday, save.acl_tier) : ''}{aclStage(save.matchday, save.acl_tier) ? ' • ACL ' + aclStage(save.matchday, save.acl_tier) : ''}{save.acl_tier ? ' • 🌏 ' + (save.acl_tier === 'elite' ? 'ACL ELITE' : 'ACL TWO') : ''}{save.acl_titles ? ' • 🏆' + save.acl_titles + 'x Juara ACL' : ''} • 💰 Rp{Number(save.budget).toLocaleString("id-ID")}
                 {visitors ? <> • 👥 {Number(visitors.total).toLocaleString("id-ID")} visitor</> : null}
+                {rank ? <> • 🏅 #{rank.rank}/{rank.total} ({rank.points} pts)</> : null}
               </div>
             </div>
           </div>
@@ -136,18 +145,20 @@ export default function Dash({ save0, reload }) {
               refresh();
             }}
           />
-        )}
-        {tab === "match" && (
+        )}        {tab === "match" && (
           <Match
             save={save}
             next={next}
+            onLive={setLive}
             onPlayed={(r) => {
               setLast(r);
               setSave(r.save);
               refresh();
             }}
           />
-        )}
+        )}        {tab === "live" && <Live save={save} live={live} />}
+
+        {tab === "rank" && <Leaderboard />}
         {tab === "table" && <Tables />}
         {tab === "transfer" && (
           <Transfers
@@ -160,7 +171,7 @@ export default function Dash({ save0, reload }) {
         )}
       </main>
       <nav className="fixed bottom-0 inset-x-0 bg-white border-t z-10">
-        <div className="max-w-5xl mx-auto grid grid-cols-5">
+        <div className="max-w-5xl mx-auto grid grid-cols-7">
           {TABS.map((t) => (
             <button key={t.id} onClick={() => setTab(t.id)} className={"py-2 text-center " + (tab === t.id ? "text-slate-950 font-black" : "text-slate-400")}>
               <div className="text-xl">{t.emoji}</div>
