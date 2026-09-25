@@ -11,7 +11,7 @@ const TOKEN = 'test-' + Date.now();
 const H2 = { 'Content-Type': 'application/json', 'X-Lifm-Token': TOKEN };
 const post2 = (p, body) => fetch(B + p, { method: 'POST', headers: H2, body: JSON.stringify(body || {}) }).then(async (r) => { const j = await r.json(); if (!r.ok) throw new Error(p + ' ' + r.status + ' ' + JSON.stringify(j)); return j; });
 const get2 = (p) => fetch(B + p, { headers: { 'X-Lifm-Token': TOKEN } }).then(async (r) => { const j = await r.json(); if (!r.ok) throw new Error(p + ' ' + r.status + ' ' + JSON.stringify(j)); return j; });
-const c = await post2('/api/career', { managerName: 'Tester ACL', clubId: 2 }); // Persib (id 2)
+const c = await post2('/api/career', { managerName: 'Tester ACL ' + Date.now(), clubId: 2 }); // Persib (id 2)
 ok('career', `${c.save.club.name} budget=${c.save.budget} lineup=${c.save.lineup.length}`);
 ok('career-tier', `season=${c.save.season} aclTier=${c.save.acl_tier} aclTitles=${c.save.acl_titles}`);
 // Musim baru TIDAK boleh dimulai saat musim masih berjalan (matchday=1) -> wajib 400

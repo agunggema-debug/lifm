@@ -50,11 +50,14 @@ async function saveView(s) {
 }
 // Hapus seluruh dunia milik satu karier (dipakai saat reset / mulai ulang)
 async function deleteWorld(saveId) {
+  const cur = await get('SELECT manager_name FROM careers WHERE id=?', [saveId]);
   await run('DELETE FROM players WHERE save_id=?', [saveId]);
   await run('DELETE FROM fixtures WHERE save_id=?', [saveId]);
   await run('DELETE FROM standings_cache WHERE save_id=?', [saveId]);
   await run('DELETE FROM news WHERE save_id=?', [saveId]);
   await run('DELETE FROM careers WHERE id=?', [saveId]);
+  // Bebaskan nama manajer (tabel managers) supaya bisa dipakai lagi oleh pengunjung manapun.
+  if (cur && cur.manager_name) await run('DELETE FROM managers WHERE name = ?', [String(cur.manager_name).trim()]);
 }
 
 // ==== Visitor counter ====
@@ -91,14 +94,18 @@ function managerPoints(r) {
 }
 app.get('/api/leaderboard', h(async (req, res) => {
   const limit = Math.min(100, Math.max(5, Number(req.query.limit) || 50));
+  // Backfill: karier yang belum punya baris managers (mis. disuntik langsung via SQL) tetap tampil.
+  await run('INSERT OR IGNORE INTO managers (name, club_id) SELECT manager_name, club_id FROM careers WHERE manager_name IS NOT NULL');
   const rows = await all(
-    'SELECT c.id, c.manager_name, c.season, c.matchday, c.acl_tier, c.acl_titles, c.league_titles, c.club_id, c.updated_at,'
+    'SELECT m.id, m.name AS manager_name, COALESCE(c.club_id, m.club_id) AS club_id,'
+    + ' c.season, c.matchday, c.acl_tier, c.acl_titles, c.league_titles, c.updated_at,'
     + ' cl.name AS club_name, cl.short_name, cl.logo,'
     + ' COALESCE(s.points, 0) AS league_points, COALESCE(s.played, 0) AS league_played,'
     + ' (SELECT CAST(AVG(v) AS INTEGER) FROM (SELECT (p.sho + p.pas + p.pac + p.def + p.gk + p.sta) AS v'
     + ' FROM players p WHERE p.save_id = c.id AND p.club_id = c.club_id ORDER BY v DESC LIMIT 11)) AS xi_sum'
-    + ' FROM careers c'
-    + ' LEFT JOIN clubs cl ON cl.id = c.club_id'
+    + ' FROM managers m'
+    + ' LEFT JOIN careers c ON c.manager_name = m.name COLLATE NOCASE'
+    + ' LEFT JOIN clubs cl ON cl.id = COALESCE(c.club_id, m.club_id)'
     + ' LEFT JOIN standings_cache s ON s.save_id = c.id AND s.club_id = c.club_id'
   );
   const list = rows.map((r) => ({
@@ -117,8 +124,9 @@ app.get('/api/leaderboard', h(async (req, res) => {
   })).map((r) => ({ ...r, points: managerPoints(r) }))
     .sort((a, b) => b.points - a.points || b.xi_ovr - a.xi_ovr || b.league_points - a.league_points || String(a.manager).localeCompare(String(b.manager)));
   list.forEach((r, i) => { r.rank = i + 1; });
-  const s = await saveOf(req);
-  const me = s ? list.find((r) => r.id === s.id) || null : null;
+  // Identifikasi karier pengunjung via namanya (unik) — r.id kini id managers, bukan id careers.
+  const sv = await saveOf(req);
+  const me = sv ? list.find((r) => r.manager === String(sv.manager_name || '').trim()) || null : null;
   res.json({
     total: list.length,
     bonus: { title: LB_TITLE_BONUS, season: LB_SEASON_BONUS },
@@ -142,16 +150,27 @@ app.get('/api/state', h(async (req, res) => {
   res.json({ hasSave: true, save: await saveView(s), season: '2026/27', league: 'Indonesia Super League', background: '/img/background.jpg' });
 }));
 app.post('/api/career', h(async (req, res) => {
-  const name = String((req.body || {}).managerName || 'Manajer').slice(0, 40);
+  // ==== Nama manajer harus unik di SELURUH server (sumber data Global Leaderboard) ====
+  const name = String((req.body || {}).managerName || '').trim().replace(/\s+/g, ' ').slice(0, 40);
+  if (!name) return res.status(400).json({ error: 'Nama manajer wajib diisi.' });
   const clubId = Number((req.body || {}).clubId);
   const club = await get('SELECT * FROM clubs WHERE id=?', [clubId]);
   if (!club) return res.status(400).json({ error: 'Klub tidak valid' });
   // Token dari browser; jika tidak ada, generate di server
   let token = tokenOf(req);
   if (!token) token = crypto.randomUUID();
-  // Jika token ini sudah punya karier, mulai ulang dari awal (dunia lama dibuang)
   const old = await getSaveByToken(token);
+  // Validasi kebaruan: boleh memakai ulang nama milik karier SENDIRI (re-create), tetapi
+  // TIDAK boleh bentrok dengan manajer lain (case-insensitive & abaikan spasi).
+  const dup = await get('SELECT id, name FROM managers WHERE name = ? COLLATE NOCASE', [name]);
+  const ownName = old ? String(old.manager_name || '').trim().toLowerCase() : '';
+  if (dup && String(dup.name).toLowerCase() !== ownName) {
+    return res.status(409).json({ error: 'Nama manajer "' + name + '" sudah dipakai pengunjung lain — pakai nama unik ya, bestie! 🙅' });
+  }
+  // Jika token ini sudah punya karier, buang dunia lama (sekalian bebaskan nama lamanya)
   if (old) await deleteWorld(old.id);
+  // Daftarkan manajer ke tabel `managers` (sumber peringkat Global Leaderboard)
+  await run('INSERT OR IGNORE INTO managers (name, club_id) VALUES (?,?)', [name, clubId]);
   // Buat karier + dunia pribadi untuk pengunjung ini
   const r = await run('INSERT INTO careers (token,manager_name,club_id,season,matchday,formation,mentality,lineup_json,budget) VALUES (?,?,?,1,1,?,?,?,?)',
     [token, name, clubId, '4-4-2', 'balanced', '[]', club.budget]);

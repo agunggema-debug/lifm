@@ -80,6 +80,14 @@ Detail teknis yang perlu diketahui:
 - **Anti dobel**: rolling musim hanya boleh setelah `matchday > 34`, dan `POST /api/next-season` diproteksi sekali-jalan (server + tombol di UI).
 - **Karier lama**: kalender berubah total (17 → 34 pekan), jadi karier yang dibuat sebelum update sebaiknya di-**Reset** di header game supaya jadwal barunya lengkap.
 
+## 🏅 Global Leaderboard & 📺 Live Score
+
+- **Satu nama = satu manajer (unik di seluruh server)**. Saat `POST /api/career`, nama di-`trim`, tidak boleh kosong, dan dicek unik **tanpa peduli kapital/spasi**; kalau sudah dipakai manajer lain → **409** (`Nama manajer "..." sudah dipakai pengunjung lain`). Nama milikmu sendiri boleh dipakai ulang (re-create). Dijamin juga di level DB lewat index unik `idx_managers_name` + `idx_careers_manager_name` (`COLLATE NOCASE`).
+- **Tabel `managers`** (id, name, club_id, created_at) kini **terisi otomatis** setiap karier dibuat dan **menjadi sumber data `/api/leaderboard`** (`FROM managers LEFT JOIN careers ...`). Karier lama ikut di-*backfill* saat migrasi, jadi leaderboard langsung lengkap. Saat karier di-**reset**, baris `managers` ikut dibebaskan sehingga namanya bisa dipakai lagi.
+- **Poin Manajer** = poin liga musim ini + (🏆 gelar Liga + 🌏 gelar ACL) × 100 + (musim selesai) × 25 — tie-break OVR XI & poin liga. Kolom `league_titles` dihitung otomatis saat rollover musim (juara = puncak klasemen sebelum reset).
+- **Live Score/Stat** (`📺` tab / `GET /api/live`): skor tiap laga pekan berjalan (FT/LIVE/VS) + progress, top skor ⚽ & assist 🅰️, form 5 laga, posisi liga kamu, dan pemimpin klasemen — di-*poll* tiap 5 detik. Skor laga yang **sedang kamu mainkan** dikirim dari tab Match (snapshot menit & skor) karena mesin match mensimulasi satu babak sekaligus di server.
+
+
 ## 🚀 Quick Start (Buat Dev)
 
 Butuh: **Node.js 20.19+ / 22.12+** (cek: `node --version`)
@@ -137,7 +145,7 @@ npm run test:promotion  # juara ACL Two → promosi ACL Elite + kalender pekan g
 | GET    | `/api/clubs`               | 🏟️ semua klub + logo                                                                   |
 | GET    | `/api/visitors`            | 👥 counter pengunjung                                                                  |
 | GET    | `/api/state`               | 💾 karier aktif + klub (atau daftar klub jika belum mulai)                             |
-| POST   | `/api/career`              | 🚀 `{managerName, clubId}` mulai karier (buat dunia privat)                            |
+| POST   | `/api/career`              | 🚀 `{managerName, clubId}` mulai karier • **nama manajer wajib unik** (`managers`, 409 jika dipakai) |
 | POST   | `/api/career/reset`        | ♻️ hapus **karier sendiri saja**                                                       |
 | POST   | `/api/next-season`         | ➡️ mulai musim baru (wajib Pekan > 23) • juara ACL Two promosi ke ACL ELITE            |
 | GET    | `/api/squad`               | 🧢 skuad klubmu                                                                        |

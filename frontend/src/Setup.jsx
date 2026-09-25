@@ -55,7 +55,8 @@ export default function Setup({ clubs = [], onDone }) {
         </div>
         <div className="bg-white/95 text-slate-900 rounded-3xl p-5 sm:p-8 shadow-2xl">
           <label className="font-bold text-sm">NAMA MANAJER</label>
-          <input value={name} onChange={(e) => setName(e.target.value)} className="w-full mt-1 border-2 rounded-2xl px-4 py-3 font-bold" placeholder="Nama panggilanmu..." />
+          <input value={name} maxLength={40} onChange={(e) => setName(e.target.value)} className="w-full mt-1 border-2 rounded-2xl px-4 py-3 font-bold" placeholder="Nama panggilanmu..." />
+          <p className="text-[11px] text-slate-500 mt-1">🏅 Nama manajer harus <b>unik di seluruh server</b> — namamu tampil di <b>Global Leaderboard</b>. Nama yang sudah dipakai manajer lain akan ditolak.</p>
           <label className="font-bold text-sm mt-4 block">PILIH KLUB FAVORITMU ⭐</label>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-2 max-h-80 overflow-auto scroll-slim pr-1">
             {clubs.map((c) => (

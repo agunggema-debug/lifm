@@ -17,7 +17,7 @@ const post = (p, body) => fetch(B + p, { method: 'POST', headers: H, body: JSON.
 const httpGet = (p) => fetch(B + p, { headers: H }).then(async (r) => { const j = await r.json(); if (!r.ok) throw new Error(p + ' ' + r.status + ' ' + JSON.stringify(j)); return j; });
 
 // 1. Karier baru: Persib (id 2) mulai di ACL Two
-const c = await post('/api/career', { managerName: 'Tester Promosi', clubId: 2 });
+const c = await post('/api/career', { managerName: 'Tester Promosi ' + Date.now(), clubId: 2 });
 const saveId = c.save.id;
 must('career', c.save.acl_tier === 'two' && c.save.season === 1, `season=${c.save.season} tier=${c.save.acl_tier}`);
 

@@ -156,6 +156,13 @@ export async function initSchema() {
   if (crCols.length && !crCols.some((c) => c.name === 'league_titles')) {
     await db.execute('ALTER TABLE careers ADD COLUMN league_titles INTEGER NOT NULL DEFAULT 0');
   }
+  // ==== Global Leaderboard: nama manajer WAJIB unik & tabel `managers` jadi sumbernya ====
+  // Index NOCASE → unik tanpa peduli kapital/spasi. safe() menelan error bila DB lama sudah ada duplikat,
+  // jadi penetapan ini pelengkap; pengecekan utama tetap di endpoint /api/career.
+  await safe('CREATE UNIQUE INDEX IF NOT EXISTS idx_managers_name ON managers(name COLLATE NOCASE)');
+  await safe('CREATE UNIQUE INDEX IF NOT EXISTS idx_careers_manager_name ON careers(manager_name COLLATE NOCASE)');
+  // Backfill karier lama → baris di tabel managers (INSERT OR IGNORE: dedupe + hormati unique index)
+  await safe('INSERT OR IGNORE INTO managers (name, club_id) SELECT manager_name, club_id FROM careers WHERE manager_name IS NOT NULL');
   // ==== Migrasi MULTI-USER: save_id pada players/fixtures/standings_cache/news ====
   const addCol = async (table, ddl) => {
     const t = await all('PRAGMA table_info(' + table + ')');

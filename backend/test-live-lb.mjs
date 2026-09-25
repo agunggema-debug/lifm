@@ -40,6 +40,24 @@ ok('leaderboard.me is the tester', !!lb.me && lb.me.club.name === club.name);
 ok('leaderboard.points = liga + title*100 + season*25', typeof lb.me.points === 'number');
 ok('leaderboard.rows sorted desc by points', lb.rows[0].points >= (lb.rows[1] ? lb.rows[1].points : 0));
 ok('leaderboard.me has xi_ovr', typeof lb.me.xi_ovr === 'number');
+ok('leaderboard bersumber dari tabel managers (tester muncul)', lb.rows.some((x) => x.manager === 'Live LB Tester'));
+
+// ---- Unikitas nama manajer ----
+async function tryCreate(token, managerName) {
+  const r = await fetch(B + '/api/career', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Lifm-Token': token },
+    body: JSON.stringify({ managerName, clubId: 1 }),
+  });
+  return { status: r.status, body: await r.json().catch(() => ({})) };
+}
+const d1 = await tryCreate('uniq-a-' + Date.now(), 'Live LB Tester');
+ok('nama sama (token lain) ditolak 409', d1.status === 409);
+const d2 = await tryCreate('uniq-b-' + Date.now(), '  live lb tester  ');
+ok('duplikat beda kapital & spasi ditolak 409', d2.status === 409);
+const d3 = await tryCreate('uniq-c-' + Date.now(), '   ');
+ok('nama kosong/spasi ditolak 400', d3.status === 400);
+// (pembuatan karier awal di atas = bukti nama unik DITERIMA 200)
 
 // ---- /api/live (pekan yang sudah selesai = md1) ----
 const lv = await jget('/api/live?md=1');
