@@ -1,4 +1,5 @@
 import { all, get, run } from './db.js';
+import { cached, bust } from './cache.js';
 
 export function overall(p) {
   if (p.pos === 'GK') return Math.round(p.gk * 0.7 + p.def * 0.15 + p.pas * 0.15);
@@ -25,6 +26,19 @@ export async function clubMap() {
   const m = {};
   for (const c of await all('SELECT * FROM clubs')) m[c.id] = c;
   return m;
+}
+
+// ==== Peta klub versi CACHE (dipakai route baca) ====
+// Klub bersifat GLOBAL & statis (di-seed sekali, lihat seedClubs()), tapi hampir semua
+// route baca memanggil clubMap() → 1 query DB ekstra per request. Saat online (Turso remote)
+// ini langsung terasa. Cache 5 menit + single-flight membuatnya cuma 1 query per 5 menit.
+const CLUB_CACHE_MS = 5 * 60 * 1000;
+export async function clubMapCached() {
+  return cached('clubs:map', CLUB_CACHE_MS, clubMap);
+}
+// Dipanggil setelah klub di-seed/diubah supaya cache langsung segar.
+export function bustClubMapCache() {
+  bust('clubs:');
 }
 
 // Skuad klub dari DUNIA milik karier tertentu

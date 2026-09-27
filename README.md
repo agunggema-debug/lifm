@@ -34,6 +34,7 @@ _Game manajer sepak bola open source — tanpa install, langsung gas di browser!
 | ⚡ **Match Engine**     | Server-authoritative, xG berbasis rating + taktik + moral + home advantage, play-by-play menit-per-menit: gol, peluang, save, kartu, cedera 🎙️                                                                                                                                               |
 | 💸 **Transfer**         | Beli bintang / jual buat cuan, market value dinamis, budget klub, batas skuad 18–28                                                                                                                                                                                                          |
 | 🏆 **Liga & ACL**       | Liga **34 pekan** (18 klub home & away = 34 laga/klub) + ACL Two/Elite **berbarengan jadwal Liga** (pekan ganda) • jadwal ACL Elite = **undian asli AFC 2026/27** (32 klub) • juara ACL Two → musim depan naik ke **ACL ELITE**                                              |
+| 🏅 **Ranking & Top Score** | Peringkat GLOBAL seluruh manajer (poin liga + gelar + musim selesai) + papan ⚽ **Top Score**: gol & assist pemain gabungan semua karier + top skor klubmu ⭐ |
 | 👥 **Multi-User**       | Setiap browser = karier sendiri (token di localStorage), dunia privat: pemain, jadwal, klasemen, berita                                                                                                                                                                                      |
 
 ## 🕹️ Cara Main
@@ -45,9 +46,9 @@ _Game manajer sepak bola open source — tanpa install, langsung gas di browser!
 3. ⚽ **Tab Match** → pilih kecepatan (Santai 🐢 / Normal 🚶 / Turbo 🚀) → **▶️ PLAY MATCH** → nikmati komentar play-by-play babak 1 (menit 1–45)!
 4. ⏸️ **Saat HT muncul** → ganti pemain lewat dropdown **Keluar/Masuk** → tekan **▶️ LANJUTKAN BABAK KEDUA ⚔️** → substitusi beneran memengaruhi rating & xG babak 2!
 5. 🏆 **Tab Klasemen** → cek posisi + jadwal pekan lain → **Tab Transfer 💸** → beli bintang / jual buat cuan
-6. 📺 **Tab Live** → pantau skor real-time laga kamu (segera muncul saat laga berjalan) + top skor, form 5 laga & klasemen. 🏅 **Tab Ranking** → lihat peringkat GLOBAL seluruh manajer LIFM di server!
-6. 🔁 **Ulangi sampai pekan 34** → Liga Indonesia format **home & away (34 pertandingan/klub)**, tiap pekan ada laga Liga 🏆 + laga ACL di pekan ganda 🌏
-7. 🏅 **Musim tuntas?** Tekan **➡️ MULAI MUSIM BARU** → jadwal Liga + **ACL ELITE** musim depan dibuat sekaligus (pekan ganda). Juara ACL Two naik kasta, trofi ACL-mu tetap tercatat! 🌏
+6. 🏅 **Tab Ranking** → lihat peringkat GLOBAL seluruh manajer LIFM di server + papan **⚽ Top Score** (top skor & asist pemain, plus top skor klubmu ⭐)
+7. 🔁 **Ulangi sampai pekan 34** → Liga Indonesia format **home & away (34 pertandingan/klub)**, tiap pekan ada laga Liga 🏆 + laga ACL di pekan ganda 🌏
+8. 🏅 **Musim tuntas?** Tekan **➡️ MULAI MUSIM BARU** → jadwal Liga + **ACL ELITE** musim depan dibuat sekaligus (pekan ganda). Juara ACL Two naik kasta, trofi ACL-mu tetap tercatat! 🌏
 
 > [!TIP]
 > 🔥 **Tips Pro Gamer**
@@ -80,12 +81,15 @@ Detail teknis yang perlu diketahui:
 - **Anti dobel**: rolling musim hanya boleh setelah `matchday > 34`, dan `POST /api/next-season` diproteksi sekali-jalan (server + tombol di UI).
 - **Karier lama**: kalender berubah total (17 → 34 pekan), jadi karier yang dibuat sebelum update sebaiknya di-**Reset** di header game supaya jadwal barunya lengkap.
 
-## 🏅 Global Leaderboard & 📺 Live Score
+## 🏅 Global Leaderboard & ⚽ Top Score
 
 - **Satu nama = satu manajer (unik di seluruh server)**. Saat `POST /api/career`, nama di-`trim`, tidak boleh kosong, dan dicek unik **tanpa peduli kapital/spasi**; kalau sudah dipakai manajer lain → **409** (`Nama manajer "..." sudah dipakai pengunjung lain`). Nama milikmu sendiri boleh dipakai ulang (re-create). Dijamin juga di level DB lewat index unik `idx_managers_name` + `idx_careers_manager_name` (`COLLATE NOCASE`).
 - **Tabel `managers`** (id, name, club_id, created_at) kini **terisi otomatis** setiap karier dibuat dan **menjadi sumber data `/api/leaderboard`** (`FROM managers LEFT JOIN careers ...`). Karier lama ikut di-*backfill* saat migrasi, jadi leaderboard langsung lengkap. Saat karier di-**reset**, baris `managers` ikut dibebaskan sehingga namanya bisa dipakai lagi.
 - **Poin Manajer** = poin liga musim ini + (🏆 gelar Liga + 🌏 gelar ACL) × 100 + (musim selesai) × 25 — tie-break OVR XI & poin liga. Kolom `league_titles` dihitung otomatis saat rollover musim (juara = puncak klasemen sebelum reset).
-- **Live Score/Stat** (`📺` tab / `GET /api/live`): skor tiap laga pekan berjalan (FT/LIVE/VS) + progress, top skor ⚽ & assist 🅰️, form 5 laga, posisi liga kamu, dan pemimpin klasemen — di-*poll* tiap 5 detik. Skor laga yang **sedang kamu mainkan** dikirim dari tab Match (snapshot menit & skor) karena mesin match mensimulasi satu babak sekaligus di server.
+- **⚽ Top Score** (`GET /api/top-scorers`): papan skor pemain yang tampil **di menu 🏅 Ranking** (tab 📺 Live sudah dihapus). Isinya:
+  - `rows` — top skor **gabungan SELURUH manajer di server** (SUM gol & assist per nama pemain + klub, plus jumlah manajer yang memakai pemain itu).
+  - `mine` — top skor **klub karier kamu sendiri** (⭐ menandai pemain yang juga ada di papan global).
+  - Keduanya di-*cache* 30 detik + *single-flight* dan di-*bust* setiap ada pertandingan selesai (`POST /api/play`) / musim baru, jadi angkanya akurat tapi DB tetap tidak dibanjiri (lihat ⚡ Kecepatan Akses).
 
 
 ## 🚀 Quick Start (Buat Dev)
@@ -129,9 +133,10 @@ npm run dev
 Butuh backend hidup di port 3001 (`npm run dev:backend`). Semua skrip otomatis pakai token/DB unik, jadi karier aslimu aman.
 
 ```bash
-npm run test:calendar   # kalender AFC: 34 laga/klub, 6 laga grup ACL Two, 8 laga league phase Elite (32 klub), KO 2 leg / 1 leg
-npm run test:api        # E2E: karier → transfer → taktik → play → 1 musim penuh (34 pekan) → mulai musim baru
-npm run test:promotion  # juara ACL Two → promosi ACL Elite + kalender pekan ganda musim baru
+npm run test:calendar     # kalender AFC: 34 laga/klub, 6 laga grup ACL Two, 8 laga league phase Elite (32 klub), KO 2 leg / 1 leg
+npm run test:api          # E2E: karier → transfer → taktik → play → 1 musim penuh (34 pekan) → mulai musim baru
+npm run test:leaderboard  # 🏅 /api/leaderboard + ⚽ /api/top-scorers (termasuk uji cache & unikitas nama manajer)
+npm run test:promotion    # juara ACL Two → promosi ACL Elite + kalender pekan ganda musim baru
 ```
 
 ## 🔌 API Reference (port 3001)
@@ -157,11 +162,49 @@ npm run test:promotion  # juara ACL Two → promosi ACL Elite + kalender pekan g
 | GET    | `/api/standings`           | 🏆 klasemen liga                                                                       |
 | GET    | `/api/standings/acl`       | 🌏 klasemen ACL sesuai tier karier (ACL Two: 8 grup • ACL Elite: 2 zona × 16 klub)     |
 | GET    | `/api/leaderboard`         | 🏅 peringkat GLOBAL seluruh manajer di server (limit, bonus gelar & musim)           |
-| GET    | `/api/live`                | 📺 skor & statistik pekan berjalan (jadwal, top skor, form 5 laga, posisi liga kita)   |
+| GET    | `/api/top-scorers`         | ⚽ papan Top Score: top skor/assist global + top skor klub kita (`rows`, `mine`)       |
 | GET    | `/api/news`                | 📰 berita/hasil pekanan                                                                |
 | GET    | `/api/transfer-list`       | 🎯 60 pemain incaran                                                                   |
 | POST   | `/api/transfer/buy`        | 💰 `{playerId}`                                                                        |
 | POST   | `/api/transfer/sell`       | 🤑 `{playerId}`                                                                        |
+
+## ⚡ Kecepatan Akses (Online)
+
+Game berjalan di **Vercel serverless + Turso (libSQL remote)**, jadi hambatan terbesar bukan CPU melainkan **latensi per round-trip ke DB**. Optimasi di bawah mengikuti dokumentasi resmi teknologi yang dipakai.
+
+### 🖥️ Backend — Express + libSQL/Turso
+
+| Optimasi                                                                                              | Efek                                                                                                              | Dokumentasi resmi                                                                                        |
+| ----------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| **Cache in-memory + single-flight** (`backend/src/cache.js`)                                           | Ranking & Top Score di-*cache* 30 detik, data klub 5 menit • request kembar berbagi **satu** query (anti duplikat) | [Express: Performance Best Practices](https://expressjs.com/en/advanced/best-practice-performance.html)   |
+| **Tidak ada WRITE di jalur baca** (`GET /api/leaderboard`)                                             | `INSERT OR IGNORE … SELECT` dipindah ke `POST /api/career` + backfill sekali saat boot (dulu tulis tiap request)   | [Turso/libSQL TypeScript Reference](https://docs.turso.tech/sdk/ts/reference)                             |
+| **`clubMapCached()`**                                                                                  | 1 query per 5 menit untuk data klub (dulu 1 query di tiap `/api/state`, `/api/next-fixture`, `/api/fixtures`)      | [Turso/libSQL TypeScript Reference](https://docs.turso.tech/sdk/ts/reference)                             |
+| **Index DB baru** — `players(save_id, club_id)`, `players(goals)`, `fixtures(save_id, season, matchday)` | Query skuad/jadwal/top score tidak lagi memindai tabel penuh                                                       | [SQLite: CREATE INDEX](https://sqlite.org/lang_createindex.html)                                          |
+| **Preflight CORS di-cache 24 jam** (`cors({ maxAge: 86400 })`)                                          | Tiap panggilan API tidak lagi membayar 1 round-trip `OPTIONS`                                                      | [expressjs/cors: Configuration Options](https://github.com/expressjs/cors#configuration-options)          |
+| **Cache aset statis** (`express.static` maxAge 30 hari + `immutable`)                                   | Logo/background tidak diminta ulang browser                                                                        | [Express: express.static](https://expressjs.com/en/4x/api.html#express.static)                           |
+| **`app.set('trust proxy', 1)`**                                                                        | IP pengunjung terbaca benar di balik proxy Vercel (visitor counter akurat)                                          | [Express: Behind Proxies](https://expressjs.com/en/guide/behind-proxies.html)                             |
+
+> Respons JSON dari Vercel otomatis dikompresi (gzip/brotli) di edge, jadi game ini tidak perlu middleware kompresi tambahan di Express.
+
+### ⚛️ Frontend — React + Vite
+
+| Optimasi                                                                        | Efek                                                                        | Dokumentasi resmi                                                                                                  |
+| ------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| **`Promise.all` — data diambil sekaligus** (`Dash`, `Leaderboard`, `Transfers`)   | Waktu tunggu = request paling lambat (dulu = jumlah latensi semua request)   | [MDN: Promise.all()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)  |
+| **Code-splitting `React.lazy` + `<Suspense>`**                                   | Tiap tab jadi chunk sendiri → JS awal yang diunduh jauh lebih kecil          | [React: lazy](https://react.dev/reference/react/lazy)                                                              |
+| **`manualChunks` vendor React** (Vite)                                           | Chunk vendor stabil & bisa di-cache lama oleh browser                       | [Vite: Building for Production](https://vite.dev/guide/build.html)                                                 |
+| **`<link rel="preconnect">` ke backend** (`index.html`)                          | DNS + TLS + handshake disiapkan sebelum request API pertama                  | [MDN: rel=preconnect](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel/preconnect)                  |
+| **Polling sadar-visibility** (Page Visibility API)                               | Tidak ada request terbuang saat tab game ditinggal di background             | [MDN: Page Visibility API](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API)                    |
+| **Header cache aset di Vercel** (`frontend/vercel.json` → `headers`)              | `/assets/*` immutable 1 tahun • `/img/*` 7 hari + `stale-while-revalidate`    | [Vercel: Project Configuration](https://vercel.com/docs/projects/project-configuration)                             |
+
+> [!TIP]
+> Mau membuktikan cache bekerja? Buka `GET /api/health` → ada `cache: { hits, misses, inflight, keys }` (statistik per proses server).
+
+### 🧹 Rapi tanpa duplikat (DRY)
+
+- `backend/src/view.js` — **satu-satunya** tempat membentuk payload: `clubLogoUrl()`, `withLogo()`, `withLogos()`, `topScorerRow()`. Sebelumnya ekspresi `{ ...c, logo_url: c.logo ? '/img/clubs/' + c.logo : '' }` di-*copy-paste* di 7+ tempat dan gampang jadi tidak konsisten.
+- `backend/src/cache.js` — satu implementasi cache + single-flight yang dipakai semua route (bukan salin-tempel per endpoint).
+- `frontend/src/lib.js` → `apiSafe(path, fallback)` — menghapus pola berulang `api(...).catch(() => x)` di banyak komponen.
 
 ## 🧱 Teknologi
 
@@ -201,8 +244,7 @@ lifm/
 │       ├── Squad.jsx       # 🧢 taktik + lapangan interaktif
 │       ├── Match.jsx       # ⚽ live match + HT subs
 │       ├── Tables.jsx      # 🏆 klasemen + jadwal + berita
-│       ├── Live.jsx        # 📺 live-score pekan + statistik (skor live dari tab Match)
-│       ├── Leaderboard.jsx # 🏅 peringkat global seluruh manajer
+│       ├── Leaderboard.jsx # 🏅 peringkat global seluruh manajer + ⚽ papan Top Score
 │       ├── Transfers.jsx   # 💸 bursa transfer
 │       └── lib.js          # 🔑 token pengunjung + API client
 ├── fetch_acl_elite.mjs     # 🔄 update klub + logo + jadwal ACL Elite dari sumber AFC

@@ -55,7 +55,7 @@ function SeasonDoneBoard({ seasonDone, next, onSeasonStarted }) {
   );
 }
 
-export default function Match({ save, next, onPlayed, onLive }) {
+export default function Match({ save, next, onPlayed }) {
   const [events, setEvents] = React.useState([]);
   const [shown, setShown] = React.useState(0);
   const [playing, setPlaying] = React.useState(false);
@@ -317,36 +317,10 @@ export default function Match({ save, next, onPlayed, onLive }) {
   const fxMd = fx && fx.matchday;
   const aclLabel = aclStage(fxMd, save.acl_tier) || (fxIsAcl ? "ACL MD " + aclRound(fxMd, save.acl_tier) : null);
 
-    React.useEffect(() => {
-    // Kirim snapshot live skor laga MANAJER ini ke parent (Dash) supaya tab Live
-    // menampilkan skor yang sedang berjalan — sebelum server resmi merekam (submit skor baru di akhir).
-    if (!onLive || !fx || (fx && fx.finished)) return;
-    const active = !!fx && (result || !fx.finished);
-    if (!active) return;
-    let minute = 0;
-    if (result) minute = 90;
-    else if (halfTime) minute = 45;
-    else if (playing) {
-      const v = events.slice(0, shown + 1);
-      const last = v[v.length - 1];
-      minute = last?.minute || (phase === "first" ? 1 : 46);
-    }
-    let status = "idle";
-    if (result) status = "ft";
-    else if (halfTime) status = "ht";
-    else if (playing) status = "live";
-    onLive({
-      matchday: fx.matchday || save.matchday,
-      hg: Number(liveHG),
-      ag: Number(liveAG),
-      hk: homeShort,
-      ak: awayShort,
-      status,
-      minute,
-      at: Date.now(),
-      others: [], // skor laga lain selalu otomatis dari /api/live (server)
-    });
-  }, [onLive, playing, halfTime, result, liveHG, liveAG, phase, shown, events.length, fx && fx.matchday, homeShort, awayShort, save && save.matchday]);
+  // (Blok "snapshot live skor → tab Live" DIHAPUS bersama menu 📺 Live.)
+  // Dulu setiap detik komponen ini memanggil onLive(...) sehingga parent (Dash) re-render
+  // terus-menerus hanya untuk menampilkan skor di tab lain. Skor sudah tampil di papan skor
+  // Match sendiri, jadi sinkronisasi antar-tab itu tidak diperlukan lagi → hemat render & CPU.
 
   return (
     <div className="grid gap-3">

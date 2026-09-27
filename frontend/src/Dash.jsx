@@ -1,18 +1,23 @@
 import React from "react";
-import { api, clubLogo, LEAGUE_MDS, aclRound, aclStage, aclCompName, seasonLabel } from "./lib.js";
-import Squad from "./Squad.jsx";
-import Match from "./Match.jsx";
-import Live from "./Live.jsx";
-import Leaderboard from "./Leaderboard.jsx";
-import Tables from "./Tables.jsx";
-import Transfers from "./Transfers.jsx";
+import { api, apiSafe, clubLogo, LEAGUE_MDS, aclRound, aclStage, aclCompName, seasonLabel } from "./lib.js";
 import HowToPlay from "./HowToPlay.jsx";
 
+// ==== Code-splitting: React.lazy + <Suspense> ====
+// Komponen tab di-lazy-load → JS-nya tidak ikut bundle awal sehingga halaman pertama lebih
+// ringan & lebih cepat dibuka (terutama saat akses online / jaringan lambat).
+// Referensi resmi React: https://react.dev/reference/react/lazy
+const Squad = React.lazy(() => import("./Squad.jsx"));
+const Match = React.lazy(() => import("./Match.jsx"));
+const Leaderboard = React.lazy(() => import("./Leaderboard.jsx"));
+const Tables = React.lazy(() => import("./Tables.jsx"));
+const Transfers = React.lazy(() => import("./Transfers.jsx"));
+
+// Menu utama. Tab 📺 Live SUDAH DIHAPUS: top skor + statistik pemain sekarang
+// ada di menu 🏅 Ranking (Leaderboard.jsx → GET /api/top-scorers).
 const TABS = [
   { id: "home", label: "Home", emoji: "🏠" },
   { id: "squad", label: "Skuad", emoji: "🧢" },
   { id: "match", label: "Match", emoji: "⚽" },
-  { id: "live", label: "Live", emoji: "📺" },
   { id: "rank", label: "Ranking", emoji: "🏅" },
   { id: "table", label: "Klasemen", emoji: "🏆" },
   { id: "transfer", label: "Transfer", emoji: "💸" },
@@ -25,15 +30,23 @@ export default function Dash({ save0, reload }) {
   const [news, setNews] = React.useState([]);
   const [last, setLast] = React.useState(null);
   const [visitors, setVisitors] = React.useState(null);
-  const [live, setLive] = React.useState(null);   // snapshot live skor dari tab Match
   const [rank, setRank] = React.useState(null);   // peringkat global ringkasan (untuk header home)
   const refresh = React.useCallback(async () => {
-    const st = await api("/api/state");
+    // Semua permintaan dikirim PARALEL (Promise.all). Sebelumnya berurutan (await berantai)
+    // sehingga waktu tunggu = total latensi tiap request; kini = request paling lambat saja.
+    // Referensi resmi MDN:
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
+    const [st, fx, nw, vs, lb] = await Promise.all([
+      api("/api/state"),
+      apiSafe("/api/next-fixture", null),
+      apiSafe("/api/news", []),
+      apiSafe("/api/visitors", null),
+      apiSafe("/api/leaderboard?limit=1", null),
+    ]);
     setSave(st.save);
-    setNext(await api("/api/next-fixture").catch(() => null));
-    setNews(await api("/api/news").catch(() => []));
-    setVisitors(await api("/api/visitors").catch(() => null));
-    const lb = await api("/api/leaderboard?limit=1").catch(() => null);
+    setNext(fx);
+    setNews(nw);
+    setVisitors(vs);
     setRank(lb && lb.me ? { rank: lb.me.rank, total: lb.total, points: lb.me.points } : null);
   }, []);
   React.useEffect(() => {
@@ -70,6 +83,7 @@ export default function Dash({ save0, reload }) {
         </div>
       </header>
       <main className="max-w-5xl mx-auto p-3 sm:p-4">
+        <React.Suspense fallback={<div className="card text-center text-slate-400 text-sm py-8">Memuat tab… ⚡</div>}>
         {tab === "home" && (
           <div className="grid gap-3">
             <div className="anim-pop rounded-3xl p-5 shadow-2xl text-white" style={{ background: "linear-gradient(180deg, #020617, #0f172a)", border: "1px solid rgba(255,255,255,.12)" }}>
@@ -145,19 +159,18 @@ export default function Dash({ save0, reload }) {
               refresh();
             }}
           />
-        )}        {tab === "match" && (
+        )}
+        {tab === "match" && (
           <Match
             save={save}
             next={next}
-            onLive={setLive}
             onPlayed={(r) => {
               setLast(r);
               setSave(r.save);
               refresh();
             }}
           />
-        )}        {tab === "live" && <Live save={save} live={live} />}
-
+        )}
         {tab === "rank" && <Leaderboard />}
         {tab === "table" && <Tables />}
         {tab === "transfer" && (
@@ -169,9 +182,10 @@ export default function Dash({ save0, reload }) {
             }}
           />
         )}
+        </React.Suspense>
       </main>
       <nav className="fixed bottom-0 inset-x-0 bg-white border-t z-10">
-        <div className="max-w-5xl mx-auto grid grid-cols-7">
+        <div className="max-w-5xl mx-auto grid grid-cols-6">
           {TABS.map((t) => (
             <button key={t.id} onClick={() => setTab(t.id)} className={"py-2 text-center " + (tab === t.id ? "text-slate-950 font-black" : "text-slate-400")}>
               <div className="text-xl">{t.emoji}</div>

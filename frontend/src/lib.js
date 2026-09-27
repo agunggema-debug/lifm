@@ -33,6 +33,13 @@ export async function api(path, opts) {
   if (data === null) throw new Error("Response bukan JSON dari backend"); // mis. kena rewrite SPA saat env API belum di-set
   return data;
 }
+// Varian api() yang TIDAK melempar error: kalau request gagal, kembalikan `fallback`.
+// Dipakai untuk data pendukung (berita, visitor, papan peringkat ringkas) supaya satu
+// kegagalan tidak menggagalkan render — sekaligus menghapus pola `.catch(() => x)` yang
+// berulang di banyak komponen (DRY).
+export async function apiSafe(path, fallback = null, opts) {
+  try { return await api(path, opts); } catch { return fallback; }
+}
 export function rp(n) {
   return "Rp" + Number(n || 0).toLocaleString("id-ID");
 }

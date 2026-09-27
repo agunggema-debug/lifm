@@ -5,23 +5,36 @@ import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { initSchema, all, get, run } from './db.js';
 import { seedClubs, seedWorld, startNextSeason } from './seed.js';
-import { getSaveByToken, clubMap, squad, autoXI, overall } from './game.js';
+import { getSaveByToken, clubMapCached, squad, autoXI, overall, bustClubMapCache } from './game.js';
 import { playMatchdayFirstHalf, playMatchdaySecondHalf, ensureAclKnockout, fastForwardSeason, aclStandings } from './play.js';
 import { LEAGUE_MATCHDAYS, aclSections } from './data.js';
+import { cached, bust, cacheStats } from './cache.js';
+import { withLogo, withLogos, clubLogoUrl, topScorerRow } from './view.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
-app.use(cors());
+// CORS: tiap request game membawa header X-Lifm-Token, jadi browser mengirim preflight OPTIONS
+// untuk setiap endpoint. maxAge = Access-Control-Max-Age → preflight di-cache 24 jam, sehingga
+// panggilan API berikutnya langsung mengirim data (hemat 1 round-trip saat online).
+// Referensi resmi paket cors: https://github.com/expressjs/cors#configuration-options
+app.use(cors({ maxAge: 86400 }));
 app.use(express.json());
+// Membaca IP asli di balik proxy Vercel (dipakai visitor counter).
+// Referensi: https://expressjs.com/en/guide/behind-proxies.html
+app.set('trust proxy', 1);
 // Serve gambar statis: /img/background.jpg, /img/clubs/*.png
 // Di Vercel, folder public/ di root proyek di-static-serve otomatis oleh platform.
 // Di lokal, Express melayani dari backend/public/img (dan fallback ke src/public/img).
-app.use('/img', express.static(path.join(__dirname, '..', 'public', 'img')));
-app.use('/img', express.static(path.join(__dirname, 'public', 'img')));
+// maxAge+immutable → logo/background tidak diminta ulang tiap buka halaman.
+// Referensi: https://expressjs.com/en/4x/api.html#express.static
+const STATIC_IMG_OPTS = { maxAge: '30d', immutable: true };
+app.use('/img', express.static(path.join(__dirname, '..', 'public', 'img'), STATIC_IMG_OPTS));
+app.use('/img', express.static(path.join(__dirname, 'public', 'img'), STATIC_IMG_OPTS));
 await initSchema();
 // Klub bersifat global — seed sekali saja. Dunia (pemain/fixture/klasemen/berita)
 // dibuat per-karier di /api/career sehingga tiap pengunjung punya dunia sendiri.
 await seedClubs();
+bustClubMapCache(); // peta klub di-cache (clubMapCached) → buang hasil lama setelah seed
 
 // wrapper async handler dengan error handling
 const h = (fn) => (req, res) => Promise.resolve(fn(req, res)).catch((e) => {
@@ -43,10 +56,8 @@ async function saveOf(req) {
 }
 async function saveView(s) {
   if (!s) return null;
-  const clubs = await clubMap();
-  const withLogo = (c) => (c ? { ...c, logo_url: c.logo ? '/img/clubs/' + c.logo : '' } : c);
-  const club = withLogo(clubs[s.club_id]);
-  return { ...s, club, lineup: JSON.parse(s.lineup_json || '[]') };
+  const clubs = await clubMapCached();
+  return { ...s, club: withLogo(clubs[s.club_id]), lineup: JSON.parse(s.lineup_json || '[]') };
 }
 // Hapus seluruh dunia milik satu karier (dipakai saat reset / mulai ulang)
 async function deleteWorld(saveId) {
@@ -79,7 +90,8 @@ app.get('/api/visitors', h(async (req, res) => {
   res.json({ total: total?.v || 0, today: today?.v || 0 });
 }));
 
-app.get('/api/health', (req, res) => res.json({ ok: true, game: 'LIFM' }));
+// Health + statistik cache proses (hits/misses) — memudahkan cek cache benar-benar bekerja saat online.
+app.get('/api/health', (req, res) => res.json({ ok: true, game: 'LIFM', cache: cacheStats() }));
 
 // ==== 🏅 GLOBAL LEADERBOARD ====
 // Peringkat seluruh manajer (semua karier di DB — di produksi Turso = semua pemain LIFM).
@@ -87,15 +99,21 @@ app.get('/api/health', (req, res) => res.json({ ok: true, game: 'LIFM' }));
 // PRIVASI: token karier tidak pernah dikirim ke client — hanya nama manajer + statistik publik.
 const LB_TITLE_BONUS = 100;
 const LB_SEASON_BONUS = 25;
+// TTL cache baca (ms). Dipilih mengikuti ritme polling client: tab Ranking me-refresh tiap 30 detik,
+// jadi data publik cukup di-query ulang 30 detik sekali (dan langsung di-bust saat ada aksi tulis).
+const CACHE_RANK_MS = 30_000;
 function managerPoints(r) {
   return Number(r.league_points || 0)
     + (Number(r.league_titles || 0) + Number(r.acl_titles || 0)) * LB_TITLE_BONUS
     + Math.max(0, Number(r.season || 1) - 1) * LB_SEASON_BONUS;
 }
-app.get('/api/leaderboard', h(async (req, res) => {
-  const limit = Math.min(100, Math.max(5, Number(req.query.limit) || 50));
-  // Backfill: karier yang belum punya baris managers (mis. disuntik langsung via SQL) tetap tampil.
-  await run('INSERT OR IGNORE INTO managers (name, club_id) SELECT manager_name, club_id FROM careers WHERE manager_name IS NOT NULL');
+// Daftar peringkat LENGKAP (semua manajer) dibangun sekali lalu di-cache:
+// - Dulu setiap request menjalankan `INSERT OR IGNORE ... SELECT` (WRITE di jalur baca) —
+//   operasi paling mahal saat online karena harus round-trip tulis ke Turso. Baris `managers`
+//   sekarang hanya diisi saat karier dibuat (POST /api/career) + backfill sekali saat boot (db.js).
+// - Query gabungan managers ⟕ careers ⟕ clubs ⟕ standings + subquery OVR XI di-cache 30 detik
+//   dengan single-flight (backend/src/cache.js) → tab Ranking yang di-poll tidak membanjiri DB.
+async function buildLeaderboard() {
   const rows = await all(
     'SELECT m.id, m.name AS manager_name, COALESCE(c.club_id, m.club_id) AS club_id,'
     + ' c.season, c.matchday, c.acl_tier, c.acl_titles, c.league_titles, c.updated_at,'
@@ -111,7 +129,7 @@ app.get('/api/leaderboard', h(async (req, res) => {
   const list = rows.map((r) => ({
     id: r.id,
     manager: r.manager_name,
-    club: { id: r.club_id, name: r.club_name, short_name: r.short_name, logo_url: r.logo ? '/img/clubs/' + r.logo : '' },
+    club: { id: r.club_id, name: r.club_name, short_name: r.short_name, logo_url: clubLogoUrl(r.logo) },
     season: Number(r.season || 1),
     matchday: Number(r.matchday || 1),
     acl_tier: r.acl_tier || 'two',
@@ -124,6 +142,11 @@ app.get('/api/leaderboard', h(async (req, res) => {
   })).map((r) => ({ ...r, points: managerPoints(r) }))
     .sort((a, b) => b.points - a.points || b.xi_ovr - a.xi_ovr || b.league_points - a.league_points || String(a.manager).localeCompare(String(b.manager)));
   list.forEach((r, i) => { r.rank = i + 1; });
+  return list;
+}
+app.get('/api/leaderboard', h(async (req, res) => {
+  const limit = Math.min(100, Math.max(5, Number(req.query.limit) || 50));
+  const list = await cached('lb:list', CACHE_RANK_MS, buildLeaderboard);
   // Identifikasi karier pengunjung via namanya (unik) — r.id kini id managers, bukan id careers.
   const sv = await saveOf(req);
   const me = sv ? list.find((r) => r.manager === String(sv.manager_name || '').trim()) || null : null;
@@ -135,17 +158,58 @@ app.get('/api/leaderboard', h(async (req, res) => {
   });
 }));
 
+// ==== ⚽ TOP SCORE (papan skor pemain — tampil di menu Ranking) ====
+// - `rows` : top skor GABUNGAN seluruh manajer di server (GROUP BY nama pemain + klub).
+//            Inilah "Top Score": siapa pemain paling produktif di server ini.
+// - `mine` : top skor klub milik pengunjung (per karier, memakai index players(save_id, club_id)).
+// - `mine` (boolean per baris) supaya UI bisa menandai pemain di klub kita (⭐).
+// Strategi kecepatan: SUM/GROUP BY di-cache 30 detik + single-flight, lalu di-bust tiap ada
+// pertandingan selesai (POST /api/play) / musim baru sehingga angkanya tetap akurat.
+const TOP_SCORE_SCAN = 25; // ambil lebih banyak daripada limit agar urutan tidak goyang saat limit kecil
+async function buildTopScorers() {
+  const rows = await all(
+    'SELECT p.name, MAX(p.pos) AS pos, p.club_id, c.short_name, c.logo,'
+    + ' SUM(p.goals) AS goals, SUM(p.assists) AS assists, COUNT(DISTINCT p.save_id) AS managers'
+    + ' FROM players p JOIN clubs c ON c.id = p.club_id'
+    + ' WHERE p.goals > 0' // memanfaatkan index idx_players_goals (hindari full scan)
+    + ' GROUP BY p.name, p.club_id'
+    + ' ORDER BY goals DESC, assists DESC, p.name ASC LIMIT ' + TOP_SCORE_SCAN
+  );
+  return rows.map(topScorerRow).map((r, i) => ({ ...r, rank: i + 1 }));
+}
+app.get('/api/top-scorers', h(async (req, res) => {
+  const limit = Math.min(TOP_SCORE_SCAN, Math.max(3, Number(req.query.limit) || 10));
+  const s = await saveOf(req);
+  const global = await cached('top:global', CACHE_RANK_MS, buildTopScorers);
+  const mine = s
+    ? (await all(
+      'SELECT p.name, p.pos, p.club_id, c.short_name, c.logo, p.goals, p.assists, 1 AS managers'
+      + ' FROM players p JOIN clubs c ON c.id = p.club_id'
+      + ' WHERE p.save_id = ? AND p.club_id = ? AND p.goals > 0'
+      + ' ORDER BY p.goals DESC, p.assists DESC, p.name ASC LIMIT 5', [s.id, s.club_id]
+    )).map(topScorerRow).map((p, i) => ({ ...p, rank: i + 1 }))
+    : [];
+  const myNames = new Set(mine.map((p) => p.name));
+  res.json({
+    total: global.length,
+    rows: global.slice(0, limit).map((r) => ({ ...r, mine: myNames.has(r.name) })),
+    mine,
+  });
+}));
+
 app.get('/api/meta', (req, res) => res.json({ season: '2026/27', league: 'Indonesia Super League', background: '/img/background.jpg' }));
+// Daftar klub: datanya statis (seed sekali) → cukup di-query sekali lalu di-cache 5 menit
+// lewat clubMapCached()/cache.js. Saingan terberat saat online adalah latensi DB, bukan CPU.
 app.get('/api/clubs', h(async (req, res) => {
-  const rows = await all('SELECT * FROM clubs ORDER BY reputation DESC');
-  res.json(rows.map((c) => ({ ...c, logo_url: c.logo ? '/img/clubs/' + c.logo : '' })));
+  res.json(await cached('clubs:list', 5 * 60 * 1000, async () => withLogos(await all('SELECT * FROM clubs ORDER BY reputation DESC'))));
 }));
 app.get('/api/state', h(async (req, res) => {
   const s = await saveOf(req);
   if (!s) {
     // Hanya 18 klub Super League Indonesia yang bisa dipilih di layar awal (klub ACL 19-21 tidak bisa dipilih & tidak ada di klasemen)
-    const rows = await all('SELECT * FROM clubs WHERE id <= 18 ORDER BY name');
-    return res.json({ hasSave: false, season: '2026/27', league: 'Indonesia Super League', background: '/img/background.jpg', clubs: rows.map((c) => ({ ...c, logo_url: c.logo ? '/img/clubs/' + c.logo : '' })) });
+    // Daftar ini juga statis → di-cache agar layar awal langsung tampil (1x query per 5 menit).
+    const clubs = await cached('clubs:pick', 5 * 60 * 1000, async () => withLogos(await all('SELECT * FROM clubs WHERE id <= 18 ORDER BY name')));
+    return res.json({ hasSave: false, season: '2026/27', league: 'Indonesia Super League', background: '/img/background.jpg', clubs });
   }
   res.json({ hasSave: true, save: await saveView(s), season: '2026/27', league: 'Indonesia Super League', background: '/img/background.jpg' });
 }));
@@ -180,11 +244,13 @@ app.post('/api/career', h(async (req, res) => {
   await run('UPDATE careers SET lineup_json=? WHERE id=?', [JSON.stringify(auto.xi.map((p) => p.id)), saveId]);
   await run("INSERT INTO news (save_id,day_label,title,body,tag) VALUES (?, 'MD1',?,?, 'INFO')", [saveId, 'Era ' + name + ' dimulai di ' + club.name + '!', 'Fans full senyum. Buktikan kamu GOAT manajer Indonesia!']);
   const s = await get('SELECT * FROM careers WHERE id=?', [saveId]);
+  bust('lb:'); // manajer baru masuk papan peringkat → buang cache lama
   res.json({ ok: true, token, save: await saveView(s) });
 }));
 app.post('/api/career/reset', h(async (req, res) => {
   const old = await saveOf(req);
   if (old) await deleteWorld(old.id); // hanya karier pengunjung ini yang dihapus
+  bust('lb:'); // peringkat berubah setelah karier dihapus
   res.json({ ok: true });
 }));
 app.post('/api/next-season', h(async (req, res) => {
@@ -193,6 +259,7 @@ app.post('/api/next-season', h(async (req, res) => {
   // Musim baru hanya boleh dimulai setelah musim selesai (Pekan 34 habis)
   if (s.matchday <= LEAGUE_MATCHDAYS) return res.status(400).json({ error: 'Musim belum selesai! Selesaikan dulu sampai Pekan ' + LEAGUE_MATCHDAYS + '.' });
   const r = await startNextSeason(s.id);
+  bust('lb:'); // gelar/musim berubah → poin manajer baru
   res.json({ ok: true, ...r, save: await saveView(r.save) });
 }));
 app.get('/api/squad', h(async (req, res) => {
@@ -204,8 +271,7 @@ app.get('/api/next-fixture', h(async (req, res) => {
   let s = await saveOf(req);
   if (!s) return res.status(400).json({ error: 'Belum ada karier' });
   await ensureAclKnockout(s); // pastikan babak gugur ACL sudah dibangkitkan utk pekan 18-21
-  const clubs = await clubMap();
-  const withLogo = (c) => (c ? { ...c, logo_url: c.logo ? '/img/clubs/' + c.logo : '' } : c);
+  const clubs = await clubMapCached(); // peta klub dari cache (bukan query DB tiap request)
   const f = await get('SELECT * FROM fixtures WHERE save_id=? AND season=? AND matchday=? AND (home_id=? OR away_id=?) ORDER BY played ASC, id ASC', [s.id, s.season, s.matchday, s.club_id, s.club_id]);
   if (!f && s.matchday <= LEAGUE_MATCHDAYS) {
     // User tersingkir dari babak gugur ACL / pekan kosong: fast-forward simulasi klub lain
@@ -223,8 +289,7 @@ app.get('/api/fixtures', h(async (req, res) => {
   if (!s) return res.json([]);
   const md = Number(req.query.matchday || s.matchday);
   await ensureAclKnockout(s); // bangkitkan fixture babak gugur ACL saat dilihat
-  const clubs = await clubMap();
-  const withLogo = (c) => (c ? { ...c, logo_url: c.logo ? '/img/clubs/' + c.logo : '' } : c);
+  const clubs = await clubMapCached();
   const rows = await all('SELECT * FROM fixtures WHERE save_id=? AND season=? AND matchday=? ORDER BY id', [s.id, s.season, md]);
   res.json(rows.map((f) => ({ ...f, home: withLogo(clubs[f.home_id]), away: withLogo(clubs[f.away_id]) })));
 }));
@@ -265,6 +330,9 @@ app.post('/api/play', h(async (req, res) => {
   out.phase = phase;
   const s2 = await get('SELECT * FROM careers WHERE id=?', [s.id]);
   out.save = await saveView(s2);
+  // Poin liga / gol pemain berubah setelah pertandingan → papan Ranking & Top Score harus segar.
+  bust('lb:');
+  bust('top:');
   res.json(out);
 }));
 app.get('/api/standings/acl', h(async (req, res) => {
@@ -276,69 +344,14 @@ app.get('/api/standings/acl', h(async (req, res) => {
     return res.json(sections.map((g) => ({ name: g.name, label: g.label, zone: g.zone, rows: [] })));
   }
   const out = await aclStandings(s);
-  res.json(out.map((g) => ({ ...g, rows: g.rows.map((r) => ({ ...r, logo_url: r.logo ? '/img/clubs/' + r.logo : '' })) })));
-}));
-// ==== 📺 LIVE SCORE & STAT (pekan berjalan) ====
-// Menyajikan keadaan pekan ini: laga mana sudah FT (skor), mana belum kick-off, plus statistik
-// musim (top skor/assist, 5 laga terakhir, posisi liga). Skor laga user yang SEDANG berjalan
-// dikirim client (snapshot dari tab Match) supaya panel Live tetap sinkron tanpa ubah alur server.
-app.get('/api/live', h(async (req, res) => {
-  const s = await saveOf(req);
-  if (!s) return res.json({ hasSave: false });
-  const clubs = await clubMap();
-  const md = Math.min(LEAGUE_MATCHDAYS, Math.max(1, Number(req.query.md) || Number(s.matchday) || 1));
-  const side = (id) => {
-    const c = clubs[id] || {};
-    return { club_id: id, name: c.name, short_name: c.short_name, logo_url: c.logo ? '/img/clubs/' + c.logo : '' };
-  };
-  const fx = await all('SELECT * FROM fixtures WHERE save_id=? AND season=? AND matchday=? ORDER BY id', [s.id, s.season, md]);
-  const matches = fx.map((f) => ({
-    id: f.id,
-    competition: f.competition,
-    played: !!f.played,
-    home_goals: f.played ? Number(f.home_goals) : null,
-    away_goals: f.played ? Number(f.away_goals) : null,
-    home: side(f.home_id),
-    away: side(f.away_id),
-    mine: f.home_id === s.club_id || f.away_id === s.club_id
-  }));
-  const playedCount = matches.filter((m) => m.played).length;
-  const recentRows = await all(
-    'SELECT matchday, competition, home_id, away_id, home_goals, away_goals FROM fixtures WHERE save_id=? AND played=1 AND (home_id=? OR away_id=?) ORDER BY matchday DESC, id DESC LIMIT 6',
-    [s.id, s.club_id, s.club_id]
-  );
-  const recentForm = recentRows.map((f) => {
-    const isHome = f.home_id === s.club_id;
-    const gf = isHome ? Number(f.home_goals) : Number(f.away_goals);
-    const ga = isHome ? Number(f.away_goals) : Number(f.home_goals);
-    return { matchday: Number(f.matchday), competition: f.competition, opponent: side(isHome ? f.away_id : f.home_id), gf, ga, result: gf > ga ? 'W' : gf < ga ? 'L' : 'D' };
-  });
-  const stat = (rows) => rows.map((r) => ({ ...r, goals: Number(r.goals || 0), assists: Number(r.assists || 0), logo_url: r.logo ? '/img/clubs/' + r.logo : '' }));
-  const scorers = stat(await all('SELECT p.name, p.pos, p.goals, p.assists, p.club_id, c.short_name, c.logo FROM players p JOIN clubs c ON c.id=p.club_id WHERE p.save_id=? AND p.goals > 0 ORDER BY p.goals DESC, p.assists DESC LIMIT 8', [s.id]));
-  const assists = stat(await all('SELECT p.name, p.pos, p.goals, p.assists, p.club_id, c.short_name, c.logo FROM players p JOIN clubs c ON c.id=p.club_id WHERE p.save_id=? AND p.assists > 0 ORDER BY p.assists DESC, p.goals DESC LIMIT 5', [s.id]));
-  const table = await all('SELECT st.points, st.played, st.gd, st.gf, st.ga, c.id AS club_id, c.short_name FROM standings_cache st JOIN clubs c ON c.id=st.club_id WHERE st.save_id=? AND st.club_id <= 18 ORDER BY st.points DESC, st.gd DESC, st.gf DESC, c.name', [s.id]);
-  const myIdx = table.findIndex((r) => r.club_id === s.club_id);
-  res.json({
-    hasSave: true,
-    season: s.season,
-    matchday: md,
-    isCurrentMatchday: md === Number(s.matchday),
-    progress: { played: playedCount, total: matches.length },
-    goals: matches.reduce((a, m) => a + (m.played ? Number(m.home_goals) + Number(m.away_goals) : 0), 0),
-    matches,
-    recentForm,
-    scorers,
-    assists,
-    myLeague: myIdx >= 0 ? { rank: myIdx + 1, of: table.length, points: Number(table[myIdx].points), played: Number(table[myIdx].played), gd: Number(table[myIdx].gd), gf: Number(table[myIdx].gf), ga: Number(table[myIdx].ga) } : null,
-    leagueLeader: table[0] ? { club_id: table[0].club_id, short_name: table[0].short_name, points: Number(table[0].points) } : null
-  });
+  res.json(out.map((g) => ({ ...g, rows: withLogos(g.rows) })));
 }));
 
 app.get('/api/standings', h(async (req, res) => {
   const s = await saveOf(req);
   if (!s) return res.json([]);
   const rows = await all('SELECT st.played, st.won, st.drawn, st.lost, st.gf, st.ga, st.gd, st.points, c.id AS club_id, c.name, c.short_name, c.color_primary, c.logo FROM standings_cache st JOIN clubs c ON c.id=st.club_id WHERE st.save_id=? AND st.club_id <= 18 ORDER BY st.points DESC, st.gd DESC, st.gf DESC, c.name', [s.id]);
-  res.json(rows.map((r) => ({ ...r, logo_url: r.logo ? '/img/clubs/' + r.logo : '' })));
+  res.json(withLogos(rows));
 }));
 app.get('/api/news', h(async (req, res) => {
   const s = await saveOf(req);
@@ -362,6 +375,7 @@ app.post('/api/transfer/buy', h(async (req, res) => {
   await run('UPDATE players SET club_id=? WHERE id=? AND save_id=?', [s.club_id, p.id, s.id]);
   await run('UPDATE careers SET budget=budget-? WHERE id=?', [p.market_value, s.id]);
   await run('INSERT INTO news (save_id,day_label,title,body,tag) VALUES (?,?,?,?,?)', [s.id, 'MD' + s.matchday, 'DONE DEAL! ' + p.name + ' merapat!', 'Welcome to the fam!', 'TRANSFER']);
+  bust('lb:'); // transfer mengubah OVR XI klub (tie-break peringkat) → segarkan cache papan
   const s2 = await get('SELECT * FROM careers WHERE id=?', [s.id]);
   res.json({ ok: true, save: await saveView(s2) });
 }));
@@ -375,6 +389,7 @@ app.post('/api/transfer/sell', h(async (req, res) => {
   const other = await get('SELECT id FROM clubs WHERE id != ? ORDER BY RANDOM() LIMIT 1', [s.club_id]);
   await run('UPDATE players SET club_id=? WHERE id=? AND save_id=?', [other.id, p.id, s.id]);
   await run('UPDATE careers SET budget=budget+? WHERE id=?', [p.market_value, s.id]);
+  bust('lb:'); // transfer keluar juga mengubah OVR XI → peringkat ikut berubah
   const s2 = await get('SELECT * FROM careers WHERE id=?', [s.id]);
   res.json({ ok: true, save: await saveView(s2) });
 }));

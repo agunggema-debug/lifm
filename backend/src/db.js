@@ -216,4 +216,11 @@ export async function initSchema() {
   await safe('CREATE INDEX IF NOT EXISTS idx_fixtures_save ON fixtures(save_id)');
   await safe('CREATE INDEX IF NOT EXISTS idx_news_save ON news(save_id)');
   await safe('CREATE INDEX IF NOT EXISTS idx_visitors_created ON visitors(created_at)');
+  // ==== Index tambahan untuk KECEPATAN AKSES (online/Turso remote) ====
+  // Makin sedikit baris yang di-scan SQLite, makin kecil latensi per request.
+  // Referensi: SQLite CREATE INDEX https://sqlite.org/lang_createindex.html
+  //            Turso/libSQL client & query https://docs.turso.tech/sdk/ts/reference
+  await safe('CREATE INDEX IF NOT EXISTS idx_players_save_club ON players(save_id, club_id)'); // squad(), transfer, top skor per klub
+  await safe('CREATE INDEX IF NOT EXISTS idx_players_goals ON players(goals)'); // papan Top Score (WHERE goals > 0)
+  await safe('CREATE INDEX IF NOT EXISTS idx_fixtures_save_md ON fixtures(save_id, season, matchday)'); // jadwal per pekan
 }
