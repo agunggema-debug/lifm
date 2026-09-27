@@ -45,7 +45,7 @@ export default function Transfers({ save, onDone }) {
         </div>
         <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="🔍 Cari pemain..." className="mt-3 w-full rounded-2xl px-4 py-2.5 text-slate-900 font-bold bg-white border-0 outline-none focus:ring-2 focus:ring-lime-400" />
       </div>
-      <div className="font-white text-sm flex items-center gap-2 mt-1">
+      <div className="chip chip-lime">
         🎯 Incaran (Top 60) <span className="chip chip-slate ml-auto">{f.length}</span>
       </div>
       <div className="grid gap-2">
@@ -70,7 +70,7 @@ export default function Transfers({ save, onDone }) {
         ))}
         {f.length === 0 && <div className="text-xs text-slate-400 italic text-center py-3">Tidak ada pemain cocok "{q}"</div>}
       </div>
-      <div className="font-white text-sm flex items-center gap-2 mt-2">
+      <div className="chip chip-lime">
         🧢 Skuadku <span className="chip chip-slate ml-auto">{mine.length} pemain</span>
       </div>
       <div className="grid gap-2">
